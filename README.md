@@ -1,1 +1,1 @@
-# blog-client
+# Cosmic Cafe
