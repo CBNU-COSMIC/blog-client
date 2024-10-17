@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import Header from './Header.tsx';
 import Notification from './notification.tsx';
+import Schedule from './Schedule.tsx';
 
 const Main = styled.div`
   width: 100%;
@@ -15,13 +16,21 @@ const Banner = styled.div`
   margin: 40px 0;
 `;
 
+const Contents = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 function Home() {
   return (
     <div>
       <Header />
       <Main>
         <Banner />
-        <Notification />
+        <Contents>
+          <Notification />
+          <Schedule />
+        </Contents>
       </Main>
     </div>
   );
