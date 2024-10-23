@@ -1,12 +1,14 @@
 import styled from 'styled-components';
 
+import LoginButton from './LoginButton.tsx';
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
   height: 100px;
   border: 1px solid #ffffff;
-  border-bottom-color: #008080;
+  border-bottom-color: #009090;
 `;
 
 const Contents = styled.div`
@@ -33,13 +35,6 @@ const DropdownButton = styled.button`
   color: white;
 `;
 
-const LoginButton = styled.button`
-  width: 100px;
-  height: 50px;
-  border: none;
-  cursor: pointer;
-`;
-
 function Header() {
   return (
     <Container>
@@ -50,7 +45,7 @@ function Header() {
           <DropdownButton>세미나</DropdownButton>
           <DropdownButton>게시판</DropdownButton>
         </DropdownContainer>
-        <LoginButton>로그인</LoginButton>
+        <LoginButton />
       </Contents>
     </Container>
   );

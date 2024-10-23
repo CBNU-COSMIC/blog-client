@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import Header from './Header.tsx';
-import Notification from './notification.tsx';
+import Header from './Header/Header.tsx';
+import Notification from './Notification.tsx';
 import Schedule from './Schedule.tsx';
 
 const Main = styled.div`
