@@ -4,7 +4,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 880px;
+  width: 820px;
   height: 520px;
 `;
 

@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 
-import Header from './Header.tsx';
-import Notification from './notification.tsx';
+import Header from './Header/Header.tsx';
+import Notification from './Notification.tsx';
 import Schedule from './Schedule.tsx';
 
 const Main = styled.div`
-  width: 100%;
-  padding: 0 30px;
+  width: 1440px;
+  margin: 0 auto;
+  padding: 0 80px;
   box-sizing: border-box;
 `;
 
