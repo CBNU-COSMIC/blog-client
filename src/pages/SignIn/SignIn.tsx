@@ -12,6 +12,7 @@ const Container = styled.div`
 `;
 
 const Logo = styled.div`
+  font-family: 'Futura';
   font-size: 40px;
   font-weight: 900;
   margin-bottom: 40px;
@@ -22,6 +23,8 @@ const Logo = styled.div`
 const Options = styled.div`
   display: flex;
   gap: 10px;
+  font-family: 'Pretendard';
+  font-weight: 400;
   font-size: 14px;
   color: #888888;
   margin-top: 20px;

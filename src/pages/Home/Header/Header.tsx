@@ -21,6 +21,7 @@ const Contents = styled.div`
 `;
 
 const Logo = styled.div`
+  font-family: 'Futura';
   font-size: 40px;
   font-weight: 900;
   color: #009090;

@@ -9,7 +9,9 @@ const Container = styled.button`
   color: white;
   background-color: #009090;
   cursor: pointer;
+  font-family: 'Pretendard';
   font-size: 20px;
+  font-weight: 400;
 `;
 
 function LoginButton() {

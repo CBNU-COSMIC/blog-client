@@ -20,6 +20,7 @@ const Contents = styled.div`
 `;
 
 const Logo = styled.div`
+  font-family: 'Futura';
   width: 120px;
   font-size: 32px;
   font-weight: 900;
@@ -29,6 +30,8 @@ const Logo = styled.div`
 `;
 
 const Button = styled.button`
+  font-family: 'Pretendard';
+  font-weight: 400;
   width: 500px;
   height: 50px;
   border: none;
