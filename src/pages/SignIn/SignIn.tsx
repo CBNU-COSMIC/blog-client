@@ -38,6 +38,10 @@ function SignIn() {
     navigate('/');
   };
 
+  const navigateToSignUpPage = () => {
+    navigate('/sign-up');
+  };
+
   return (
     <Container>
       <Logo onClick={navigateToMainPage}>COSMIC</Logo>
@@ -47,7 +51,7 @@ function SignIn() {
         <div>|</div>
         <Option>아이디 찾기</Option>
         <div>|</div>
-        <Option>회원 가입</Option>
+        <Option onClick={navigateToSignUpPage}>회원 가입</Option>
       </Options>
     </Container>
   );
