@@ -2,13 +2,20 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100px;
-  background-color: #d9d9d9;
+  border: 1px solid #ffffff;
+  border-bottom-color: #008080;
+`;
+
+const Contents = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 1440px;
+  padding: 0 80px;
   box-sizing: border-box;
-  padding: 25px;
 `;
 
 const DropdownContainer = styled.div`
@@ -36,13 +43,15 @@ const LoginButton = styled.button`
 function Header() {
   return (
     <Container>
-      <div>COSMIC</div>
-      <DropdownContainer>
-        <DropdownButton>동아리 소개</DropdownButton>
-        <DropdownButton>세미나</DropdownButton>
-        <DropdownButton>게시판</DropdownButton>
-      </DropdownContainer>
-      <LoginButton>로그인</LoginButton>
+      <Contents>
+        <div>COSMIC</div>
+        <DropdownContainer>
+          <DropdownButton>동아리 소개</DropdownButton>
+          <DropdownButton>세미나</DropdownButton>
+          <DropdownButton>게시판</DropdownButton>
+        </DropdownContainer>
+        <LoginButton>로그인</LoginButton>
+      </Contents>
     </Container>
   );
 }
