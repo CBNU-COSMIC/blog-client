@@ -20,6 +20,12 @@ const Contents = styled.div`
   box-sizing: border-box;
 `;
 
+const Logo = styled.div`
+  font-size: 40px;
+  font-weight: 900;
+  color: #009090;
+`;
+
 const DropdownContainer = styled.div`
   display: flex;
   gap: 20px;
@@ -39,7 +45,7 @@ function Header() {
   return (
     <Container>
       <Contents>
-        <div>COSMIC</div>
+        <Logo>COSMIC</Logo>
         <DropdownContainer>
           <DropdownButton>동아리 소개</DropdownButton>
           <DropdownButton>세미나</DropdownButton>
