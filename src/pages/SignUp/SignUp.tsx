@@ -43,7 +43,20 @@ function SignUp() {
           emailNoneError={emailNoneError}
           setEmailNoneError={setEmailNoneError}
         />
-        <ProfileModal />
+        <ProfileModal
+          name={name}
+          setName={setName}
+          birth={birth}
+          setBirth={setBirth}
+          phoneNumber={phoneNumber}
+          setPhoneNumber={setPhoneNumber}
+          nameNoneError={nameNoneError}
+          setNameNoneError={setNameNoneError}
+          birthNoneError={birthNoneError}
+          setBirthNoneError={setBirthNoneError}
+          phoneNumberNoneError={phoneNumberNoneError}
+          setPhoneNumberNoneError={setPhoneNumberNoneError}
+        />
       </Contents>
       <Button>회원가입</Button>
     </Container>

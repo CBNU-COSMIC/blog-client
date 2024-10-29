@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 import PersonIcon from '../../icons/PersonIcon.tsx';
@@ -54,9 +54,7 @@ function AccountModal({
   };
   const handleEmailBlur = () => {
     setIsThirdInputFocus(false);
-    console.log('a');
     if (!email.trim()) {
-      console.log('a');
       setEmailNoneError(true);
     } else {
       setEmailNoneError(false);
@@ -100,9 +98,9 @@ function AccountModal({
           error={emailNoneError}
         />
       </InputBox3>
-      {idNoneError && <BlurError>아이디를 입력해주세요.</BlurError>}
-      {passwordNoneError && <BlurError>비밀번호를 입력해주세요.</BlurError>}
-      {emailNoneError && <BlurError>이메일을 입력해주세요.</BlurError>}
+      {idNoneError && <NoneError>아이디를 입력해주세요.</NoneError>}
+      {passwordNoneError && <NoneError>비밀번호를 입력해주세요.</NoneError>}
+      {emailNoneError && <NoneError>이메일을 입력해주세요.</NoneError>}
     </Container>
   );
 }
@@ -197,7 +195,7 @@ const Input = styled.input<{ error: boolean }>`
     };`}
 `;
 
-const BlurError = styled.div`
+const NoneError = styled.div`
   font-family: Pretendard, sans-serif;
   font-size: 14px;
   color: var(--error-color);
