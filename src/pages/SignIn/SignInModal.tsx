@@ -70,15 +70,7 @@ const InputBox1 = styled.div`
   padding: 27px 15px 8px;
   border: 1.5px solid #c5ccd2;
   border-radius: 8px 8px 0 0;
-  &:focus-within::after {
-    content: '';
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    bottom: -1px;
-    right: -1px;
-    width: 407px;
-    height: 100%;
+  &:focus-within {
     border: 2px solid var(--primary-color);
     border-radius: 8px 8px 0 0;
   }
@@ -91,21 +83,15 @@ const InputBox2 = styled.div`
   border: 1.5px solid #c5ccd2;
   border-top: none;
   border-radius: 0 0 8px 8px;
-  &:focus-within::after {
-    content: '';
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    bottom: -1px;
-    right: -1px;
-    width: 407px;
-    height: 100%;
+  &:focus-within {
     border: 2px solid var(--primary-color);
     border-radius: 0 0 8px 8px;
   }
 `;
 
 const Input = styled.input`
+  position: relative;
+  z-index: 10;
   width: 380px;
   font-size: 16px;
   border: none;
@@ -124,7 +110,7 @@ const InputLabel = styled.label`
 const BlurError = styled.div`
   font-family: Pretendard, sans-serif;
   font-size: 14px;
-  color: red;
+  color: var(--error-color);
 `;
 
 const Button = styled.button`

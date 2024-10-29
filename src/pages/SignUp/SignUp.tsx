@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -6,6 +7,19 @@ import ProfileModal from './ProfileModal.tsx';
 
 function SignUp() {
   const navigate = useNavigate();
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [birth, setBirth] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  const [idNoneError, setIdNoneError] = useState(false);
+  const [passwordNoneError, setPasswordNoneError] = useState(false);
+  const [emailNoneError, setEmailNoneError] = useState(false);
+  const [nameNoneError, setNameNoneError] = useState(false);
+  const [birthNoneError, setBirthNoneError] = useState(false);
+  const [phoneNumberNoneError, setPhoneNumberNoneError] = useState(false);
 
   const navigateToMainPage = () => {
     navigate('/');
@@ -15,7 +29,20 @@ function SignUp() {
     <Container>
       <Contents>
         <Logo onClick={navigateToMainPage}>COSMIC</Logo>
-        <AccountModal />
+        <AccountModal
+          id={id}
+          setId={setId}
+          password={password}
+          setPassword={setPassword}
+          email={email}
+          setEmail={setEmail}
+          idNoneError={idNoneError}
+          setIdNoneError={setIdNoneError}
+          passwordNoneError={passwordNoneError}
+          setPasswordNoneError={setPasswordNoneError}
+          emailNoneError={emailNoneError}
+          setEmailNoneError={setEmailNoneError}
+        />
         <ProfileModal />
       </Contents>
       <Button>회원가입</Button>
