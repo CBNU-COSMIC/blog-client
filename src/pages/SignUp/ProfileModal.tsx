@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import PersonIcon from '../../icons/PersonIcon.tsx';
@@ -18,6 +18,8 @@ function ProfileModal({
   setBirthNoneError,
   phoneNumberNoneError,
   setPhoneNumberNoneError,
+  birthValidError,
+  setBirthValidError,
 }: {
   name: string;
   setName: (name: string) => void;
@@ -31,7 +33,11 @@ function ProfileModal({
   setBirthNoneError: (isError: boolean) => void;
   phoneNumberNoneError: boolean;
   setPhoneNumberNoneError: (isError: boolean) => void;
+  birthValidError: boolean;
+  setBirthValidError: (isError: boolean) => void;
 }) {
+  const birthInputRef = useRef<HTMLInputElement>(null);
+  const [birthError, setBirthError] = useState(false);
   const [isFirstInputFocus, setIsFirstInputFocus] = useState(false);
   const [isSecondInputFocus, setIsSecondInputFocus] = useState(false);
   const [isThirdInputFocus, setIsThirdInputFocus] = useState(false);
@@ -44,14 +50,29 @@ function ProfileModal({
       setNameNoneError(false);
     }
   };
+
+  const birthRegex1 = /^(19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$/;
+  const birthRegex2 = /^(19|20)\d{2}\.(0[1-9]|1[0-2])\.(0[1-9]|[12][0-9]|3[01])$/;
   const handleBirthBlur = () => {
     setIsSecondInputFocus(false);
     if (!birth.trim()) {
+      setBirthError(true);
       setBirthNoneError(true);
-    } else {
+      setBirthValidError(false);
+    } else if (!birth.match(birthRegex1) && !birth.match(birthRegex2)) {
+      setBirthError(true);
+      setBirthValidError(true);
       setBirthNoneError(false);
+    } else {
+      setBirthError(false);
+      setBirthNoneError(false);
+      setBirthValidError(false);
+      if (birthInputRef.current) {
+        birthInputRef.current.value = birth.replace(/(\d{4})(\d{2})(\d{2})/, '$1.$2.$3');
+      }
     }
   };
+
   const handlePhoneNumberBlur = () => {
     setIsThirdInputFocus(false);
     if (!phoneNumber.trim()) {
@@ -63,7 +84,7 @@ function ProfileModal({
 
   return (
     <Container>
-      <InputBox1 nameError={nameNoneError} birthError={birthNoneError} isSecondInputFocus={isSecondInputFocus}>
+      <InputBox1 nameError={nameNoneError} birthError={birthError} isSecondInputFocus={isSecondInputFocus}>
         <PersonIcon />
         <Input
           placeholder="이름"
@@ -75,22 +96,23 @@ function ProfileModal({
       </InputBox1>
       <InputBox2
         nameError={nameNoneError}
-        birthError={birthNoneError}
+        birthError={birthError}
         phoneNumberError={phoneNumberNoneError}
         isFirstInputFocus={isFirstInputFocus}
         isThirdInputFocus={isThirdInputFocus}>
         <CalendarIcon />
         <Input
+          ref={birthInputRef}
           placeholder="생년월일 8자리"
           onChange={(event) => setBirth(event.target.value)}
           onFocus={() => setIsSecondInputFocus(true)}
           onBlur={handleBirthBlur}
-          error={birthNoneError}
+          error={birthError}
         />
       </InputBox2>
       <InputBox3
         phoneNumberError={phoneNumberNoneError}
-        birthError={birthNoneError}
+        birthError={birthError}
         isSecondInputFocus={isSecondInputFocus}>
         <PhoneIcon />
         <Input
@@ -103,6 +125,7 @@ function ProfileModal({
       </InputBox3>
       {nameNoneError && <NoneError>이름을 입력해주세요.</NoneError>}
       {birthNoneError && <NoneError>생년월일을 입력해주세요.</NoneError>}
+      {birthValidError && <NoneError>올바른 생년월일를 입력해주세요. 8자리 숫자여야 합니다.</NoneError>}
       {phoneNumberNoneError && <NoneError>휴대전화번호를 입력해주세요.</NoneError>}
     </Container>
   );
@@ -192,7 +215,8 @@ const Input = styled.input<{ error: boolean }>`
   outline: none;
   ${({ error }) =>
     error &&
-    `&::placeholder {
+    `color: var(--error-color);
+    &::placeholder {
         color: var(--error-color);
         text-decoration: underline;
     };`}

@@ -49,6 +49,7 @@ function AccountModal({
       setIdNoneError(false);
     }
   };
+
   const handlePasswordBlur = () => {
     setIsSecondInputFocus(false);
     if (!password.trim()) {
@@ -65,7 +66,7 @@ function AccountModal({
       setEmailError(true);
       setEmailNoneError(true);
       setEmailValidError(false);
-    } else if (!emailRegex.test(email)) {
+    } else if (!email.match(emailRegex)) {
       setEmailError(true);
       setEmailValidError(true);
       setEmailNoneError(false);
