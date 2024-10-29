@@ -20,6 +20,8 @@ function ProfileModal({
   setPhoneNumberNoneError,
   birthValidError,
   setBirthValidError,
+  phoneNumberValidError,
+  setPhoneNumberValidError,
 }: {
   name: string;
   setName: (name: string) => void;
@@ -35,9 +37,13 @@ function ProfileModal({
   setPhoneNumberNoneError: (isError: boolean) => void;
   birthValidError: boolean;
   setBirthValidError: (isError: boolean) => void;
+  phoneNumberValidError: boolean;
+  setPhoneNumberValidError: (isError: boolean) => void;
 }) {
   const birthInputRef = useRef<HTMLInputElement>(null);
+  const phoneNumberInputRef = useRef<HTMLInputElement>(null);
   const [birthError, setBirthError] = useState(false);
+  const [phoneNumberError, setPhoneNumberError] = useState(false);
   const [isFirstInputFocus, setIsFirstInputFocus] = useState(false);
   const [isSecondInputFocus, setIsSecondInputFocus] = useState(false);
   const [isThirdInputFocus, setIsThirdInputFocus] = useState(false);
@@ -73,12 +79,25 @@ function ProfileModal({
     }
   };
 
+  const phoneNumberRegex1 = /^(010)\d{8}$/;
+  const phoneNumberRegex2 = /^(010)-\d{4}-\d{4}$/;
   const handlePhoneNumberBlur = () => {
     setIsThirdInputFocus(false);
     if (!phoneNumber.trim()) {
+      setPhoneNumberError(true);
       setPhoneNumberNoneError(true);
-    } else {
+      setPhoneNumberValidError(false);
+    } else if (!phoneNumber.match(phoneNumberRegex1) && !phoneNumber.match(phoneNumberRegex2)) {
+      setPhoneNumberError(true);
+      setPhoneNumberValidError(true);
       setPhoneNumberNoneError(false);
+    } else {
+      setPhoneNumberError(false);
+      setPhoneNumberValidError(false);
+      setPhoneNumberNoneError(false);
+      if (phoneNumberInputRef.current) {
+        phoneNumberInputRef.current.value = phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+      }
     }
   };
 
@@ -97,7 +116,7 @@ function ProfileModal({
       <InputBox2
         nameError={nameNoneError}
         birthError={birthError}
-        phoneNumberError={phoneNumberNoneError}
+        phoneNumberError={phoneNumberError}
         isFirstInputFocus={isFirstInputFocus}
         isThirdInputFocus={isThirdInputFocus}>
         <CalendarIcon />
@@ -110,23 +129,22 @@ function ProfileModal({
           error={birthError}
         />
       </InputBox2>
-      <InputBox3
-        phoneNumberError={phoneNumberNoneError}
-        birthError={birthError}
-        isSecondInputFocus={isSecondInputFocus}>
+      <InputBox3 phoneNumberError={phoneNumberError} birthError={birthError} isSecondInputFocus={isSecondInputFocus}>
         <PhoneIcon />
         <Input
+          ref={phoneNumberInputRef}
           placeholder="휴대전화번호"
           onChange={(event) => setPhoneNumber(event.target.value)}
           onFocus={() => setIsThirdInputFocus(true)}
           onBlur={handlePhoneNumberBlur}
-          error={phoneNumberNoneError}
+          error={phoneNumberError}
         />
       </InputBox3>
       {nameNoneError && <NoneError>이름을 입력해주세요.</NoneError>}
       {birthNoneError && <NoneError>생년월일을 입력해주세요.</NoneError>}
       {birthValidError && <NoneError>올바른 생년월일를 입력해주세요. 8자리 숫자여야 합니다.</NoneError>}
       {phoneNumberNoneError && <NoneError>휴대전화번호를 입력해주세요.</NoneError>}
+      {phoneNumberValidError && <NoneError>올바른 휴대전화번호를 입력해주세요.</NoneError>}
     </Container>
   );
 }

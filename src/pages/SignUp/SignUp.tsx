@@ -23,6 +23,7 @@ function SignUp() {
 
   const [emailValidError, setEmailValidError] = useState(false);
   const [birthValidError, setBirthValidError] = useState(false);
+  const [phoneNumberValidError, setPhoneNumberValidError] = useState(false);
 
   const navigateToMainPage = () => {
     navigate('/');
@@ -63,6 +64,8 @@ function SignUp() {
           setPhoneNumberNoneError={setPhoneNumberNoneError}
           birthValidError={birthValidError}
           setBirthValidError={setBirthValidError}
+          phoneNumberValidError={phoneNumberValidError}
+          setPhoneNumberValidError={setPhoneNumberValidError}
         />
       </Contents>
       <Button>회원가입</Button>
