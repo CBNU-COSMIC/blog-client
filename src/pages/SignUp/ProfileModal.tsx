@@ -4,6 +4,25 @@ import PersonIcon from '../../icons/PersonIcon.tsx';
 import CalendarIcon from '../../icons/CalendarIcon.tsx';
 import PhoneIcon from '../../icons/PhoneIcon.tsx';
 
+function ProfileModal() {
+  return (
+    <Container>
+      <InputBox1>
+        <PersonIcon />
+        <Input placeholder="이름" />
+      </InputBox1>
+      <InputBox2>
+        <CalendarIcon />
+        <Input placeholder="생년월일 8자리" />
+      </InputBox2>
+      <InputBox3>
+        <PhoneIcon />
+        <Input placeholder="휴대전화번호" />
+      </InputBox3>
+    </Container>
+  );
+}
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -31,7 +50,7 @@ const InputBox1 = styled.div`
     right: -1px;
     width: 497px;
     height: 100%;
-    border: 2px solid #009090;
+    border: 2px solid var(--primary-color);
     border-radius: 8px 8px 0 0;
   }
 `;
@@ -57,7 +76,7 @@ const InputBox2 = styled.div`
     right: -1px;
     width: 497px;
     height: 100%;
-    border: 2px solid #009090;
+    border: 2px solid var(--primary-color);
   }
 `;
 
@@ -81,7 +100,7 @@ const InputBox3 = styled.div`
     right: -1px;
     width: 497px;
     height: 100%;
-    border: 2px solid #009090;
+    border: 2px solid var(--primary-color);
     border-radius: 0 0 8px 8px;
   }
 `;
@@ -94,24 +113,5 @@ const Input = styled.input`
   border: none;
   outline: none;
 `;
-
-function ProfileModal() {
-  return (
-    <Container>
-      <InputBox1>
-        <PersonIcon />
-        <Input placeholder="이름" />
-      </InputBox1>
-      <InputBox2>
-        <CalendarIcon />
-        <Input placeholder="생년월일 8자리" />
-      </InputBox2>
-      <InputBox3>
-        <PhoneIcon />
-        <Input placeholder="휴대전화번호" />
-      </InputBox3>
-    </Container>
-  );
-}
 
 export default ProfileModal;

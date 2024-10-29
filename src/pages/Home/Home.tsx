@@ -4,6 +4,21 @@ import Header from './Header/Header.tsx';
 import Notification from './Notification.tsx';
 import Schedule from './Schedule.tsx';
 
+function Home() {
+  return (
+    <div>
+      <Header />
+      <Main>
+        <Banner />
+        <Contents>
+          <Notification />
+          <Schedule />
+        </Contents>
+      </Main>
+    </div>
+  );
+}
+
 const Main = styled.div`
   width: 1440px;
   margin: 0 auto;
@@ -21,20 +36,5 @@ const Contents = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-
-function Home() {
-  return (
-    <div>
-      <Header />
-      <Main>
-        <Banner />
-        <Contents>
-          <Notification />
-          <Schedule />
-        </Contents>
-      </Main>
-    </div>
-  );
-}
 
 export default Home;

@@ -1,5 +1,14 @@
 import styled from 'styled-components';
 
+function Schedule() {
+  return (
+    <Container>
+      <Title>동아리 일정</Title>
+      <Contents />
+    </Container>
+  );
+}
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -17,14 +26,5 @@ const Contents = styled.div`
   height: 450px;
   background-color: #d9d9d9;
 `;
-
-function Schedule() {
-  return (
-    <Container>
-      <Title>동아리 일정</Title>
-      <Contents />
-    </Container>
-  );
-}
 
 export default Schedule;
