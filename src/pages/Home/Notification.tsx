@@ -1,5 +1,20 @@
 import styled from 'styled-components';
 
+function Notification() {
+  return (
+    <Container>
+      <Options>
+        <Option>동아리 공지</Option>
+        <div>|</div>
+        <Option>학과 공지</Option>
+        <div>|</div>
+        <Option>학교 공지</Option>
+      </Options>
+      <Contents />
+    </Container>
+  );
+}
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -27,20 +42,5 @@ const Contents = styled.div`
   height: 450px;
   background-color: #d9d9d9;
 `;
-
-function Notification() {
-  return (
-    <Container>
-      <Options>
-        <Option>동아리 공지</Option>
-        <div>|</div>
-        <Option>학과 공지</Option>
-        <div>|</div>
-        <Option>학교 공지</Option>
-      </Options>
-      <Contents />
-    </Container>
-  );
-}
 
 export default Notification;
