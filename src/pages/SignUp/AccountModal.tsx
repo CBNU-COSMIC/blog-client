@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import PersonIcon from '../../icons/PersonIcon.tsx';
@@ -36,8 +36,6 @@ function AccountModal({
   const [isSecondInputFocus, setIsSecondInputFocus] = useState(false);
   const [isThirdInputFocus, setIsThirdInputFocus] = useState(false);
 
-  console.log(isSecondInputFocus);
-
   const handleIdBlur = () => {
     setIsFirstInputFocus(false);
     if (!id.trim()) {
@@ -56,7 +54,9 @@ function AccountModal({
   };
   const handleEmailBlur = () => {
     setIsThirdInputFocus(false);
+    console.log('a');
     if (!email.trim()) {
+      console.log('a');
       setEmailNoneError(true);
     } else {
       setEmailNoneError(false);
@@ -65,13 +65,14 @@ function AccountModal({
 
   return (
     <Container>
-      <InputBox1 error={idNoneError} isSecondInputFocus={isSecondInputFocus}>
+      <InputBox1 idError={idNoneError} passwordError={passwordNoneError} isSecondInputFocus={isSecondInputFocus}>
         <PersonIcon />
         <Input
           placeholder="아이디"
           onChange={(event) => setId(event.target.value)}
           onFocus={() => setIsFirstInputFocus(true)}
           onBlur={handleIdBlur}
+          error={idNoneError}
         />
       </InputBox1>
       <InputBox2
@@ -86,15 +87,17 @@ function AccountModal({
           onChange={(event) => setPassword(event.target.value)}
           onFocus={() => setIsSecondInputFocus(true)}
           onBlur={handlePasswordBlur}
+          error={passwordNoneError}
         />
       </InputBox2>
-      <InputBox3 error={emailNoneError} isSecondInputFocus={isSecondInputFocus}>
+      <InputBox3 emailError={emailNoneError} isSecondInputFocus={isSecondInputFocus} passwordError={passwordNoneError}>
         <EmailIcon />
         <Input
           placeholder="이메일주소"
           onChange={(event) => setEmail(event.target.value)}
           onFocus={() => setIsThirdInputFocus(true)}
           onBlur={handleEmailBlur}
+          error={emailNoneError}
         />
       </InputBox3>
       {idNoneError && <BlurError>아이디를 입력해주세요.</BlurError>}
@@ -110,22 +113,24 @@ const Container = styled.div`
   width: 500px;
 `;
 
-const InputBox1 = styled.div<{ error: boolean; isSecondInputFocus: boolean }>`
+const InputBox1 = styled.div<{ idError: boolean; passwordError: boolean; isSecondInputFocus: boolean }>`
   position: relative;
   display: flex;
   align-items: center;
   width: 500px;
   height: 50px;
-  border: ${({ error }) => (error ? '2px solid var(--error-color)' : '1px solid #e1e3e5')};
+  border: ${({ idError }) => (idError ? '2px solid var(--error-color)' : '1px solid #e1e3e5')};
   border-radius: 8px 8px 0 0;
   padding: 0 8px;
   box-sizing: border-box;
   gap: 7px;
-  ${({ isSecondInputFocus }) => isSecondInputFocus && 'border-bottom: none;'}
-  &:focus-within {
-    border: 2px solid var(--primary-color);
-    border-radius: 8px 8px 0 0;
-  }
+  ${({ isSecondInputFocus, passwordError }) => isSecondInputFocus && !passwordError && 'border-bottom: none;'}
+  ${({ idError }) =>
+    !idError &&
+    `&:focus-within {
+        border: 2px solid var(--primary-color);
+        border-radius: 8px 8px 0 0;
+     };`}
 `;
 
 const InputBox2 = styled.div<{
@@ -148,30 +153,34 @@ const InputBox2 = styled.div<{
   padding: 0 8px;
   box-sizing: border-box;
   gap: 7px;
-  &:focus-within {
-    border: 2px solid var(--primary-color);
-  }
+  ${({ passwordError }) =>
+    !passwordError &&
+    `&:focus-within {
+        border: 2px solid var(--primary-color);
+     };`}
 `;
 
-const InputBox3 = styled.div<{ error: boolean; isSecondInputFocus: boolean }>`
+const InputBox3 = styled.div<{ emailError: boolean; passwordError: boolean; isSecondInputFocus: boolean }>`
   position: relative;
   display: flex;
   align-items: center;
   width: 500px;
   height: 50px;
-  border: ${({ error }) => (error ? '2px solid var(--error-color)' : '1px solid #e1e3e5')};
+  border: ${({ emailError }) => (emailError ? '2px solid var(--error-color)' : '1px solid #e1e3e5')};
   border-radius: 0 0 8px 8px;
   padding: 0 8px;
   box-sizing: border-box;
   gap: 7px;
-  ${({ isSecondInputFocus }) => isSecondInputFocus && 'border-top: none;'}
-  &:focus-within {
-    border: 2px solid var(--primary-color);
-    border-radius: 0 0 8px 8px;
-  }
+  ${({ isSecondInputFocus, passwordError }) => isSecondInputFocus && !passwordError && 'border-top: none;'}
+  ${({ emailError }) =>
+    !emailError &&
+    `&:focus-within {
+        border: 2px solid var(--primary-color);
+        border-radius: 0 0 8px 8px;
+     };`}
 `;
 
-const Input = styled.input`
+const Input = styled.input<{ error: boolean }>`
   position: relative;
   z-index: 10;
   width: 380px;
@@ -180,6 +189,12 @@ const Input = styled.input`
   cursor: pointer;
   border: none;
   outline: none;
+  ${({ error }) =>
+    error &&
+    `&::placeholder {
+        color: var(--error-color);
+        text-decoration: underline;
+    };`}
 `;
 
 const BlurError = styled.div`

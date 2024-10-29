@@ -6,22 +6,22 @@ function SignInModal() {
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
-  const [isBlurError, setIsBlurError] = useState(false);
+  const [isBlurError, setIsNoneError] = useState(false);
 
   const login = () => {
     if (!id.trim()) {
       idInputRef.current?.focus();
-      setIsBlurError(true);
+      setIsNoneError(true);
       return;
     }
 
     if (!password.trim()) {
       passwordInputRef.current?.focus();
-      setIsBlurError(true);
+      setIsNoneError(true);
       return;
     }
 
-    setIsBlurError(false);
+    setIsNoneError(false);
     // TODO: login
   };
 
@@ -37,7 +37,7 @@ function SignInModal() {
           <InputLabel>비밀번호</InputLabel>
         </InputBox2>
       </InputForm>
-      {isBlurError && <BlurError>아이디 또는 비밀번호를 입력해주세요.</BlurError>}
+      {isBlurError && <NoneError>아이디 또는 비밀번호를 입력해주세요.</NoneError>}
       <Button onClick={login}>로그인</Button>
     </Container>
   );
@@ -107,7 +107,7 @@ const InputLabel = styled.label`
   color: #aaa;
 `;
 
-const BlurError = styled.div`
+const NoneError = styled.div`
   font-family: Pretendard, sans-serif;
   font-size: 14px;
   color: var(--error-color);
