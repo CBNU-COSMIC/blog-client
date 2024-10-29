@@ -25,8 +25,83 @@ function SignUp() {
   const [birthValidError, setBirthValidError] = useState(false);
   const [phoneNumberValidError, setPhoneNumberValidError] = useState(false);
 
+  const [emailError, setEmailError] = useState(false);
+  const [birthError, setBirthError] = useState(false);
+  const [phoneNumberError, setPhoneNumberError] = useState(false);
+
   const navigateToMainPage = () => {
     navigate('/');
+  };
+
+  const signUp = () => {
+    if (!id.trim()) {
+      setIdNoneError(true);
+    } else {
+      setIdNoneError(false);
+    }
+
+    if (!password.trim()) {
+      setPasswordNoneError(true);
+    } else {
+      setPasswordNoneError(false);
+    }
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!email.trim()) {
+      setEmailError(true);
+      setEmailNoneError(true);
+      setEmailValidError(false);
+    } else if (!email.match(emailRegex)) {
+      setEmailError(true);
+      setEmailValidError(true);
+      setEmailNoneError(false);
+    } else {
+      setEmailError(false);
+      setEmailNoneError(false);
+      setEmailValidError(false);
+    }
+
+    if (!name.trim()) {
+      setNameNoneError(true);
+    } else {
+      setNameNoneError(false);
+    }
+
+    const birthRegex1 = /^(19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$/;
+    const birthRegex2 = /^(19|20)\d{2}\.(0[1-9]|1[0-2])\.(0[1-9]|[12][0-9]|3[01])$/;
+    if (!birth.trim()) {
+      setBirthError(true);
+      setBirthNoneError(true);
+      setBirthValidError(false);
+    } else if (!birth.match(birthRegex1) && !birth.match(birthRegex2)) {
+      setBirthError(true);
+      setBirthValidError(true);
+      setBirthNoneError(false);
+    } else {
+      setBirthError(false);
+      setBirthNoneError(false);
+      setBirthValidError(false);
+    }
+
+    const phoneNumberRegex1 = /^(010)\d{8}$/;
+    const phoneNumberRegex2 = /^(010)-\d{4}-\d{4}$/;
+    if (!phoneNumber.trim()) {
+      setPhoneNumberError(true);
+      setPhoneNumberNoneError(true);
+      setPhoneNumberValidError(false);
+    } else if (!phoneNumber.match(phoneNumberRegex1) && !phoneNumber.match(phoneNumberRegex2)) {
+      setPhoneNumberError(true);
+      setPhoneNumberValidError(true);
+      setPhoneNumberNoneError(false);
+    } else {
+      setPhoneNumberError(false);
+      setPhoneNumberValidError(false);
+      setPhoneNumberNoneError(false);
+    }
+
+    if (!idNoneError && !passwordNoneError && !nameNoneError && !emailError && !birthError && !phoneNumberError) {
+      // TODO: 회원가입
+    }
   };
 
   return (
@@ -48,6 +123,8 @@ function SignUp() {
           setEmailNoneError={setEmailNoneError}
           emailValidError={emailValidError}
           setEmailValidError={setEmailValidError}
+          emailError={emailError}
+          setEmailError={setEmailError}
         />
         <ProfileModal
           name={name}
@@ -66,9 +143,13 @@ function SignUp() {
           setBirthValidError={setBirthValidError}
           phoneNumberValidError={phoneNumberValidError}
           setPhoneNumberValidError={setPhoneNumberValidError}
+          birthError={birthError}
+          setBirthError={setBirthError}
+          phoneNumberError={phoneNumberError}
+          setPhoneNumberError={setPhoneNumberError}
         />
       </Contents>
-      <Button>회원가입</Button>
+      <Button onClick={signUp}>회원가입</Button>
     </Container>
   );
 }

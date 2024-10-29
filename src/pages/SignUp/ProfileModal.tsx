@@ -22,6 +22,10 @@ function ProfileModal({
   setBirthValidError,
   phoneNumberValidError,
   setPhoneNumberValidError,
+  birthError,
+  setBirthError,
+  phoneNumberError,
+  setPhoneNumberError,
 }: {
   name: string;
   setName: (name: string) => void;
@@ -39,11 +43,13 @@ function ProfileModal({
   setBirthValidError: (isError: boolean) => void;
   phoneNumberValidError: boolean;
   setPhoneNumberValidError: (isError: boolean) => void;
+  birthError: boolean;
+  setBirthError: (isError: boolean) => void;
+  phoneNumberError: boolean;
+  setPhoneNumberError: (isError: boolean) => void;
 }) {
   const birthInputRef = useRef<HTMLInputElement>(null);
   const phoneNumberInputRef = useRef<HTMLInputElement>(null);
-  const [birthError, setBirthError] = useState(false);
-  const [phoneNumberError, setPhoneNumberError] = useState(false);
   const [isFirstInputFocus, setIsFirstInputFocus] = useState(false);
   const [isSecondInputFocus, setIsSecondInputFocus] = useState(false);
   const [isThirdInputFocus, setIsThirdInputFocus] = useState(false);

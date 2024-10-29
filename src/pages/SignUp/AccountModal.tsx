@@ -20,6 +20,8 @@ function AccountModal({
   setEmailNoneError,
   emailValidError,
   setEmailValidError,
+  emailError,
+  setEmailError,
 }: {
   id: string;
   setId: (id: string) => void;
@@ -35,8 +37,9 @@ function AccountModal({
   setEmailNoneError: (isError: boolean) => void;
   emailValidError: boolean;
   setEmailValidError: (isError: boolean) => void;
+  emailError: boolean;
+  setEmailError: (isError: boolean) => void;
 }) {
-  const [emailError, setEmailError] = useState(false);
   const [isFirstInputFocus, setIsFirstInputFocus] = useState(false);
   const [isSecondInputFocus, setIsSecondInputFocus] = useState(false);
   const [isThirdInputFocus, setIsThirdInputFocus] = useState(false);
