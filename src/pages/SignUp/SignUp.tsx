@@ -21,6 +21,8 @@ function SignUp() {
   const [birthNoneError, setBirthNoneError] = useState(false);
   const [phoneNumberNoneError, setPhoneNumberNoneError] = useState(false);
 
+  const [emailValidError, setEmailValidError] = useState(false);
+
   const navigateToMainPage = () => {
     navigate('/');
   };
@@ -42,6 +44,8 @@ function SignUp() {
           setPasswordNoneError={setPasswordNoneError}
           emailNoneError={emailNoneError}
           setEmailNoneError={setEmailNoneError}
+          emailValidError={emailValidError}
+          setEmailValidError={setEmailValidError}
         />
         <ProfileModal
           name={name}

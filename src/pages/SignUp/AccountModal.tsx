@@ -18,6 +18,8 @@ function AccountModal({
   setPasswordNoneError,
   emailNoneError,
   setEmailNoneError,
+  emailValidError,
+  setEmailValidError,
 }: {
   id: string;
   setId: (id: string) => void;
@@ -31,7 +33,10 @@ function AccountModal({
   setPasswordNoneError: (isError: boolean) => void;
   emailNoneError: boolean;
   setEmailNoneError: (isError: boolean) => void;
+  emailValidError: boolean;
+  setEmailValidError: (isError: boolean) => void;
 }) {
+  const [emailError, setEmailError] = useState(false);
   const [isFirstInputFocus, setIsFirstInputFocus] = useState(false);
   const [isSecondInputFocus, setIsSecondInputFocus] = useState(false);
   const [isThirdInputFocus, setIsThirdInputFocus] = useState(false);
@@ -52,12 +57,22 @@ function AccountModal({
       setPasswordNoneError(false);
     }
   };
+
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const handleEmailBlur = () => {
     setIsThirdInputFocus(false);
     if (!email.trim()) {
+      setEmailError(true);
       setEmailNoneError(true);
-    } else {
+      setEmailValidError(false);
+    } else if (!emailRegex.test(email)) {
+      setEmailError(true);
+      setEmailValidError(true);
       setEmailNoneError(false);
+    } else {
+      setEmailError(false);
+      setEmailNoneError(false);
+      setEmailValidError(false);
     }
   };
 
@@ -76,7 +91,7 @@ function AccountModal({
       <InputBox2
         idError={idNoneError}
         passwordError={passwordNoneError}
-        emailError={emailNoneError}
+        emailError={emailError}
         isFirstInputFocus={isFirstInputFocus}
         isThirdInputFocus={isThirdInputFocus}>
         <PasswordIcon />
@@ -88,19 +103,20 @@ function AccountModal({
           error={passwordNoneError}
         />
       </InputBox2>
-      <InputBox3 emailError={emailNoneError} isSecondInputFocus={isSecondInputFocus} passwordError={passwordNoneError}>
+      <InputBox3 emailError={emailError} isSecondInputFocus={isSecondInputFocus} passwordError={passwordNoneError}>
         <EmailIcon />
         <Input
           placeholder="이메일주소"
           onChange={(event) => setEmail(event.target.value)}
           onFocus={() => setIsThirdInputFocus(true)}
           onBlur={handleEmailBlur}
-          error={emailNoneError}
+          error={emailError}
         />
       </InputBox3>
       {idNoneError && <NoneError>아이디를 입력해주세요.</NoneError>}
       {passwordNoneError && <NoneError>비밀번호를 입력해주세요.</NoneError>}
       {emailNoneError && <NoneError>이메일을 입력해주세요.</NoneError>}
+      {emailValidError && <NoneError>올바른 이메일을 입력해주세요.</NoneError>}
     </Container>
   );
 }
@@ -189,7 +205,8 @@ const Input = styled.input<{ error: boolean }>`
   outline: none;
   ${({ error }) =>
     error &&
-    `&::placeholder {
+    `color: var(--error-color);
+    &::placeholder {
         color: var(--error-color);
         text-decoration: underline;
     };`}
