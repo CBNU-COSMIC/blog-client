@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-import Header from './Header/Header.tsx';
 import MainSection from './MainSection/MainSection.tsx';
 import IntroduceSection from './IntroduceSection/IntroduceSection.tsx';
 import NotificationSection from './NotificationSection/NotificationSection.tsx';
@@ -9,20 +8,17 @@ import ActivitySection from './ActivitySection/ActivitySection.tsx';
 
 function Home() {
   return (
-    <div>
-      <Header />
-      <Main>
-        <MainSection />
-        <IntroduceSection />
-        <ActivitySection />
-        <NotificationSection />
-        <ScheduleSection />
-      </Main>
-    </div>
+    <Container>
+      <MainSection />
+      <IntroduceSection />
+      <ActivitySection />
+      <NotificationSection />
+      <ScheduleSection />
+    </Container>
   );
 }
 
-const Main = styled.main`
+const Container = styled.div`
   width: 1440px;
   margin: 0 auto;
   padding: 0 80px;
