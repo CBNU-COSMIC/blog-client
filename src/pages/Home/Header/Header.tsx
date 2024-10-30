@@ -2,12 +2,9 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 import LoginButton from './LoginButton.tsx';
+import Dropdown from './Dropdown.tsx';
 
 function Header() {
-  const [isFocusedIntroduction, setIsFocusedIntroduction] = useState(false);
-  const [isFocusedSchedule, setIsFocusedSchedule] = useState(false);
-  const [isFocusedSeminar, setIsFocusedSeminar] = useState(false);
-  const [isFocusedBoard, setIsFocusedBoard] = useState(false);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   return (
@@ -15,68 +12,7 @@ function Header() {
       <Contents>
         <Logo>COSMIC</Logo>
         <StyledDiv>
-          <DropdownContainer>
-            <DropdownButton
-              onMouseOver={() => {
-                setIsFocusedIntroduction(true);
-                setIsDropdownVisible(false);
-              }}
-              onFocus={() => {
-                setIsFocusedIntroduction(true);
-                setIsDropdownVisible(false);
-              }}
-              onMouseLeave={() => {
-                setIsFocusedIntroduction(false);
-              }}>
-              동아리 소개
-              <DropdownUnderline isFocused={isFocusedIntroduction} />
-            </DropdownButton>
-            <DropdownButton
-              onMouseOver={() => {
-                setIsFocusedSchedule(true);
-                setIsDropdownVisible(false);
-              }}
-              onFocus={() => {
-                setIsFocusedSchedule(true);
-                setIsDropdownVisible(false);
-              }}
-              onMouseLeave={() => {
-                setIsFocusedSchedule(false);
-              }}>
-              동아리 일정
-              <DropdownUnderline isFocused={isFocusedSchedule} />
-            </DropdownButton>
-            <DropdownButton
-              onMouseOver={() => {
-                setIsFocusedSeminar(true);
-                setIsDropdownVisible(true);
-              }}
-              onFocus={() => {
-                setIsFocusedSeminar(true);
-                setIsDropdownVisible(true);
-              }}
-              onMouseLeave={() => {
-                setIsFocusedSeminar(false);
-              }}>
-              세미나
-              <DropdownUnderline isFocused={isFocusedSeminar} />
-            </DropdownButton>
-            <DropdownButton
-              onMouseOver={() => {
-                setIsFocusedBoard(true);
-                setIsDropdownVisible(true);
-              }}
-              onFocus={() => {
-                setIsFocusedBoard(true);
-                setIsDropdownVisible(true);
-              }}
-              onMouseLeave={() => {
-                setIsFocusedBoard(false);
-              }}>
-              게시판
-              <DropdownUnderline isFocused={isFocusedBoard} />
-            </DropdownButton>
-          </DropdownContainer>
+          <Dropdown isDropdownVisible={isDropdownVisible} setIsDropdownVisible={setIsDropdownVisible} />
           <LoginButton />
         </StyledDiv>
       </Contents>
@@ -122,32 +58,6 @@ const Logo = styled.div`
   font-size: 40px;
   font-weight: 900;
   color: var(--primary-color);
-`;
-
-const DropdownContainer = styled.div`
-  display: flex;
-  gap: 20px;
-`;
-
-const DropdownButton = styled.button`
-  font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
-  position: relative;
-  height: 50px;
-  border: none;
-  cursor: pointer;
-  background-color: white;
-`;
-
-const DropdownUnderline = styled.div<{ isFocused: boolean }>`
-  position: absolute;
-  width: ${({ isFocused }) => (isFocused ? '100%' : '0')};
-  height: 3px;
-  background-color: var(--primary-color);
-  left: 0;
-  top: 61px;
-  z-index: 10;
-  transition: width 0.3s ease-in-out;
 `;
 
 const DropdownBackground = styled.div<{ isOpen: boolean }>`
