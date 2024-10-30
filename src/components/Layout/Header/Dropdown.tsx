@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 function Dropdown({
@@ -8,6 +9,7 @@ function Dropdown({
   isDropdownVisible: boolean;
   setIsDropdownVisible: (isDropdownVisible: boolean) => void;
 }) {
+  const navigate = useNavigate();
   const [isFocusedIntroduction, setIsFocusedIntroduction] = useState(false);
   const [isFocusedSchedule, setIsFocusedSchedule] = useState(false);
   const [isFocusedSeminar, setIsFocusedSeminar] = useState(false);
@@ -31,9 +33,14 @@ function Dropdown({
     }
   }, [isFocusedBoard, isFocusedSeminar, isDropdownVisible]);
 
+  const goToIntroductionPage = () => {
+    navigate('/introduction');
+  };
+
   return (
     <Container>
       <DropdownButton
+        onClick={goToIntroductionPage}
         onMouseOver={() => {
           setIsFocusedIntroduction(true);
           setIsDropdownVisible(false);

@@ -1,16 +1,22 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import LoginButton from './LoginButton.tsx';
 import Dropdown from './Dropdown.tsx';
 
 function Header() {
+  const navigate = useNavigate();
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+  const goToMainPage = () => {
+    navigate('/');
+  };
 
   return (
     <Container>
       <Contents>
-        <Logo>COSMIC</Logo>
+        <Logo onClick={goToMainPage}>COSMIC</Logo>
         <StyledDiv>
           <Dropdown isDropdownVisible={isDropdownVisible} setIsDropdownVisible={setIsDropdownVisible} />
           <LoginButton />
@@ -53,11 +59,14 @@ const StyledDiv = styled.div`
   align-items: center;
 `;
 
-const Logo = styled.div`
+const Logo = styled.button`
   font-family: 'Gmarket', sans-serif;
   font-size: 40px;
   font-weight: 900;
   color: var(--primary-color);
+  background-color: white;
+  border: none;
+  cursor: pointer;
 `;
 
 const DropdownBackground = styled.div<{ isOpen: boolean }>`
