@@ -1,17 +1,23 @@
+import { useRef } from 'react';
 import styled from 'styled-components';
 
 import MainSection from './MainSection/MainSection.tsx';
 import IntroduceSection from './IntroduceSection/IntroduceSection.tsx';
 import NotificationSection from './NotificationSection/NotificationSection.tsx';
 import ScheduleSection from './ScheduleSection/ScheduleSection.tsx';
-import ActivitySection from './ActivitySection/ActivitySection.tsx';
 
 function Home() {
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const scrollToNextSection = () => {
+    if (sectionRef.current) {
+      sectionRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <Container>
-      <MainSection />
-      <IntroduceSection />
-      <ActivitySection />
+      <MainSection scrollToNextSection={scrollToNextSection} />
+      <IntroduceSection sectionRef={sectionRef} />
       <NotificationSection />
       <ScheduleSection />
     </Container>

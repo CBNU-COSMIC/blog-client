@@ -45,6 +45,7 @@ const Title = styled.div`
 `;
 
 const Intro = styled.p`
+  font-family: 'Pretendard', sans-serif;
   font-size: 1.1rem;
   color: #333;
   line-height: 1.6;
@@ -52,15 +53,18 @@ const Intro = styled.p`
 `;
 
 const Highlight = styled.p`
+  font-family: 'Pretendard', sans-serif;
   font-weight: bold;
 `;
 
 const List = styled.ul`
+  font-family: 'Pretendard', sans-serif;
   margin: 20px 0;
   padding-left: 20px;
 `;
 
 const ListItem = styled.li`
+  font-family: 'Pretendard', sans-serif;
   font-size: 1rem;
   color: #555;
   margin-bottom: 10px;
