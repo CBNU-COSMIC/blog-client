@@ -1,17 +1,21 @@
 import styled from 'styled-components';
 
-function Notification() {
+import AnimatedSection from '../AnimationSection.tsx';
+
+function NotificationSection() {
   return (
-    <Container>
-      <Options>
-        <Option>동아리 공지</Option>
-        <div>|</div>
-        <Option>학과 공지</Option>
-        <div>|</div>
-        <Option>학교 공지</Option>
-      </Options>
-      <Contents />
-    </Container>
+    <AnimatedSection>
+      <Container>
+        <Options>
+          <Option>동아리 공지</Option>
+          <div>|</div>
+          <Option>학과 공지</Option>
+          <div>|</div>
+          <Option>학교 공지</Option>
+        </Options>
+        <Contents />
+      </Container>
+    </AnimatedSection>
   );
 }
 
@@ -20,7 +24,7 @@ const Container = styled.div`
   flex-direction: column;
   gap: 20px;
   width: 820px;
-  height: 520px;
+  height: 100%;
 `;
 
 const Options = styled.div`
@@ -43,4 +47,4 @@ const Contents = styled.div`
   background-color: #d9d9d9;
 `;
 
-export default Notification;
+export default NotificationSection;

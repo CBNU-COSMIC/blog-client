@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 
-function Schedule() {
+import AnimatedSection from '../AnimationSection.tsx';
+
+function ScheduleSection() {
   return (
-    <Container>
-      <Title>동아리 일정</Title>
-      <Contents />
-    </Container>
+    <AnimatedSection>
+      <Container>
+        <Title>동아리 일정</Title>
+        <Contents />
+      </Container>
+    </AnimatedSection>
   );
 }
 
@@ -14,7 +18,7 @@ const Container = styled.div`
   flex-direction: column;
   gap: 20px;
   width: 400px;
-  height: 520px;
+  height: 100%;
 `;
 
 const Title = styled.div`
@@ -27,4 +31,4 @@ const Contents = styled.div`
   background-color: #d9d9d9;
 `;
 
-export default Schedule;
+export default ScheduleSection;
