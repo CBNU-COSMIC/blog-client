@@ -7,12 +7,15 @@ function Header() {
     <Container>
       <Contents>
         <Logo>COSMIC</Logo>
-        <DropdownContainer>
-          <DropdownButton>동아리 소개</DropdownButton>
-          <DropdownButton>세미나</DropdownButton>
-          <DropdownButton>게시판</DropdownButton>
-        </DropdownContainer>
-        <LoginButton />
+        <StyledDiv>
+          <DropdownContainer>
+            <DropdownButton>동아리 소개</DropdownButton>
+            <DropdownButton>동아리 일정</DropdownButton>
+            <DropdownButton>세미나</DropdownButton>
+            <DropdownButton>게시판</DropdownButton>
+          </DropdownContainer>
+          <LoginButton />
+        </StyledDiv>
       </Contents>
     </Container>
   );
@@ -24,7 +27,7 @@ const Container = styled.div`
   width: 100%;
   height: 75px;
   border: 1px solid white;
-  border-bottom-color: var(--primary-color);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
 
 const Contents = styled.div`
@@ -37,6 +40,12 @@ const Contents = styled.div`
   box-sizing: border-box;
 `;
 
+const StyledDiv = styled.div`
+  display: flex;
+  gap: 30px;
+  align-items: center;
+`;
+
 const Logo = styled.div`
   font-family: 'Gmarket', sans-serif;
   font-size: 40px;
@@ -47,16 +56,15 @@ const Logo = styled.div`
 const DropdownContainer = styled.div`
   display: flex;
   gap: 20px;
-  width: 500px;
 `;
 
 const DropdownButton = styled.button`
-  width: 150px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 20px;
   height: 50px;
   border: none;
   cursor: pointer;
-  background-color: #ababab;
-  color: white;
+  background-color: white;
 `;
 
 export default Header;
