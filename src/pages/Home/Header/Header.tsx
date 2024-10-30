@@ -8,6 +8,7 @@ function Header() {
   const [isFocusedSchedule, setIsFocusedSchedule] = useState(false);
   const [isFocusedSeminar, setIsFocusedSeminar] = useState(false);
   const [isFocusedBoard, setIsFocusedBoard] = useState(false);
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   return (
     <Container>
@@ -18,9 +19,11 @@ function Header() {
             <DropdownButton
               onMouseOver={() => {
                 setIsFocusedIntroduction(true);
+                setIsDropdownVisible(false);
               }}
               onFocus={() => {
                 setIsFocusedIntroduction(true);
+                setIsDropdownVisible(false);
               }}
               onMouseLeave={() => {
                 setIsFocusedIntroduction(false);
@@ -31,9 +34,11 @@ function Header() {
             <DropdownButton
               onMouseOver={() => {
                 setIsFocusedSchedule(true);
+                setIsDropdownVisible(false);
               }}
               onFocus={() => {
                 setIsFocusedSchedule(true);
+                setIsDropdownVisible(false);
               }}
               onMouseLeave={() => {
                 setIsFocusedSchedule(false);
@@ -44,9 +49,11 @@ function Header() {
             <DropdownButton
               onMouseOver={() => {
                 setIsFocusedSeminar(true);
+                setIsDropdownVisible(true);
               }}
               onFocus={() => {
                 setIsFocusedSeminar(true);
+                setIsDropdownVisible(true);
               }}
               onMouseLeave={() => {
                 setIsFocusedSeminar(false);
@@ -57,9 +64,11 @@ function Header() {
             <DropdownButton
               onMouseOver={() => {
                 setIsFocusedBoard(true);
+                setIsDropdownVisible(true);
               }}
               onFocus={() => {
                 setIsFocusedBoard(true);
+                setIsDropdownVisible(true);
               }}
               onMouseLeave={() => {
                 setIsFocusedBoard(false);
@@ -71,7 +80,12 @@ function Header() {
           <LoginButton />
         </StyledDiv>
       </Contents>
-      {(isFocusedSeminar || isFocusedBoard) && <DropdownBackground />}
+      <DropdownBackground
+        onMouseLeave={() => {
+          setIsDropdownVisible(false);
+        }}
+        isOpen={isDropdownVisible}
+      />
     </Container>
   );
 }
@@ -82,7 +96,8 @@ const Container = styled.div`
   justify-content: center;
   width: 100%;
   height: 75px;
-  border: 1px solid white;
+  z-index: 20;
+  background-color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
 
@@ -130,17 +145,25 @@ const DropdownUnderline = styled.div<{ isFocused: boolean }>`
   height: 3px;
   background-color: var(--primary-color);
   left: 0;
-  top: 62px;
+  top: 61px;
+  z-index: 10;
   transition: width 0.3s ease-in-out;
 `;
 
-const DropdownBackground = styled.div`
+const DropdownBackground = styled.div<{ isOpen: boolean }>`
   position: absolute;
   width: 100%;
   height: 100px;
-  top: 75px;
+  top: 100%;
   left: 0;
+  opacity: ${({ isOpen }) => (isOpen ? '1' : '0')};
+  visibility: ${({ isOpen }) => (isOpen ? 'visible' : 'hidden')};
+  background-color: white;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
 `;
 
 export default Header;
