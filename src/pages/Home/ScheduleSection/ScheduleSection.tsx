@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 
+import AnimatedSection from '../AnimationSection.tsx';
+
 function ScheduleSection() {
   return (
-    <Container>
-      <Title>동아리 일정</Title>
-      <Contents />
-    </Container>
+    <AnimatedSection>
+      <Container>
+        <Title>동아리 일정</Title>
+        <Contents />
+      </Container>
+    </AnimatedSection>
   );
 }
 
@@ -15,7 +19,6 @@ const Container = styled.div`
   gap: 20px;
   width: 400px;
   height: 100%;
-  scroll-snap-align: start;
 `;
 
 const Title = styled.div`

@@ -1,17 +1,21 @@
 import styled from 'styled-components';
 
+import AnimatedSection from '../AnimationSection.tsx';
+
 function NotificationSection() {
   return (
-    <Container>
-      <Options>
-        <Option>동아리 공지</Option>
-        <div>|</div>
-        <Option>학과 공지</Option>
-        <div>|</div>
-        <Option>학교 공지</Option>
-      </Options>
-      <Contents />
-    </Container>
+    <AnimatedSection>
+      <Container>
+        <Options>
+          <Option>동아리 공지</Option>
+          <div>|</div>
+          <Option>학과 공지</Option>
+          <div>|</div>
+          <Option>학교 공지</Option>
+        </Options>
+        <Contents />
+      </Container>
+    </AnimatedSection>
   );
 }
 
@@ -21,7 +25,6 @@ const Container = styled.div`
   gap: 20px;
   width: 820px;
   height: 100%;
-  scroll-snap-align: start;
 `;
 
 const Options = styled.div`
