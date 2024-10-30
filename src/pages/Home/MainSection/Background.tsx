@@ -66,7 +66,7 @@ const Star = styled.div<{ delay: number }>`
   opacity: 0;
   animation:
     ${rotate} 4s linear infinite,
-    ${blink} 2s infinite;
+    ${blink} 3s infinite;
   animation-delay: ${({ delay }) => delay}s;
 `;
 
