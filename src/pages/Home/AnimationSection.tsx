@@ -40,14 +40,10 @@ const Container = styled.div`
   height: 100%;
   width: 100%;
   opacity: 0;
-  transform: translateY(50px);
-  transition:
-    opacity 0.6s ease,
-    transform 0.6s ease;
+  transition: opacity 0.6s ease;
 
   &.visible {
     opacity: 1;
-    transform: translateY(0);
   }
 `;
 
