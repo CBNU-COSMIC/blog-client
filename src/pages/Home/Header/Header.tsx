@@ -22,7 +22,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  height: 100px;
+  height: 75px;
   border: 1px solid white;
   border-bottom-color: var(--primary-color);
 `;
@@ -31,7 +31,8 @@ const Contents = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 1440px;
+  max-width: 1920px;
+  width: 100%;
   padding: 0 80px;
   box-sizing: border-box;
 `;

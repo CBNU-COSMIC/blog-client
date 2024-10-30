@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-function Notification() {
+function NotificationSection() {
   return (
     <Container>
       <Options>
@@ -20,7 +20,8 @@ const Container = styled.div`
   flex-direction: column;
   gap: 20px;
   width: 820px;
-  height: 520px;
+  height: 100%;
+  scroll-snap-align: start;
 `;
 
 const Options = styled.div`
@@ -43,4 +44,4 @@ const Contents = styled.div`
   background-color: #d9d9d9;
 `;
 
-export default Notification;
+export default NotificationSection;

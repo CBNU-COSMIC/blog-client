@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-function Schedule() {
+function ScheduleSection() {
   return (
     <Container>
       <Title>동아리 일정</Title>
@@ -14,7 +14,8 @@ const Container = styled.div`
   flex-direction: column;
   gap: 20px;
   width: 400px;
-  height: 520px;
+  height: 100%;
+  scroll-snap-align: start;
 `;
 
 const Title = styled.div`
@@ -27,4 +28,4 @@ const Contents = styled.div`
   background-color: #d9d9d9;
 `;
 
-export default Schedule;
+export default ScheduleSection;
