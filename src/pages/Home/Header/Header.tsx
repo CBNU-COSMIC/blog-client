@@ -1,30 +1,40 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 import LoginButton from './LoginButton.tsx';
+import Dropdown from './Dropdown.tsx';
 
 function Header() {
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
   return (
     <Container>
       <Contents>
         <Logo>COSMIC</Logo>
-        <DropdownContainer>
-          <DropdownButton>동아리 소개</DropdownButton>
-          <DropdownButton>세미나</DropdownButton>
-          <DropdownButton>게시판</DropdownButton>
-        </DropdownContainer>
-        <LoginButton />
+        <StyledDiv>
+          <Dropdown isDropdownVisible={isDropdownVisible} setIsDropdownVisible={setIsDropdownVisible} />
+          <LoginButton />
+        </StyledDiv>
       </Contents>
+      <DropdownBackground
+        onMouseLeave={() => {
+          setIsDropdownVisible(false);
+        }}
+        isOpen={isDropdownVisible}
+      />
     </Container>
   );
 }
 
 const Container = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   width: 100%;
   height: 75px;
-  border: 1px solid white;
-  border-bottom-color: var(--primary-color);
+  z-index: 20;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
 
 const Contents = styled.div`
@@ -37,6 +47,12 @@ const Contents = styled.div`
   box-sizing: border-box;
 `;
 
+const StyledDiv = styled.div`
+  display: flex;
+  gap: 30px;
+  align-items: center;
+`;
+
 const Logo = styled.div`
   font-family: 'Gmarket', sans-serif;
   font-size: 40px;
@@ -44,19 +60,20 @@ const Logo = styled.div`
   color: var(--primary-color);
 `;
 
-const DropdownContainer = styled.div`
-  display: flex;
-  gap: 20px;
-  width: 500px;
-`;
-
-const DropdownButton = styled.button`
-  width: 150px;
-  height: 50px;
-  border: none;
-  cursor: pointer;
-  background-color: #ababab;
-  color: white;
+const DropdownBackground = styled.div<{ isOpen: boolean }>`
+  position: absolute;
+  width: 100%;
+  height: 100px;
+  top: 100%;
+  left: 0;
+  opacity: ${({ isOpen }) => (isOpen ? '1' : '0')};
+  visibility: ${({ isOpen }) => (isOpen ? 'visible' : 'hidden')};
+  background-color: white;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
 `;
 
 export default Header;

@@ -11,16 +11,15 @@ function LoginButton() {
 }
 
 const Container = styled.button`
-  width: 150px;
-  height: 50px;
+  width: 100px;
+  height: 40px;
   border: none;
-  border-radius: 4px;
+  border-radius: 32px;
   color: white;
   background-color: var(--primary-color);
   cursor: pointer;
   font-family: 'Pretendard', sans-serif;
   font-size: 20px;
-  font-weight: 400;
 `;
 
 export default LoginButton;
