@@ -24,16 +24,19 @@ function IntroduceSection({ sectionRef }: { sectionRef: React.RefObject<HTMLDivE
         <Intro></Intro>
         <ActivityList>
           <Activity>
-            <ActivityTitle>프로젝트</ActivityTitle>
+            <ActivityImage src="/images/seminar.jpeg" alt="정기 세미나" />
+            <ActivityTitle>정기 세미나</ActivityTitle>
           </Activity>
           <Activity>
+            <ActivityImage />
             <ActivityTitle>스터디</ActivityTitle>
           </Activity>
           <Activity>
-            <ActivityTitle>멘토링</ActivityTitle>
+            <ActivityImage src="/images/contest.png" alt="대회 참여" />
+            <ActivityTitle>대회 참여</ActivityTitle>
           </Activity>
         </ActivityList>
-        <MoreButton onClick={goToIntroductionPage}>더 알아보기</MoreButton>
+        <MoreButton onClick={goToIntroductionPage}>활동 더 보기</MoreButton>
       </Container>
     </AnimatedSection>
   );
@@ -41,7 +44,6 @@ function IntroduceSection({ sectionRef }: { sectionRef: React.RefObject<HTMLDivE
 
 const Container = styled.div`
   width: 1100px;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -69,32 +71,46 @@ const Intro = styled.p`
 const ActivityList = styled.div`
   display: flex;
   gap: 20px;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 `;
 
 const Activity = styled.div`
   width: 300px;
   height: 300px;
-  background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: var(--secondary-color);
 `;
 
 const ActivityTitle = styled.div`
   font-family: 'Pretendard', sans-serif;
   font-size: 24px;
   font-weight: bold;
+  color: white;
+  height: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ActivityImage = styled.img`
+  width: 300px;
+  height: 225px;
 `;
 
 const MoreButton = styled.button`
   font-family: 'Pretendard', sans-serif;
-  font-size: 16px;
-  width: 106px;
-  height: 46px;
-  padding: 8px 16px;
-  box-sizing: border-box;
+  font-size: 20px;
+  width: 150px;
+  height: 50px;
   border: none;
   border-radius: 32px;
   color: white;
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
   cursor: pointer;
 `;
 

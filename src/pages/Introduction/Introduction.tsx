@@ -33,6 +33,34 @@ function Introduction() {
       </List>
       <Intro>COSMIC과 함께 한다면 많은 성장을 경험할 수 있을 것입니다.</Intro>
       <Title>동아리 활동</Title>
+      <ActivityList>
+        <Activity>
+          <ActivityImage src="/images/seminar.jpeg" alt="정기 세미나" />
+          <ActivityTitle>정기 세미나</ActivityTitle>
+        </Activity>
+        <Activity>
+          <ActivityImage />
+          <ActivityTitle>스터디</ActivityTitle>
+        </Activity>
+        <Activity>
+          <ActivityImage src="/images/contest.png" alt="대회 참여" />
+          <ActivityTitle>대회 참여</ActivityTitle>
+        </Activity>
+      </ActivityList>
+      <ActivityList>
+        <Activity>
+          <ActivityImage />
+          <ActivityTitle>다양한 프로젝트</ActivityTitle>
+        </Activity>
+        <Activity>
+          <ActivityImage />
+          <ActivityTitle>멘토링</ActivityTitle>
+        </Activity>
+        <Activity>
+          <ActivityImage />
+          <ActivityTitle>MT</ActivityTitle>
+        </Activity>
+      </ActivityList>
       <Title>동아리 위치</Title>
       <Intro>COSMIC 동방은 충북대학교 공과대학 E8-1 동 3층에 위치하고 있습니다.</Intro>
       <Map
@@ -101,6 +129,40 @@ const ListItem = styled.li`
   color: #555;
   margin-bottom: 10px;
   line-height: 1.6;
+`;
+
+const ActivityList = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+`;
+
+const Activity = styled.div`
+  width: 300px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: var(--secondary-color);
+`;
+
+const ActivityTitle = styled.div`
+  font-family: 'Pretendard', sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  height: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ActivityImage = styled.img`
+  width: 300px;
+  height: 225px;
 `;
 
 const MarkerDiv = styled.div`
