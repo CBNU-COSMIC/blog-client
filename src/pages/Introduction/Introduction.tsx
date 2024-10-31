@@ -1,6 +1,19 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+import { Map, MapMarker, CustomOverlayMap } from 'react-kakao-maps-sdk';
 
 function Introduction() {
+  const [showOverlay, setShowOverlay] = useState(true);
+
+  const handleZoomChanged = (map: kakao.maps.Map) => {
+    const level = map.getLevel();
+    if (level === 3) {
+      setShowOverlay(true);
+    } else {
+      setShowOverlay(false);
+    }
+  };
+
   return (
     <Container>
       <Title>동아리 소개</Title>
@@ -21,6 +34,25 @@ function Introduction() {
       <Intro>COSMIC과 함께 한다면 많은 성장을 경험할 수 있을 것입니다.</Intro>
       <Title>동아리 활동</Title>
       <Title>동아리 위치</Title>
+      <Intro>COSMIC 동방은 충북대학교 공과대학 E8-1 동 3층에 위치하고 있습니다.</Intro>
+      <Map
+        center={{ lat: 36.62681686526681, lng: 127.45809684246628 }}
+        style={{ width: '400px', height: '500px' }}
+        level={3}
+        onZoomChanged={handleZoomChanged}>
+        {showOverlay && (
+          <CustomOverlayMap position={{ lat: 36.62748, lng: 127.4581 }}>
+            <MarkerDiv>
+              <LinkStyle
+                href="https://m.map.kakao.com/actions/detailMapView?id=17555844&refService=place"
+                target="_blank">
+                충북대학교 공과대학
+              </LinkStyle>
+            </MarkerDiv>
+          </CustomOverlayMap>
+        )}
+        <MapMarker position={{ lat: 36.62681686526681, lng: 127.45809684246628 }}></MapMarker>
+      </Map>
     </Container>
   );
 }
@@ -46,7 +78,7 @@ const Title = styled.div`
 
 const Intro = styled.p`
   font-family: 'Pretendard', sans-serif;
-  font-size: 1.1rem;
+  font-size: 18px;
   color: #333;
   line-height: 1.6;
   margin-bottom: 20px;
@@ -65,10 +97,43 @@ const List = styled.ul`
 
 const ListItem = styled.li`
   font-family: 'Pretendard', sans-serif;
-  font-size: 1rem;
+  font-size: 16px;
   color: #555;
   margin-bottom: 10px;
   line-height: 1.6;
+`;
+
+const MarkerDiv = styled.div`
+  position: relative;
+  width: 100px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid #e5e7eb;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid white;
+  }
+`;
+
+const LinkStyle = styled.a`
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px;
+  text-decoration: none;
+
+  &:visited {
+    color: inherit;
+  }
 `;
 
 export default Introduction;

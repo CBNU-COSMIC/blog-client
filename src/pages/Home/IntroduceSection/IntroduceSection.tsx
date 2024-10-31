@@ -23,9 +23,15 @@ function IntroduceSection({ sectionRef }: { sectionRef: React.RefObject<HTMLDivE
         <Title>코스믹에서 다음과 같은 활동들을 경험할 수 있습니다</Title>
         <Intro></Intro>
         <ActivityList>
-          <Activity></Activity>
-          <Activity></Activity>
-          <Activity></Activity>
+          <Activity>
+            <ActivityTitle>프로젝트</ActivityTitle>
+          </Activity>
+          <Activity>
+            <ActivityTitle>스터디</ActivityTitle>
+          </Activity>
+          <Activity>
+            <ActivityTitle>멘토링</ActivityTitle>
+          </Activity>
         </ActivityList>
         <MoreButton onClick={goToIntroductionPage}>더 알아보기</MoreButton>
       </Container>
@@ -70,6 +76,12 @@ const Activity = styled.div`
   width: 300px;
   height: 300px;
   background-color: #f0f0f0;
+`;
+
+const ActivityTitle = styled.div`
+  font-family: 'Pretendard', sans-serif;
+  font-size: 24px;
+  font-weight: bold;
 `;
 
 const MoreButton = styled.button`
