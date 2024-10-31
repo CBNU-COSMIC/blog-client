@@ -16,7 +16,7 @@ function AnimatedSection({ children }: { children: React.ReactNode }) {
           }
         });
       },
-      { threshold: 0.3 },
+      { threshold: 0.5 },
     );
 
     if (sectionRef.current) {
@@ -40,7 +40,7 @@ const Container = styled.div`
   height: 100%;
   width: 100%;
   opacity: 0;
-  transition: opacity 0.6s ease;
+  transition: opacity 1s ease;
 
   &.visible {
     opacity: 1;

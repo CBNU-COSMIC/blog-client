@@ -37,10 +37,11 @@ const Container = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  top: 0;
+  top: -81px;
   left: 0;
   padding: 80px;
   box-sizing: border-box;
+  z-index: -1;
 `;
 
 const rotate = keyframes`

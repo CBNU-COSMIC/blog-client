@@ -4,8 +4,9 @@ import AnimatedSection from '../AnimationSection.tsx';
 import Background from './Background.tsx';
 import Ring1Icon from '../../../icons/Ring1Icon.tsx';
 import Ring2Icon from '../../../icons/Ring2Icon.tsx';
+import ArrowIcon from '../../../icons/ArrowIcon.tsx';
 
-function MainSection() {
+function MainSection({ scrollToNextSection }: { scrollToNextSection: () => void }) {
   return (
     <AnimatedSection>
       <Container>
@@ -20,6 +21,9 @@ function MainSection() {
         </Logo>
         <Text>충북대학교</Text>
         <Background />
+        <ArrowButton onClick={scrollToNextSection}>
+          <ArrowIcon />
+        </ArrowButton>
       </Container>
     </AnimatedSection>
   );
@@ -71,6 +75,14 @@ const Text = styled.div`
     1px -1px 0 var(--primary-color),
     -1px 1px 0 var(--primary-color),
     1px 1px 0 var(--primary-color);
+`;
+
+const ArrowButton = styled.button`
+  background: none;
+  border: none;
+  width: 81px;
+  height: 81px;
+  cursor: pointer;
 `;
 
 export default MainSection;
