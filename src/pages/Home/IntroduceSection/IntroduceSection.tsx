@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import AnimatedSection from '../AnimationSection.tsx';
+import Activity from '../../../components/Activity/Activity.tsx';
 
 function IntroduceSection({ sectionRef }: { sectionRef: React.RefObject<HTMLDivElement> }) {
   const navigate = useNavigate();
@@ -23,18 +24,21 @@ function IntroduceSection({ sectionRef }: { sectionRef: React.RefObject<HTMLDivE
         <Title>코스믹에서 다음과 같은 활동들을 경험할 수 있습니다</Title>
         <Intro></Intro>
         <ActivityList>
-          <Activity>
-            <ActivityImage src="/images/seminar.jpeg" alt="정기 세미나" />
-            <ActivityTitle>정기 세미나</ActivityTitle>
-          </Activity>
-          <Activity>
-            <ActivityImage />
-            <ActivityTitle>스터디</ActivityTitle>
-          </Activity>
-          <Activity>
-            <ActivityImage src="/images/contest.png" alt="대회 참여" />
-            <ActivityTitle>대회 참여</ActivityTitle>
-          </Activity>
+          <Activity
+            title="정기 세미나"
+            intro={`달마다 주요 공지사항을 \n 전달하고, 근황을 공유하는 정기 세미나를 진행합니다.`}
+            image="/images/seminar.jpeg"
+          />
+          <Activity
+            title="스터디"
+            intro={`북스터디, 알고리즘 스터디, \n CS 스터디 등의 다양한 \n 스터디를 진행합니다.`}
+            image="/images/contest.png"
+          />
+          <Activity
+            title="대회 참여"
+            intro="K-해커톤이나 Solved-Up 등의 다양한 교내/외 대회에 참가합니다."
+            image="/images/contest.png"
+          />
         </ActivityList>
         <MoreButton onClick={goToIntroductionPage}>활동 더 보기</MoreButton>
       </Container>
@@ -44,6 +48,7 @@ function IntroduceSection({ sectionRef }: { sectionRef: React.RefObject<HTMLDivE
 
 const Container = styled.div`
   width: 1100px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -72,34 +77,6 @@ const ActivityList = styled.div`
   display: flex;
   gap: 20px;
   margin-bottom: 40px;
-`;
-
-const Activity = styled.div`
-  width: 300px;
-  height: 300px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 16px;
-  overflow: hidden;
-  background-color: var(--secondary-color);
-`;
-
-const ActivityTitle = styled.div`
-  font-family: 'Pretendard', sans-serif;
-  font-size: 24px;
-  font-weight: bold;
-  color: white;
-  height: 75px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ActivityImage = styled.img`
-  width: 300px;
-  height: 225px;
 `;
 
 const MoreButton = styled.button`

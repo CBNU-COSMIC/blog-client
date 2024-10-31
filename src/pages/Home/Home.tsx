@@ -33,6 +33,7 @@ const Container = styled.div`
   overflow: auto;
   scroll-snap-type: y mandatory;
   scrollbar-width: none;
+  scroll-behavior: smooth;
 `;
 
 export default Home;

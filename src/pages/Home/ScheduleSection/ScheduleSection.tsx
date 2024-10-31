@@ -16,8 +16,9 @@ function ScheduleSection() {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 20px;
-  width: 400px;
+  width: 100%;
   height: 100%;
 `;
 

@@ -22,8 +22,9 @@ function NotificationSection() {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 20px;
-  width: 820px;
+  width: 100%;
   height: 100%;
 `;
 
