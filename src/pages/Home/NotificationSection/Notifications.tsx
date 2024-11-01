@@ -7,6 +7,8 @@ import getPost from '../../../apis/post/getPost.ts';
 function Notifications({ selectedOption }: { selectedOption: number }) {
   const { data: notifications } = useQuery({ queryKey: ['notifications'], queryFn: getPost });
 
+  console.log(notifications);
+
   return (
     <Container>
       {notifications
@@ -14,7 +16,9 @@ function Notifications({ selectedOption }: { selectedOption: number }) {
         .map((notification: PostType, index: number) => (
           <Content key={notification.id}>
             <Idex>{index + 1}</Idex>
-            <Title>{notification.title}</Title>
+            <Title href={notification.url} target="_blank">
+              {notification.title}
+            </Title>
             <Writer>{notification.writer}</Writer>
             <Date>{notification.createdAt.replace(/-/g, '.')}.</Date>
             <Hits>{notification.hits}</Hits>
@@ -44,13 +48,20 @@ const Idex = styled.div`
   text-align: center;
 `;
 
-const Title = styled.div`
+const Title = styled.a`
   font-family: 'Pretendard', sans-serif;
   font-size: 13px;
+  color: black;
   width: 420px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  text-decoration: none;
+
+  &:visited {
+    color: inherit;
+  }
 `;
 
 const Writer = styled.div`

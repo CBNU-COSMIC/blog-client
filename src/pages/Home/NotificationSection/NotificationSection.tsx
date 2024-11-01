@@ -1,11 +1,17 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import AnimatedSection from '../AnimationSection.tsx';
 import Notifications from './Notifications.tsx';
 
 function NotificationSection() {
+  const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState(1);
+
+  const navigateToNotificationBoard = () => {
+    navigate('/notification');
+  };
 
   return (
     <AnimatedSection>
@@ -20,7 +26,7 @@ function NotificationSection() {
           <Option onClick={() => setSelectedOption(3)} selected={selectedOption === 3 ? true : false}>
             소중단 공지
           </Option>
-          <MoreButton>공지 더 보기</MoreButton>
+          <MoreButton onClick={navigateToNotificationBoard}>공지 더 보기</MoreButton>
         </Options>
         <Notifications selectedOption={selectedOption} />
       </Container>

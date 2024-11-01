@@ -4,6 +4,7 @@ interface PostType {
   writer: string;
   createdAt: string;
   hits: number;
+  url: string;
 }
 
 export default PostType;
