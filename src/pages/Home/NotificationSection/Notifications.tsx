@@ -1,24 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import styled from 'styled-components';
 
 import PostType from '../../../types/PostType.ts';
 import getPost from '../../../apis/post/getPost.ts';
-import styled from 'styled-components';
 
 function Notifications({ selectedOption }: { selectedOption: number }) {
-  const [notifications, setNotifications] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      const data = await getPost();
-
-      setNotifications(data);
-    })();
-  }, []);
+  const { data: notifications } = useQuery({ queryKey: ['notifications'], queryFn: getPost });
 
   return (
     <Container>
       {notifications
-        .slice((selectedOption - 1) * 10, selectedOption * 10)
+        ?.slice((selectedOption - 1) * 10, selectedOption * 10)
         .map((notification: PostType, index: number) => (
           <Content key={notification.id}>
             <Idex>{index + 1}</Idex>
