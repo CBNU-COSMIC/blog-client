@@ -84,11 +84,17 @@ const MoreButton = styled.button`
   font-size: 20px;
   width: 150px;
   height: 50px;
+  min-height: 50px;
   border: none;
   border-radius: 32px;
   color: white;
   background-color: var(--secondary-color);
   cursor: pointer;
+  transition: opacity 1s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 export default IntroduceSection;
