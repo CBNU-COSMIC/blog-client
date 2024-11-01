@@ -6,7 +6,7 @@ function Footer() {
       <Contents>
         <CopyrightContainer>
           <Copyright>Copyright 2024. COSMIC. all rights reserved. </Copyright>
-          <Copyright>충청북도 청주시 서원구 충대로 1, 충북대학교 공과대학(E8-1) 3층</Copyright>
+          <Copyright>충청북도 청주시 서원구 충대로 1, 충북대학교 공과대학(E8-1동) 3층</Copyright>
         </CopyrightContainer>
         <div>copyright</div>
       </Contents>
