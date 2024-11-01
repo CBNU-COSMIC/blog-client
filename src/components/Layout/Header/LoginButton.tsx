@@ -20,6 +20,11 @@ const Container = styled.button`
   cursor: pointer;
   font-family: 'Pretendard', sans-serif;
   font-size: 20px;
+  transition: opacity 1s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 export default LoginButton;

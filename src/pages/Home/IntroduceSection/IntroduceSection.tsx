@@ -90,6 +90,11 @@ const MoreButton = styled.button`
   color: white;
   background-color: var(--secondary-color);
   cursor: pointer;
+  transition: opacity 1s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 export default IntroduceSection;

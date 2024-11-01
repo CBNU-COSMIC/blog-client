@@ -11,9 +11,16 @@ function NotificationSection() {
     <AnimatedSection>
       <Container>
         <Options>
-          <Option onClick={() => setSelectedOption(1)}>학과 공지</Option>
-          <Option onClick={() => setSelectedOption(2)}>학교 공지</Option>
-          <Option onClick={() => setSelectedOption(3)}>소중단 공지</Option>
+          <Option onClick={() => setSelectedOption(1)} selected={selectedOption === 1 ? true : false}>
+            학과 공지
+          </Option>
+          <Option onClick={() => setSelectedOption(2)} selected={selectedOption === 2 ? true : false}>
+            학교 공지
+          </Option>
+          <Option onClick={() => setSelectedOption(3)} selected={selectedOption === 3 ? true : false}>
+            소중단 공지
+          </Option>
+          <MoreButton>공지 더 보기</MoreButton>
         </Options>
         <Notifications selectedOption={selectedOption} />
       </Container>
@@ -40,13 +47,37 @@ const Options = styled.div`
   font-size: 50px;
 `;
 
-const Option = styled.button`
+const Option = styled.button<{ selected: boolean }>`
   font-family: 'Pretendard', sans-serif;
-  font-size: 50px;
+  font-size: ${({ selected }) => (selected ? '50px' : '30px')};
   font-weight: bold;
+  color: ${({ selected }) => (selected ? 'var(--secondary-color)' : 'black')};
+  width: 240px;
+  height: 62px;
   border: none;
   background-color: white;
   cursor: pointer;
+  transition:
+    font-size 0.5s ease,
+    color 0.5s ease;
+`;
+
+const MoreButton = styled.button`
+  font-family: 'Pretendard', sans-serif;
+  font-size: 20px;
+  width: 150px;
+  height: 50px;
+  min-height: 50px;
+  border: none;
+  border-radius: 32px;
+  color: white;
+  background-color: var(--secondary-color);
+  cursor: pointer;
+  transition: opacity 1s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 export default NotificationSection;
