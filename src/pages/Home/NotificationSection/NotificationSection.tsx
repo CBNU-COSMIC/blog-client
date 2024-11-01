@@ -1,29 +1,21 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 import AnimatedSection from '../AnimationSection.tsx';
-import { useEffect } from 'react';
-import getPost from '../../../apis/post/getPost.ts';
+import Notifications from './Notifications.tsx';
 
 function NotificationSection() {
-  useEffect(() => {
-    (async () => {
-      const data = await getPost();
-
-      console.log(data[0]);
-    })();
-  }, []);
+  const [selectedOption, setSelectedOption] = useState(1);
 
   return (
     <AnimatedSection>
       <Container>
         <Options>
-          <Option>동아리 공지</Option>
-          <div>|</div>
-          <Option>학과 공지</Option>
-          <div>|</div>
-          <Option>학교 공지</Option>
+          <Option onClick={() => setSelectedOption(1)}>학과 공지</Option>
+          <Option onClick={() => setSelectedOption(2)}>학교 공지</Option>
+          <Option onClick={() => setSelectedOption(3)}>소중단 공지</Option>
         </Options>
-        <Contents />
+        <Notifications selectedOption={selectedOption} />
       </Container>
     </AnimatedSection>
   );
@@ -31,31 +23,30 @@ function NotificationSection() {
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  align-items: center;
   gap: 20px;
-  width: 100%;
+  width: 1100px;
   height: 100%;
+  margin: auto;
 `;
 
 const Options = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  height: 50px;
-  gap: 10px;
+  width: 400px;
+  gap: 50px;
   font-size: 50px;
 `;
 
 const Option = styled.button`
+  font-family: 'Pretendard', sans-serif;
   font-size: 50px;
+  font-weight: bold;
   border: none;
   background-color: white;
   cursor: pointer;
-`;
-
-const Contents = styled.div`
-  height: 450px;
-  background-color: #d9d9d9;
 `;
 
 export default NotificationSection;
