@@ -63,7 +63,6 @@ function Introduction() {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-
   width: 1440px;
   margin: 0 auto;
   padding: 80px;

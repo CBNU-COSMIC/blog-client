@@ -33,14 +33,18 @@ function Dropdown({
     }
   }, [isFocusedBoard, isFocusedSeminar, isDropdownVisible]);
 
-  const goToIntroductionPage = () => {
+  const navigateToIntroductionPage = () => {
     navigate('/introduction');
+  };
+
+  const navigateToNotificationBoard = () => {
+    navigate('/notification');
   };
 
   return (
     <Container>
       <DropdownButton
-        onClick={goToIntroductionPage}
+        onClick={navigateToIntroductionPage}
         onMouseOver={() => {
           setIsFocusedIntroduction(true);
           setIsDropdownVisible(false);
@@ -105,7 +109,7 @@ function Dropdown({
         게시판
         <DropdownUnderline isFocused={isBoardDropdownVisible} />
         <DropdownContents isOpen={isBoardDropdownVisible}>
-          <DropdownContent>공지</DropdownContent>
+          <DropdownContent onClick={navigateToNotificationBoard}>공지</DropdownContent>
           <DropdownContent>가입 인사</DropdownContent>
           <DropdownContent>자유 게시판</DropdownContent>
           <DropdownContent>자료실</DropdownContent>
