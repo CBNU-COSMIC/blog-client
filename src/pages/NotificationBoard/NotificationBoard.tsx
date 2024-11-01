@@ -62,7 +62,7 @@ function NotificationBoard() {
 const Container = styled.div`
   display: flex;
   width: 1440px;
-  margin: 0 auto;
+  margin: 0 auto 80px;
   padding: 0 80px;
   box-sizing: border-box;
   gap: 80px;

@@ -16,11 +16,7 @@ import NotificationBoard from './pages/NotificationBoard/NotificationBoard.tsx';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: (
-      <Layout>
-        <Home />
-      </Layout>
-    ),
+    element: <Home />,
   },
   {
     path: '/sign-in',

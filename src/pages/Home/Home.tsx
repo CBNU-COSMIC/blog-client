@@ -5,6 +5,8 @@ import MainSection from './MainSection/MainSection.tsx';
 import IntroduceSection from './IntroduceSection/IntroduceSection.tsx';
 import NotificationSection from './NotificationSection/NotificationSection.tsx';
 import ScheduleSection from './ScheduleSection/ScheduleSection.tsx';
+import Footer from '../../components/Layout/Footer/Footer.tsx';
+import Header from '../../components/Layout/Header/Header.tsx';
 
 function Home() {
   const sectionRef = useRef<HTMLDivElement | null>(null);
@@ -15,25 +17,32 @@ function Home() {
   };
 
   return (
-    <Container>
-      <MainSection scrollToNextSection={scrollToNextSection} />
-      <IntroduceSection sectionRef={sectionRef} />
-      <NotificationSection />
-      <ScheduleSection />
-    </Container>
+    <div>
+      <Header />
+      <Container>
+        <MainSection scrollToNextSection={scrollToNextSection} />
+        <IntroduceSection sectionRef={sectionRef} />
+        <NotificationSection />
+        <ScheduleSection />
+        <FooterContainer>
+          <Footer />
+        </FooterContainer>
+      </Container>
+    </div>
   );
 }
 
 const Container = styled.div`
-  width: 1440px;
-  margin: 0 auto;
-  padding: 0 80px;
-  box-sizing: border-box;
+  width: 100vw;
   height: calc(-75px + 100vh);
   overflow: auto;
   scroll-snap-type: y mandatory;
   scrollbar-width: none;
   scroll-behavior: smooth;
+`;
+
+const FooterContainer = styled.div`
+  scroll-snap-align: start;
 `;
 
 export default Home;
