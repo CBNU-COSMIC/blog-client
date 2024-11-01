@@ -3,7 +3,8 @@
   "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
   "compilerOptions": {
     "types": [
-      "kakao.maps.d.ts"
+      "vite/client",
+      "kakao.maps.d.ts",
     ]
   }
 }

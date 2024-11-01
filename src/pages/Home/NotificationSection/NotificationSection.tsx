@@ -1,8 +1,18 @@
 import styled from 'styled-components';
 
 import AnimatedSection from '../AnimationSection.tsx';
+import { useEffect } from 'react';
+import getPost from '../../../apis/post/getPost.ts';
 
 function NotificationSection() {
+  useEffect(() => {
+    (async () => {
+      const data = await getPost();
+
+      console.log(data[0]);
+    })();
+  }, []);
+
   return (
     <AnimatedSection>
       <Container>
