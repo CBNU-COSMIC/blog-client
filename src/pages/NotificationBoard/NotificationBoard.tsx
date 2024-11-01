@@ -62,7 +62,7 @@ function NotificationBoard() {
 const Container = styled.div`
   display: flex;
   width: 1440px;
-  margin: 0 auto;
+  margin: 0 auto 80px;
   padding: 0 80px;
   box-sizing: border-box;
   gap: 80px;
@@ -83,7 +83,7 @@ const NavigationTitle = styled.div`
   align-items: center;
   height: 100px;
   color: white;
-  background-color: #a2e8dd;
+  background-color: var(--tertiary-color);
 `;
 
 const NavigationItem = styled.button<{ isSelected: boolean }>`
@@ -94,7 +94,7 @@ const NavigationItem = styled.button<{ isSelected: boolean }>`
   align-items: center;
   width: 100%;
   text-align: left;
-  background-color: ${({ isSelected }) => (isSelected ? '#a2e8dd' : 'white')};
+  background-color: ${({ isSelected }) => (isSelected ? 'var(--tertiary-color)' : 'white')};
   color: ${({ isSelected }) => (isSelected ? 'white' : 'black')};
   padding: 20px;
   border: none;

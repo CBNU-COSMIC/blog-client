@@ -25,6 +25,7 @@ function SignIn() {
         <div>|</div>
         <Option onClick={navigateToSignUpPage}>회원 가입</Option>
       </Options>
+      <Copyright>Copyright 2024. COSMIC. all rights reserved.</Copyright>
     </Container>
   );
 }
@@ -53,11 +54,17 @@ const Options = styled.div`
   font-weight: 400;
   font-size: 14px;
   color: #888888;
-  margin-top: 20px;
+  margin: 20px 0 96px;
 `;
 
 const Option = styled.div`
   cursor: pointer;
+`;
+
+const Copyright = styled.div`
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px;
+  color: #868e96;
 `;
 
 export default SignIn;

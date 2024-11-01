@@ -21,7 +21,6 @@ function Notifications({ selectedOption }: { selectedOption: number }) {
             </Title>
             <Writer>{notification.writer}</Writer>
             <Date>{notification.createdAt.replace(/-/g, '.')}.</Date>
-            <Hits>{notification.hits}</Hits>
           </Content>
         ))}
     </Container>
@@ -67,21 +66,17 @@ const Title = styled.a`
 const Writer = styled.div`
   font-family: 'Pretendard', sans-serif;
   font-size: 13px;
-  width: 120px;
+  width: 100px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: center;
 `;
 
 const Date = styled.div`
   font-family: 'Pretendard', sans-serif;
   font-size: 13px;
   width: 80px;
+  text-align: center;
 `;
-
-const Hits = styled.div`
-  font-family: 'Pretendard', sans-serif;
-  font-size: 13px;
-`;
-
 export default Notifications;
