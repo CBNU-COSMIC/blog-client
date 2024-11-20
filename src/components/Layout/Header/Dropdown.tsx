@@ -37,6 +37,10 @@ function Dropdown({
     navigate('/introduction');
   };
 
+  const navigateToSchedulePage = () => {
+    navigate('/schedule');
+  };
+
   const navigateToNotificationBoard = () => {
     navigate('/notification');
   };
@@ -60,6 +64,7 @@ function Dropdown({
         <DropdownUnderline isFocused={isFocusedIntroduction} />
       </DropdownButton>
       <DropdownButton
+        onClick={navigateToSchedulePage}
         onMouseOver={() => {
           setIsFocusedSchedule(true);
           setIsDropdownVisible(false);

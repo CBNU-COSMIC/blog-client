@@ -1,53 +1,45 @@
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import styled from 'styled-components';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
-import AnimatedSection from '../AnimationSection.tsx';
+type DatePiece = Date | null;
 
-function ScheduleSection() {
-  const navigate = useNavigate();
+type SelectedDate = DatePiece | [DatePiece, DatePiece];
 
-  const navigateToSchedule = () => {
-    navigate('/schedule');
-  };
+function Schedule() {
+  const [selectedDate, setSelectedDate] = useState<SelectedDate>(new Date());
+
+  console.log(selectedDate);
 
   return (
-    <AnimatedSection>
-      <Container>
-        <BlockCalendar />
-        <CustomCalendar
-          value={new Date()}
-          calendarType="gregory"
-          nextLabel={null}
-          prevLabel={null}
-          next2Label={null}
-          prev2Label={null}
-          tileContent={({ date }) => <span>{date.getDate().toString().padStart(2, '0')}</span>}
-        />
-        <MoreButton onClick={navigateToSchedule}>일정 더 보기</MoreButton>
-      </Container>
-    </AnimatedSection>
+    <Container>
+      <CustomCalendar
+        value={new Date()}
+        onChange={setSelectedDate}
+        calendarType="gregory"
+        tileContent={({ date, view }) => {
+          if (view === 'month') {
+            return <span>{date.getDate().toString().padStart(2, '0')}</span>;
+          } else if (view === 'year') {
+            return <span>{date.getMonth() + 1}월</span>;
+          }
+          return null;
+        }}
+      />
+    </Container>
   );
 }
 
 const Container = styled.div`
-  position: relative;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
-  width: 100%;
-  height: 100%;
-`;
 
-const BlockCalendar = styled.div`
-  position: absolute;
-  top: 80px;
-  width: 100%;
-  height: 730px;
-  z-index: 10;
+  width: 1440px;
+  margin: 0 auto;
+  padding: 80px;
+  height: 100%;
 `;
 
 const CustomCalendar = styled(Calendar)`
@@ -56,8 +48,7 @@ const CustomCalendar = styled(Calendar)`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
   width: 100%;
-  height: 730px;
-  overflow: hidden;
+  //height: 730px;
 
   .react-calendar__navigation {
     display: flex;
@@ -186,22 +177,4 @@ const CustomCalendar = styled(Calendar)`
   }
 `;
 
-const MoreButton = styled.button`
-  font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
-  width: 150px;
-  height: 50px;
-  min-height: 50px;
-  border: none;
-  border-radius: 32px;
-  color: white;
-  background-color: var(--primary-color);
-  cursor: pointer;
-  transition: opacity 1s ease;
-
-  &:hover {
-    opacity: 0.7;
-  }
-`;
-
-export default ScheduleSection;
+export default Schedule;

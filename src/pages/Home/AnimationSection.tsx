@@ -37,13 +37,16 @@ function AnimatedSection({ children }: { children: React.ReactNode }) {
 
 const Container = styled.div`
   scroll-snap-align: start;
-  height: 100%;
+  height: calc(100vh - 75px);
   width: 1440px;
   padding: 0 80px;
   box-sizing: border-box;
   margin: 0 auto;
   opacity: 0;
   transition: opacity 1s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &.visible {
     opacity: 1;

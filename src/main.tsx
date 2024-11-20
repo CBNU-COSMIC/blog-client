@@ -12,6 +12,7 @@ import SignIn from './pages/SignIn/SignIn.tsx';
 import SignUp from './pages/SignUp/SignUp.tsx';
 import Introduction from './pages/Introduction/Introduction.tsx';
 import NotificationBoard from './pages/NotificationBoard/NotificationBoard.tsx';
+import Schedule from './pages/Schedule/Schedule.tsx';
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,14 @@ const router = createBrowserRouter([
     element: (
       <Layout>
         <NotificationBoard />
+      </Layout>
+    ),
+  },
+  {
+    path: '/schedule',
+    element: (
+      <Layout>
+        <Schedule />
       </Layout>
     ),
   },
