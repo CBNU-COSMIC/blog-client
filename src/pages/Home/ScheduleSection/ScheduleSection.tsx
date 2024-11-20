@@ -44,9 +44,9 @@ const Container = styled.div`
 
 const BlockCalendar = styled.div`
   position: absolute;
-  top: 60px;
+  top: 80px;
   width: 100%;
-  height: 750px;
+  height: 730px;
   z-index: 10;
 `;
 
@@ -57,6 +57,7 @@ const CustomCalendar = styled(Calendar)`
   background-color: #ffffff;
   width: 100%;
   height: 730px;
+  overflow: hidden;
 
   .react-calendar__navigation {
     display: flex;
