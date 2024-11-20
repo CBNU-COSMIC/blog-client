@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -5,6 +6,12 @@ import 'react-calendar/dist/Calendar.css';
 import AnimatedSection from '../AnimationSection.tsx';
 
 function ScheduleSection() {
+  const navigate = useNavigate();
+
+  const navigateToSchedule = () => {
+    navigate('/schedule');
+  };
+
   return (
     <AnimatedSection>
       <Container>
@@ -18,6 +25,7 @@ function ScheduleSection() {
           prev2Label={null}
           tileContent={({ date }) => <span>{date.getDate().toString().padStart(2, '0')}</span>}
         />
+        <MoreButton onClick={navigateToSchedule}>일정 더 보기</MoreButton>
       </Container>
     </AnimatedSection>
   );
@@ -28,6 +36,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   gap: 20px;
   width: 100%;
   height: 100%;
@@ -35,6 +44,7 @@ const Container = styled.div`
 
 const BlockCalendar = styled.div`
   position: absolute;
+  top: 60px;
   width: 100%;
   height: 750px;
   z-index: 10;
@@ -172,6 +182,24 @@ const CustomCalendar = styled(Calendar)`
 
   .react-calendar__month-view__days__day--neighboringMonth {
     color: #c9c9c9;
+  }
+`;
+
+const MoreButton = styled.button`
+  font-family: 'Pretendard', sans-serif;
+  font-size: 20px;
+  width: 150px;
+  height: 50px;
+  min-height: 50px;
+  border: none;
+  border-radius: 32px;
+  color: white;
+  background-color: var(--primary-color);
+  cursor: pointer;
+  transition: opacity 1s ease;
+
+  &:hover {
+    opacity: 0.7;
   }
 `;
 
