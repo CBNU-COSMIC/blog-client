@@ -1,13 +1,21 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 import AnimatedSection from '../AnimationSection.tsx';
 
+type DatePiece = Date | null;
+
+type SelectedDate = DatePiece | [DatePiece, DatePiece];
+
 function ScheduleSection() {
+  const [selectedDate, setSelectedDate] = useState<SelectedDate>(new Date());
+
   return (
     <AnimatedSection>
       <Container>
-        <Title>동아리 일정</Title>
-        <Contents />
+        <Calendar onChange={setSelectedDate} value={selectedDate} />
       </Container>
     </AnimatedSection>
   );
