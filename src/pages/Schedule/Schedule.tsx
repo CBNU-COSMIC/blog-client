@@ -7,10 +7,33 @@ function Schedule() {
   const [isChildHovered, setIsChildHovered] = useState(false);
 
   const schedules = [
-    { id: 1, startDate: '2024-11-23T10:00', endDate: '2024-11-23T12:00', title: '스터디' },
-    { id: 2, startDate: '2024-11-24T14:00', endDate: '2024-11-24T16:00', title: '세미나' },
-    { id: 3, startDate: '2024-11-23T18:00', endDate: '2024-11-25T20:00', title: '엠티' },
+    {
+      id: 1,
+      startDate: '2024-11-23T10:00',
+      endDate: '2024-11-23T12:00',
+      title: '스터디',
+      color: '#FFBED4',
+    },
+    {
+      id: 2,
+      startDate: '2024-11-24T14:00',
+      endDate: '2024-11-24T16:00',
+      title: '세미나',
+      color: '#D2C1FB',
+    },
+    {
+      id: 3,
+      startDate: '2024-11-23T18:00',
+      endDate: '2024-11-25T20:00',
+      title: '엠티',
+      color: '#D8EC9B',
+    },
   ];
+
+  const openSchedule = (scheduleId: number) => {
+    // TODO: 스케줄 상세 페이지로 이동
+    console.log('Open schedule:', scheduleId);
+  };
 
   const renderSchedule = (date: Date) => {
     const formattedDate = date.toISOString().split('T')[0];
@@ -23,7 +46,14 @@ function Schedule() {
       return (
         <ScheduleList onMouseEnter={() => setIsChildHovered(true)} onMouseLeave={() => setIsChildHovered(false)}>
           {daySchedules.map((schedule, index) => (
-            <ScheduleItem key={index}>{schedule.title}</ScheduleItem>
+            <ScheduleItem
+              key={index}
+              color={schedule.color}
+              onClick={() => {
+                openSchedule(schedule.id);
+              }}>
+              {schedule.title}
+            </ScheduleItem>
           ))}
         </ScheduleList>
       );
@@ -225,15 +255,15 @@ const ScheduleList = styled.div`
   z-index: 10;
 `;
 
-const ScheduleItem = styled.div`
+const ScheduleItem = styled.div<{ color: string }>`
   display: flex;
   height: 24px;
   align-items: center;
   padding-left: 4px;
   margin-bottom: 2px;
   font-size: 12px;
-  color: #333;
-  background-color: rgba(0, 0, 0, 0.05);
+  color: black;
+  background-color: ${({ color }) => color};
 
   &:last-child {
     margin-bottom: 0;
