@@ -3,24 +3,53 @@ import styled from 'styled-components';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
-type DatePiece = Date | null;
-
-type SelectedDate = DatePiece | [DatePiece, DatePiece];
-
 function Schedule() {
-  const [selectedDate, setSelectedDate] = useState<SelectedDate>(new Date());
+  const [isChildHovered, setIsChildHovered] = useState(false);
 
-  console.log(selectedDate);
+  const schedules = [
+    { id: 1, startDate: '2024-11-23T10:00', endDate: '2024-11-23T12:00', title: '스터디' },
+    { id: 2, startDate: '2024-11-24T14:00', endDate: '2024-11-24T16:00', title: '세미나' },
+    { id: 3, startDate: '2024-11-23T18:00', endDate: '2024-11-25T20:00', title: '엠티' },
+  ];
+
+  const renderSchedule = (date: Date) => {
+    const formattedDate = date.toISOString().split('T')[0];
+    const daySchedules = schedules.filter(
+      (schedule) =>
+        formattedDate >= schedule.startDate.split('T')[0] && formattedDate <= schedule.endDate.split('T')[0],
+    );
+
+    if (daySchedules.length > 0) {
+      return (
+        <ScheduleList onMouseEnter={() => setIsChildHovered(true)} onMouseLeave={() => setIsChildHovered(false)}>
+          {daySchedules.map((schedule, index) => (
+            <ScheduleItem key={index}>{schedule.title}</ScheduleItem>
+          ))}
+        </ScheduleList>
+      );
+    }
+    return null;
+  };
+
+  const handleTileClick = (date: Date) => {
+    console.log('Clicked date:', date);
+  };
 
   return (
     <Container>
       <CustomCalendar
+        isChildHovered={isChildHovered}
         value={new Date()}
-        onChange={setSelectedDate}
+        onClickDay={handleTileClick}
         calendarType="gregory"
         tileContent={({ date, view }) => {
           if (view === 'month') {
-            return <span>{date.getDate().toString().padStart(2, '0')}</span>;
+            return (
+              <div>
+                <span>{date.getDate().toString().padStart(2, '0')}</span>
+                {renderSchedule(date)}
+              </div>
+            );
           } else if (view === 'year') {
             return <span>{date.getMonth() + 1}월</span>;
           }
@@ -35,20 +64,18 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
+  padding: 80px 0;
   width: 1440px;
   margin: 0 auto;
-  padding: 80px;
   height: 100%;
 `;
 
-const CustomCalendar = styled(Calendar)`
+const CustomCalendar = styled(Calendar)<{ isChildHovered: boolean }>`
   border: none;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
-  width: 100%;
-  //height: 730px;
+  width: 1280px;
 
   .react-calendar__navigation {
     display: flex;
@@ -93,13 +120,14 @@ const CustomCalendar = styled(Calendar)`
     height: 120px;
     font-family: 'Pretendard', sans-serif;
     font-size: 16px;
+    z-index: 1;
 
     abbr {
       display: none;
     }
 
     &:hover {
-      background-color: aliceblue;
+      background-color: ${({ isChildHovered }) => (isChildHovered ? '#ffffff' : 'aliceblue')};
     }
 
     &:focus {
@@ -134,6 +162,10 @@ const CustomCalendar = styled(Calendar)`
     background: white;
 
     &:hover {
+      background-color: aliceblue;
+    }
+
+    &:not(:has(.schedule-list:hover)):hover {
       background-color: aliceblue;
     }
 
@@ -174,6 +206,37 @@ const CustomCalendar = styled(Calendar)`
 
   .react-calendar__month-view__days__day--neighboringMonth {
     color: #c9c9c9;
+  }
+`;
+
+const ScheduleList = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  margin-top: auto;
+  bottom: 5px;
+  left: 5px;
+  right: 5px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px;
+  padding: 4px;
+  border-radius: 4px;
+  z-index: 10;
+`;
+
+const ScheduleItem = styled.div`
+  display: flex;
+  height: 24px;
+  align-items: center;
+  padding-left: 4px;
+  margin-bottom: 2px;
+  font-size: 12px;
+  color: #333;
+  background-color: rgba(0, 0, 0, 0.05);
+
+  &:last-child {
+    margin-bottom: 0;
   }
 `;
 
