@@ -6,6 +6,7 @@ import 'react-calendar/dist/Calendar.css';
 import ScheduleResisterModal from './ScheduleResisterModal.tsx';
 
 function Schedule() {
+  const [selectedDate, setSelectedDate] = useState('');
   const [isChildHovered, setIsChildHovered] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -39,7 +40,9 @@ function Schedule() {
   };
 
   const renderSchedule = (date: Date) => {
-    const formattedDate = date.toISOString().split('T')[0];
+    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
     const daySchedules = schedules.filter(
       (schedule) =>
         formattedDate >= schedule.startDate.split('T')[0] && formattedDate <= schedule.endDate.split('T')[0],
@@ -66,7 +69,10 @@ function Schedule() {
 
   const handleTileClick = (date: Date, event: React.MouseEvent<HTMLButtonElement>) => {
     if (event.target === event.currentTarget) {
-      console.log('Clicked date:', date);
+      const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+      setSelectedDate(formattedDate);
       setIsModalOpen(true);
     }
     event.currentTarget.blur();
@@ -74,7 +80,7 @@ function Schedule() {
 
   return (
     <Container>
-      {isModalOpen && <ScheduleResisterModal setIsModalOpen={setIsModalOpen} />}
+      {isModalOpen && <ScheduleResisterModal setIsModalOpen={setIsModalOpen} selectedDate={selectedDate} />}
 
       <CustomCalendar
         isChildHovered={isChildHovered}

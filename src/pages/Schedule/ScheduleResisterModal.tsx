@@ -1,15 +1,113 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
-function ScheduleResisterModal({ setIsModalOpen }: { setIsModalOpen: (isOpen: boolean) => void }) {
+import DropdownIcon from '../../icons/DropdownIcon';
+import CheckIcon from '../../icons/CheckIcon';
+
+function ScheduleResisterModal({
+  setIsModalOpen,
+  selectedDate,
+}: {
+  setIsModalOpen: (isOpen: boolean) => void;
+  selectedDate: string;
+}) {
+  const [title, setTitle] = useState('');
+  const [color, setColor] = useState('#FFBED4');
+  const [startDate, setStartDate] = useState(selectedDate);
+  const [endDate, setEndDate] = useState(selectedDate);
+  const [startTime, setStartTime] = useState('00:00');
+  const [endTime, setEndTime] = useState('01:00');
+  const [content, setContent] = useState('');
+  const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
+
   const closeModal = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
+      setTitle('');
+      setColor('#FFBED4');
+      setStartDate(selectedDate);
+      setEndDate(selectedDate);
+      setStartTime('00:00');
+      setEndTime('01:00');
+      setContent('');
       setIsModalOpen(false);
     }
   };
 
+  const selectColor = (selectedColor: string) => {
+    setColor(selectedColor);
+    setIsColorPickerOpen(false);
+  };
+
+  const resisterSchedule = () => {
+    if (`${startDate}T${startTime}` >= `${endDate}T${endTime}`) {
+      alert('종료 시간을 시작 시간보다 늦게 설정해주세요.');
+      return;
+    }
+
+    if (!title || !startDate || !endDate || !startTime || !endTime) {
+      alert('제목 및 시간을 입력해주세요.');
+      return;
+    }
+
+    const newSchedule = {
+      title,
+      color,
+      startDate: `${startDate}T${startTime}`,
+      endDate: `${endDate}T${endTime}`,
+      content,
+    };
+    console.log('Resister schedule:', newSchedule);
+    setIsModalOpen(false);
+  };
+
   return (
     <ModalBackground onClick={closeModal}>
-      <ModalContainer />
+      <ModalContainer>
+        <ModalHeader>
+          <TitleINput
+            type="text"
+            placeholder="일정 제목"
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+          />
+          <ColorPickerContainer>
+            <ColorPicker onClick={() => setIsColorPickerOpen(true)}>
+              <SelectedColor color={color} />
+              <DropdownIcon />
+            </ColorPicker>
+            {isColorPickerOpen && (
+              <ColorPickerDropdown>
+                <ColorPickerItemContainer onClick={() => selectColor('#FFBED4')}>
+                  {color === '#FFBED4' && <CheckIcon />}
+                  <ColorPickerItem color="#FFBED4" />
+                </ColorPickerItemContainer>
+                <ColorPickerItemContainer onClick={() => selectColor('#D8EC9B')}>
+                  {color === '#D8EC9B' && <CheckIcon />}
+                  <ColorPickerItem color="#D8EC9B" />
+                </ColorPickerItemContainer>
+                <ColorPickerItemContainer onClick={() => selectColor('#D2C1FB')}>
+                  {color === '#D2C1FB' && <CheckIcon />}
+                  <ColorPickerItem color="#D2C1FB" />
+                </ColorPickerItemContainer>
+              </ColorPickerDropdown>
+            )}
+          </ColorPickerContainer>
+        </ModalHeader>
+        <DateInputContainer>
+          <DateInputTitle>시작</DateInputTitle>
+          <DateInput type="date" value={startDate} onChange={(event) => setStartDate(event.target.value)} />
+          <TimeInput type="time" defaultValue={startTime} onChange={(event) => setStartTime(event.target.value)} />
+        </DateInputContainer>
+        <DateInputContainer>
+          <DateInputTitle>종료</DateInputTitle>
+          <DateInput type="date" value={endDate} onChange={(event) => setEndDate(event.target.value)} />
+          <TimeInput type="time" defaultValue={endTime} onChange={(event) => setEndTime(event.target.value)} />
+        </DateInputContainer>
+        <ContentInputContainer>
+          <ContentInput placeholder="일정 내용" value={content} onChange={(event) => setContent(event.target.value)} />
+        </ContentInputContainer>
+        <Button onClick={resisterSchedule}>일정 등록</Button>
+      </ModalContainer>
     </ModalBackground>
   );
 }
@@ -28,10 +126,139 @@ const ModalBackground = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  width: 300px;
-  height: 400px;
+  width: 320px;
+  height: 378px;
   background-color: white;
   border-radius: 10px;
+  overflow: hidden;
+`;
+
+const ModalHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+`;
+
+const TitleINput = styled.input`
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  width: 80%;
+  height: 30px;
+  border: none;
+  outline: none;
+`;
+
+const ColorPickerContainer = styled.div`
+  position: relative;
+`;
+
+const ColorPicker = styled.div`
+  width: 40px;
+  height: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #d7d8d9;
+  border-radius: 5px;
+  border: none;
+  padding: 0 2px 0 5px;
+  box-sizing: border-box;
+  cursor: pointer;
+`;
+
+const SelectedColor = styled.div<{ color: string }>`
+  width: 15px;
+  height: 15px;
+  background: ${({ color }) => color};
+  border-radius: 5px;
+`;
+
+const ColorPickerDropdown = styled.div`
+  position: absolute;
+  top: -10px;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 5px;
+  background: white;
+  border-radius: 5px;
+  border: 1px solid #e0e0e0;
+`;
+
+const ColorPickerItemContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 32px;
+  padding: 5px;
+  gap: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background: #f0f0f0;
+  }
+`;
+
+const ColorPickerItem = styled.div<{ color: string }>`
+  width: 15px;
+  height: 15px;
+  background: ${({ color }) => color};
+  border-radius: 5px;
+`;
+
+const DateInputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+`;
+
+const DateInputTitle = styled.div`
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+`;
+
+const DateInput = styled.input`
+  width: 130px;
+  height: 30px;
+  border: none;
+  outline: none;
+`;
+
+const TimeInput = styled.input`
+  width: 105px;
+  height: 30px;
+  border: none;
+  outline: none;
+`;
+
+const ContentInputContainer = styled.div`
+  padding: 16px;
+`;
+
+const ContentInput = styled.textarea`
+  width: 100%;
+  height: 100px;
+  border: none;
+  outline: none;
+  resize: none;
+`;
+
+const Button = styled.button`
+  width: 100%;
+  height: 50px;
+  background-color: var(--primary-color);
+  border: none;
+  color: white;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  cursor: pointer;
 `;
 
 export default ScheduleResisterModal;
