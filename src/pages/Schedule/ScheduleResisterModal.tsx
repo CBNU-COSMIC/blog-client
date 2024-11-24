@@ -259,6 +259,11 @@ const Button = styled.button`
   font-family: 'Pretendard', sans-serif;
   font-size: 16px;
   cursor: pointer;
+  transition: opacity 1s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 export default ScheduleResisterModal;

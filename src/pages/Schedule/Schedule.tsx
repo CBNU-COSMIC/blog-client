@@ -4,11 +4,14 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
 import ScheduleResisterModal from './ScheduleResisterModal.tsx';
+import ScheduleDetailModal from './ScheduleDetailModal.tsx';
 
 function Schedule() {
   const [selectedDate, setSelectedDate] = useState('');
   const [isChildHovered, setIsChildHovered] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [selectedScheduleId, setSelectedScheduleId] = useState(1);
 
   const schedules = [
     {
@@ -35,8 +38,8 @@ function Schedule() {
   ];
 
   const openSchedule = (scheduleId: number) => {
-    // TODO: 스케줄 상세 페이지로 이동
-    console.log('Open schedule:', scheduleId);
+    setSelectedScheduleId(scheduleId);
+    setIsDetailOpen(true);
   };
 
   const renderSchedule = (date: Date) => {
@@ -81,6 +84,8 @@ function Schedule() {
   return (
     <Container>
       {isModalOpen && <ScheduleResisterModal setIsModalOpen={setIsModalOpen} selectedDate={selectedDate} />}
+
+      {isDetailOpen && <ScheduleDetailModal scheduleId={selectedScheduleId} setIsModalOpen={setIsDetailOpen} />}
 
       <CustomCalendar
         isChildHovered={isChildHovered}

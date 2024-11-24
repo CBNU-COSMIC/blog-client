@@ -37,7 +37,9 @@ function ScheduleSection() {
   ];
 
   const renderSchedule = (date: Date) => {
-    const formattedDate = date.toISOString().split('T')[0];
+    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
     const daySchedules = schedules.filter(
       (schedule) =>
         formattedDate >= schedule.startDate.split('T')[0] && formattedDate <= schedule.endDate.split('T')[0],
