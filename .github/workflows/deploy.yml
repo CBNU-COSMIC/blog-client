@@ -20,6 +20,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Create .env file
+        run: |
+          echo "VITE_KAKAOMAP_JAVASCRIPT_API_KEY=${{ secrets.VITE_KAKAOMAP_JAVASCRIPT_API_KEY }}" > .env
+
       - name: Build static file
         run: npm run build
 
