@@ -3,8 +3,11 @@ import styled from 'styled-components';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
+import ScheduleResisterModal from './ScheduleResisterModal.tsx';
+
 function Schedule() {
   const [isChildHovered, setIsChildHovered] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const schedules = [
     {
@@ -61,16 +64,24 @@ function Schedule() {
     return null;
   };
 
-  const handleTileClick = (date: Date) => {
-    console.log('Clicked date:', date);
+  const handleTileClick = (date: Date, event: React.MouseEvent<HTMLButtonElement>) => {
+    if (event.target === event.currentTarget) {
+      console.log('Clicked date:', date);
+      setIsModalOpen(true);
+    }
+    event.currentTarget.blur();
   };
 
   return (
     <Container>
+      {isModalOpen && <ScheduleResisterModal setIsModalOpen={setIsModalOpen} />}
+
       <CustomCalendar
         isChildHovered={isChildHovered}
         value={new Date()}
-        onClickDay={handleTileClick}
+        onClickDay={(date, event) => {
+          handleTileClick(date, event);
+        }}
         calendarType="gregory"
         tileContent={({ date, view }) => {
           if (view === 'month') {
