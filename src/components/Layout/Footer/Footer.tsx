@@ -41,6 +41,7 @@ const Container = styled.footer`
   justify-content: center;
   align-items: center;
   width: 100vw;
+  min-width: 1440px;
   height: 170px;
   background-color: #f5f6f7;
 `;

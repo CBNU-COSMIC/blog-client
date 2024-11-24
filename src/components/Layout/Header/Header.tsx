@@ -36,7 +36,8 @@ const Container = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
-  width: 100%;
+  width: 100vw;
+  min-width: 1440px;
   height: 75px;
   z-index: 20;
   background-color: white;
