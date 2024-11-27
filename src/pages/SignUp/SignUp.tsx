@@ -21,10 +21,14 @@ function SignUp() {
   const [birthNoneError, setBirthNoneError] = useState(false);
   const [phoneNumberNoneError, setPhoneNumberNoneError] = useState(false);
 
+  const [idValidError, setIdValidError] = useState(false);
+  const [passwordValidError, setPasswordValidError] = useState(false);
   const [emailValidError, setEmailValidError] = useState(false);
   const [birthValidError, setBirthValidError] = useState(false);
   const [phoneNumberValidError, setPhoneNumberValidError] = useState(false);
 
+  const [idError, setIdError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [birthError, setBirthError] = useState(false);
   const [phoneNumberError, setPhoneNumberError] = useState(false);
@@ -34,16 +38,35 @@ function SignUp() {
   };
 
   const signUp = () => {
+    const idRegex = /^[a-z0-9]{5,20}$/;
     if (!id.trim()) {
+      setIdError(true);
       setIdNoneError(true);
-    } else {
+      setIdValidError(false);
+    } else if (!id.match(idRegex)) {
+      setIdError(true);
+      setIdValidError(true);
       setIdNoneError(false);
+    } else {
+      setIdError(false);
+      setIdNoneError(false);
+      setIdValidError(false);
     }
 
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()+~`{}[\]:;"'<>,.?/\\|-])[A-Za-z\d!@#$%^&*()+~`{}[\]:;"'<>,.?/\\|-]{8,16}$/;
     if (!password.trim()) {
+      setPasswordError(true);
       setPasswordNoneError(true);
-    } else {
+      setPasswordValidError(false);
+    } else if (!password.match(passwordRegex)) {
+      setPasswordError(true);
+      setPasswordValidError(true);
       setPasswordNoneError(false);
+    } else {
+      setPasswordError(false);
+      setPasswordNoneError(false);
+      setPasswordValidError(false);
     }
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -115,10 +138,18 @@ function SignUp() {
           setPassword={setPassword}
           email={email}
           setEmail={setEmail}
+          idError={idError}
+          setIdError={setIdError}
           idNoneError={idNoneError}
           setIdNoneError={setIdNoneError}
+          idValidError={idValidError}
+          setIdValidError={setIdValidError}
           passwordNoneError={passwordNoneError}
           setPasswordNoneError={setPasswordNoneError}
+          passwordValidError={passwordValidError}
+          setPasswordValidError={setPasswordValidError}
+          passwordError={passwordError}
+          setPasswordError={setPasswordError}
           emailNoneError={emailNoneError}
           setEmailNoneError={setEmailNoneError}
           emailValidError={emailValidError}

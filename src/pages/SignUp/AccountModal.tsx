@@ -12,10 +12,18 @@ function AccountModal({
   setPassword,
   email,
   setEmail,
+  idError,
+  setIdError,
   idNoneError,
   setIdNoneError,
+  idValidError,
+  setIdValidError,
+  passwordError,
+  setPasswordError,
   passwordNoneError,
   setPasswordNoneError,
+  passwordValidError,
+  setPasswordValidError,
   emailNoneError,
   setEmailNoneError,
   emailValidError,
@@ -29,10 +37,18 @@ function AccountModal({
   setPassword: (password: string) => void;
   email: string;
   setEmail: (email: string) => void;
+  idError: boolean;
+  setIdError: (isError: boolean) => void;
   idNoneError: boolean;
   setIdNoneError: (isError: boolean) => void;
+  idValidError: boolean;
+  setIdValidError: (isError: boolean) => void;
+  passwordError: boolean;
+  setPasswordError: (isError: boolean) => void;
   passwordNoneError: boolean;
   setPasswordNoneError: (isError: boolean) => void;
+  passwordValidError: boolean;
+  setPasswordValidError: (isError: boolean) => void;
   emailNoneError: boolean;
   setEmailNoneError: (isError: boolean) => void;
   emailValidError: boolean;
@@ -45,20 +61,39 @@ function AccountModal({
   const [isThirdInputFocus, setIsThirdInputFocus] = useState(false);
 
   const handleIdBlur = () => {
+    const idRegex = /^[a-z0-9]{5,20}$/;
     setIsFirstInputFocus(false);
     if (!id.trim()) {
+      setIdError(true);
       setIdNoneError(true);
-    } else {
+      setIdValidError(false);
+    } else if (!id.match(idRegex)) {
+      setIdError(true);
+      setIdValidError(true);
       setIdNoneError(false);
+    } else {
+      setIdError(false);
+      setIdNoneError(false);
+      setIdValidError(false);
     }
   };
 
+  const passwordRegex =
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()+~`{}[\]:;"'<>,.?/\\|-])[A-Za-z\d!@#$%^&*()+~`{}[\]:;"'<>,.?/\\|-]{8,16}$/;
   const handlePasswordBlur = () => {
     setIsSecondInputFocus(false);
     if (!password.trim()) {
+      setPasswordError(true);
       setPasswordNoneError(true);
-    } else {
+      setPasswordValidError(false);
+    } else if (!password.match(passwordRegex)) {
+      setPasswordError(true);
+      setPasswordValidError(true);
       setPasswordNoneError(false);
+    } else {
+      setPasswordError(false);
+      setPasswordNoneError(false);
+      setPasswordValidError(false);
     }
   };
 
@@ -82,19 +117,19 @@ function AccountModal({
 
   return (
     <Container>
-      <InputBox1 idError={idNoneError} passwordError={passwordNoneError} isSecondInputFocus={isSecondInputFocus}>
+      <InputBox1 idError={idError} passwordError={passwordNoneError} isSecondInputFocus={isSecondInputFocus}>
         <PersonIcon />
         <Input
           placeholder="아이디"
           onChange={(event) => setId(event.target.value)}
           onFocus={() => setIsFirstInputFocus(true)}
           onBlur={handleIdBlur}
-          error={idNoneError}
+          error={idError}
         />
       </InputBox1>
       <InputBox2
-        idError={idNoneError}
-        passwordError={passwordNoneError}
+        idError={idError}
+        passwordError={passwordError}
         emailError={emailError}
         isFirstInputFocus={isFirstInputFocus}
         isThirdInputFocus={isThirdInputFocus}>
@@ -104,7 +139,7 @@ function AccountModal({
           onChange={(event) => setPassword(event.target.value)}
           onFocus={() => setIsSecondInputFocus(true)}
           onBlur={handlePasswordBlur}
-          error={passwordNoneError}
+          error={passwordError}
         />
       </InputBox2>
       <InputBox3 emailError={emailError} isSecondInputFocus={isSecondInputFocus} passwordError={passwordNoneError}>
@@ -118,7 +153,9 @@ function AccountModal({
         />
       </InputBox3>
       {idNoneError && <NoneError>아이디를 입력해주세요.</NoneError>}
+      {idValidError && <NoneError>아이디는 5~20자의 영문 소문자와 숫자만 사용 가능합니다.</NoneError>}
       {passwordNoneError && <NoneError>비밀번호를 입력해주세요.</NoneError>}
+      {passwordValidError && <NoneError>비밀번호는 8~16자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요.</NoneError>}
       {emailNoneError && <NoneError>이메일을 입력해주세요.</NoneError>}
       {emailValidError && <NoneError>올바른 이메일을 입력해주세요.</NoneError>}
     </Container>
