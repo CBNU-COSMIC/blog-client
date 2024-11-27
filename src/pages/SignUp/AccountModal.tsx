@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import PersonIcon from '../../icons/PersonIcon.tsx';
 import PasswordIcon from '../../icons/PasswordIcon.tsx';
 import EmailIcon from '../../icons/EmailIcon.tsx';
+import PasswordShowIcon from '../../icons/PasswordShowIcon.tsx';
+import PasswordHideIcon from '../../icons/PasswordHideIcon.tsx';
 
 function AccountModal({
   id,
@@ -59,6 +61,7 @@ function AccountModal({
   const [isFirstInputFocus, setIsFirstInputFocus] = useState(false);
   const [isSecondInputFocus, setIsSecondInputFocus] = useState(false);
   const [isThirdInputFocus, setIsThirdInputFocus] = useState(false);
+  const [isPasswordShow, setIsPasswordShow] = useState(false);
 
   const handleIdBlur = () => {
     const idRegex = /^[a-z0-9]{5,20}$/;
@@ -135,12 +138,16 @@ function AccountModal({
         isThirdInputFocus={isThirdInputFocus}>
         <PasswordIcon />
         <Input
+          type={isPasswordShow ? 'text' : 'password'}
           placeholder="비밀번호"
           onChange={(event) => setPassword(event.target.value)}
           onFocus={() => setIsSecondInputFocus(true)}
           onBlur={handlePasswordBlur}
           error={passwordError}
         />
+        <PasswordShowAndHideButton onClick={() => setIsPasswordShow(!isPasswordShow)}>
+          {password ? isPasswordShow ? <PasswordShowIcon /> : <PasswordHideIcon /> : null}
+        </PasswordShowAndHideButton>
       </InputBox2>
       <InputBox3 emailError={emailError} isSecondInputFocus={isSecondInputFocus} passwordError={passwordNoneError}>
         <EmailIcon />
@@ -251,6 +258,14 @@ const Input = styled.input<{ error: boolean }>`
         color: var(--error-color);
         text-decoration: underline;
     };`}
+`;
+
+const PasswordShowAndHideButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: white;
 `;
 
 const NoneError = styled.div`
