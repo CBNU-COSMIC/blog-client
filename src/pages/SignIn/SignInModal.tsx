@@ -1,16 +1,34 @@
 import { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import styled from 'styled-components';
 
 import PasswordShowIcon from '../../icons/PasswordShowIcon.tsx';
 import PasswordHideIcon from '../../icons/PasswordHideIcon.tsx';
+import signIn from '../../apis/\bauth/signIn.ts';
 
 function SignInModal() {
+  const navigate = useNavigate();
   const idInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [isBlurError, setIsNoneError] = useState(false);
   const [isPasswordShow, setIsPasswordShow] = useState(false);
+
+  const { mutate: handleSignIn } = useMutation({
+    mutationFn: (body: { userId: string; password: string }) => signIn(body),
+    onSuccess: () => {
+      navigate('/');
+    },
+    onError: (error: AxiosError<{ detail: string }>) => {
+      if (error.response) {
+        alert(error.response.data.detail);
+      }
+      console.error(error);
+    },
+  });
 
   const handleSignInButton = () => {
     if (!id.trim()) {
@@ -26,6 +44,7 @@ function SignInModal() {
     }
 
     setIsNoneError(false);
+    handleSignIn({ userId: id, password });
   };
 
   return (

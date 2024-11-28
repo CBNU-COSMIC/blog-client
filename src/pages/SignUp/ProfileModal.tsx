@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import PersonIcon from '../../icons/PersonIcon.tsx';
 import CalendarIcon from '../../icons/CalendarIcon.tsx';
 import PhoneIcon from '../../icons/PhoneIcon.tsx';
+import NicknameIcon from '../../icons/nicknameIcon.tsx';
 
 function ProfileModal({
   name,
@@ -160,7 +161,7 @@ function ProfileModal({
         birthError={birthError}
         isFirstInputFocus={isFirstInputFocus}
         isThirdInputFocus={isThirdInputFocus}>
-        <CalendarIcon />
+        <NicknameIcon />
         <Input
           placeholder="닉네임"
           onChange={(event) => setNickname(event.target.value)}
@@ -296,7 +297,11 @@ const InputBox4 = styled.div<{
   ${({ nameNoneError, nicknameError, isFirstInputFocus }) =>
     !nameNoneError && nicknameError && !isFirstInputFocus ? '' : 'border-top: none;'}
   ${({ birthError, nicknameError, isThirdInputFocus }) =>
-    !birthError && nicknameError && !isThirdInputFocus ? '' : birthError && nicknameError ? '' : 'border-bottom: none;'}
+    !birthError && nicknameError && !isThirdInputFocus
+      ? ''
+      : !birthError && nicknameError
+        ? 'border-bottom: none;'
+        : ''}
     padding: 0 8px;
   box-sizing: border-box;
   gap: 7px;
