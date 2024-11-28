@@ -1,8 +1,7 @@
-import getInstance from '../instance.ts';
+import axios from 'axios';
 
 async function getPost() {
-  const instance = await getInstance();
-  const { data } = await instance.get('/mocks/notifications.json');
+  const { data } = await axios.get('/mocks/notifications.json');
 
   return data.list;
 }

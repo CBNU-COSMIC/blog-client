@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import styled from 'styled-components';
 
 import AccountModal from './AccountModal.tsx';
 import ProfileModal from './ProfileModal.tsx';
+import signUp from '../../apis/\bauth/signUp.ts';
 
 function SignUp() {
   const navigate = useNavigate();
@@ -11,6 +14,7 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [nickname, setNickname] = useState('');
   const [birth, setBirth] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
 
@@ -18,18 +22,21 @@ function SignUp() {
   const [passwordNoneError, setPasswordNoneError] = useState(false);
   const [emailNoneError, setEmailNoneError] = useState(false);
   const [nameNoneError, setNameNoneError] = useState(false);
+  const [nicknameNoneError, setNicknameNoneError] = useState(false);
   const [birthNoneError, setBirthNoneError] = useState(false);
   const [phoneNumberNoneError, setPhoneNumberNoneError] = useState(false);
 
   const [idValidError, setIdValidError] = useState(false);
   const [passwordValidError, setPasswordValidError] = useState(false);
   const [emailValidError, setEmailValidError] = useState(false);
+  const [nicknameValidError, setNicknameValidError] = useState(false);
   const [birthValidError, setBirthValidError] = useState(false);
   const [phoneNumberValidError, setPhoneNumberValidError] = useState(false);
 
   const [idError, setIdError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [emailError, setEmailError] = useState(false);
+  const [nicknameError, setNicknameError] = useState(false);
   const [birthError, setBirthError] = useState(false);
   const [phoneNumberError, setPhoneNumberError] = useState(false);
 
@@ -37,7 +44,28 @@ function SignUp() {
     navigate('/');
   };
 
-  const signUp = () => {
+  const { mutate: handleSignUp } = useMutation({
+    mutationFn: (body: {
+      userId: string;
+      password: string;
+      email: string;
+      username: string;
+      nickname: string;
+      birth: string;
+      phone: string;
+    }) => signUp(body),
+    onSuccess: () => {
+      navigate('/sign-in');
+    },
+    onError: (error: AxiosError<{ detail: string }>) => {
+      if (error.response) {
+        alert(error.response.data.detail);
+      }
+      console.error(error);
+    },
+  });
+
+  const handleSignUpButton = () => {
     const idRegex = /^[a-z0-9]{5,20}$/;
     if (!id.trim()) {
       setIdError(true);
@@ -90,6 +118,21 @@ function SignUp() {
       setNameNoneError(false);
     }
 
+    const nicknameRegex = /^[가-힣a-zA-Z0-9\s]+$/;
+    if (!nickname.trim()) {
+      setNicknameError(true);
+      setNicknameNoneError(true);
+      setNicknameValidError(false);
+    } else if (!nickname.match(nicknameRegex)) {
+      setNicknameError(true);
+      setNicknameNoneError(false);
+      setNicknameValidError(true);
+    } else {
+      setNicknameError(false);
+      setNicknameNoneError(false);
+      setNicknameValidError(false);
+    }
+
     const birthRegex1 = /^(19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$/;
     const birthRegex2 = /^(19|20)\d{2}\.(0[1-9]|1[0-2])\.(0[1-9]|[12][0-9]|3[01])$/;
     if (!birth.trim()) {
@@ -122,8 +165,25 @@ function SignUp() {
       setPhoneNumberNoneError(false);
     }
 
-    if (!idNoneError && !passwordNoneError && !nameNoneError && !emailError && !birthError && !phoneNumberError) {
-      // TODO: 회원가입
+    if (
+      !idNoneError &&
+      !passwordNoneError &&
+      !nameNoneError &&
+      !nicknameError &&
+      !emailError &&
+      !birthError &&
+      !phoneNumberError
+    ) {
+      const body = {
+        userId: id,
+        password,
+        email,
+        username: name,
+        nickname,
+        birth: birth.replace(/\./g, '-'),
+        phone: phoneNumber,
+      };
+      handleSignUp(body);
     }
   };
 
@@ -160,27 +220,35 @@ function SignUp() {
         <ProfileModal
           name={name}
           setName={setName}
+          nickname={nickname}
+          setNickname={setNickname}
           birth={birth}
           setBirth={setBirth}
           phoneNumber={phoneNumber}
           setPhoneNumber={setPhoneNumber}
           nameNoneError={nameNoneError}
           setNameNoneError={setNameNoneError}
+          nicknameNoneError={nicknameNoneError}
+          setNicknameNoneError={setNicknameNoneError}
           birthNoneError={birthNoneError}
           setBirthNoneError={setBirthNoneError}
           phoneNumberNoneError={phoneNumberNoneError}
           setPhoneNumberNoneError={setPhoneNumberNoneError}
+          nicknameValidError={nicknameValidError}
+          setNicknameValidError={setNicknameValidError}
           birthValidError={birthValidError}
           setBirthValidError={setBirthValidError}
           phoneNumberValidError={phoneNumberValidError}
           setPhoneNumberValidError={setPhoneNumberValidError}
+          nicknameError={nicknameError}
+          setNicknameError={setNicknameError}
           birthError={birthError}
           setBirthError={setBirthError}
           phoneNumberError={phoneNumberError}
           setPhoneNumberError={setPhoneNumberError}
         />
       </Contents>
-      <Button onClick={signUp}>회원가입</Button>
+      <Button onClick={handleSignUpButton}>회원가입</Button>
     </Container>
   );
 }

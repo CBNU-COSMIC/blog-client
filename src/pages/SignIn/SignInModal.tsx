@@ -12,7 +12,7 @@ function SignInModal() {
   const [isBlurError, setIsNoneError] = useState(false);
   const [isPasswordShow, setIsPasswordShow] = useState(false);
 
-  const login = () => {
+  const handleSignInButton = () => {
     if (!id.trim()) {
       idInputRef.current?.focus();
       setIsNoneError(true);
@@ -26,7 +26,6 @@ function SignInModal() {
     }
 
     setIsNoneError(false);
-    // TODO: login
   };
 
   return (
@@ -49,7 +48,7 @@ function SignInModal() {
         </InputBox2>
       </InputForm>
       {isBlurError && <NoneError>아이디 또는 비밀번호를 입력해주세요.</NoneError>}
-      <Button onClick={login}>로그인</Button>
+      <Button onClick={handleSignInButton}>로그인</Button>
     </Container>
   );
 }
