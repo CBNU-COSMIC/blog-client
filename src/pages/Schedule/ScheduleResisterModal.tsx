@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import styled from 'styled-components';
 
 import DropdownIcon from '../../icons/DropdownIcon';
 import CheckIcon from '../../icons/CheckIcon';
+import writeSchedule from '../../apis/schedule/writeSchedule';
 
 function ScheduleResisterModal({
   setIsModalOpen,
@@ -11,6 +14,7 @@ function ScheduleResisterModal({
   setIsModalOpen: (isOpen: boolean) => void;
   selectedDate: string;
 }) {
+  const queryClient = useQueryClient();
   const [title, setTitle] = useState('');
   const [color, setColor] = useState('#FFBED4');
   const [startDate, setStartDate] = useState(selectedDate);
@@ -38,6 +42,21 @@ function ScheduleResisterModal({
     setIsColorPickerOpen(false);
   };
 
+  const { mutate: register } = useMutation({
+    mutationFn: (body: { title: string; content: string; started_at: string; ended_at: string; color: string }) =>
+      writeSchedule(body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['schedules'] });
+      setIsModalOpen(false);
+    },
+    onError: (error: AxiosError<{ detail: string }>) => {
+      if (error.response) {
+        alert(error.response.data.detail);
+      }
+      console.error(error);
+    },
+  });
+
   const resisterSchedule = () => {
     if (`${startDate}T${startTime}` >= `${endDate}T${endTime}`) {
       alert('종료 시간을 시작 시간보다 늦게 설정해주세요.');
@@ -52,12 +71,11 @@ function ScheduleResisterModal({
     const newSchedule = {
       title,
       color,
-      startDate: `${startDate}T${startTime}`,
-      endDate: `${endDate}T${endTime}`,
+      started_at: `${startDate}T${startTime}`,
+      ended_at: `${endDate}T${endTime}`,
       content,
     };
-    console.log('Resister schedule:', newSchedule);
-    setIsModalOpen(false);
+    register(newSchedule);
   };
 
   return (

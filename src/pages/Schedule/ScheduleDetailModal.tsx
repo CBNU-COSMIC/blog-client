@@ -1,4 +1,7 @@
+import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
+
+import getSchedules from '../../apis/schedule/getSchedules.ts';
 
 function ScheduleDetailModal({
   scheduleId,
@@ -7,32 +10,7 @@ function ScheduleDetailModal({
   scheduleId: number;
   setIsModalOpen: (isOpen: boolean) => void;
 }) {
-  const schedules = [
-    {
-      id: 1,
-      startDate: '2024-11-23T10:00',
-      endDate: '2024-11-23T12:00',
-      title: '스터디',
-      color: '#FFBED4',
-      content: '스터디 모임',
-    },
-    {
-      id: 2,
-      startDate: '2024-11-24T14:00',
-      endDate: '2024-11-24T16:00',
-      title: '세미나',
-      color: '#D2C1FB',
-      content: '11월 세미나',
-    },
-    {
-      id: 3,
-      startDate: '2024-11-23T18:00',
-      endDate: '2024-11-25T20:00',
-      title: '엠티',
-      color: '#D8EC9B',
-      content: '애버랜드',
-    },
-  ];
+  const { data: schedules } = useQuery({ queryKey: ['schedules'], queryFn: getSchedules });
 
   const closeModal = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
@@ -52,15 +30,15 @@ function ScheduleDetailModal({
         </ModalHeader>
         <DateContainer>
           <DateTitle>시작</DateTitle>
-          <Date>{schedules[scheduleId - 1].startDate.split('T')[0]}</Date>
-          <Time>{schedules[scheduleId - 1].startDate.split('T')[1]}</Time>
+          <Date>{schedules[scheduleId - 1].started_at.split('T')[0]}</Date>
+          <Time>{schedules[scheduleId - 1].started_at.split('T')[1]}</Time>
         </DateContainer>
         <DateContainer>
           <DateTitle>종료</DateTitle>
-          <Date>{schedules[scheduleId - 1].endDate.split('T')[0]}</Date>
-          <Time>{schedules[scheduleId - 1].endDate.split('T')[1]}</Time>
+          <Date>{schedules[scheduleId - 1].ended_at.split('T')[0]}</Date>
+          <Time>{schedules[scheduleId - 1].ended_at.split('T')[1]}</Time>
         </DateContainer>
-        <ContentInputContainer>{schedules[scheduleId - 1].content}</ContentInputContainer>
+        <ContentInputContainer>{schedules[scheduleId].content}</ContentInputContainer>
         <Button onClick={deleteSchedule}>일정 삭제</Button>
       </ModalContainer>
     </ModalBackground>

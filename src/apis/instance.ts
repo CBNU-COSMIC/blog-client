@@ -10,7 +10,7 @@ async function getInstance(): Promise<AxiosInstance> {
 
   instance.interceptors.request.use(
     (config) => {
-      const excludeEndpoints = ['/api/auth/sign-up', '/api/posts?'];
+      const excludeEndpoints = ['/api/auth/sign-up', '/api/posts?', '/api/schedules'];
       const isExcluded = excludeEndpoints.some((endpoint) => config.url?.includes(endpoint));
 
       if (!isExcluded) {
