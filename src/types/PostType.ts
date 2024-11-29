@@ -1,10 +1,11 @@
 interface PostType {
-  id: number;
+  post_id: number;
   title: string;
-  writer: string;
-  createdAt: string;
+  author: string;
+  date: string;
   hits: number;
-  url: string;
+  content: string;
+  type: string;
 }
 
 export default PostType;

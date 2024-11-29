@@ -41,8 +41,8 @@ function Dropdown({
     navigate('/schedule');
   };
 
-  const navigateToNotificationBoard = () => {
-    navigate('/notification');
+  const navigateToNotices = (boardId: string) => {
+    navigate(`/notices/${boardId}`);
   };
 
   return (
@@ -91,12 +91,33 @@ function Dropdown({
         onMouseLeave={() => {
           setIsFocusedSeminar(false);
         }}>
-        세미나
+        공지
         <DropdownUnderline isFocused={isSeminarDropdownVisible} />
         <DropdownContents isOpen={isSeminarDropdownVisible}>
-          <DropdownContent>2023년</DropdownContent>
-          <DropdownContent>2024년</DropdownContent>
-          <DropdownContent>2025년</DropdownContent>
+          <DropdownContent
+            onClick={() => {
+              navigateToNotices('cosmic');
+            }}>
+            COSMIC 공지
+          </DropdownContent>
+          <DropdownContent
+            onClick={() => {
+              navigateToNotices('cbnu');
+            }}>
+            학교 공지
+          </DropdownContent>
+          <DropdownContent
+            onClick={() => {
+              navigateToNotices('cse');
+            }}>
+            학과 공지
+          </DropdownContent>
+          <DropdownContent
+            onClick={() => {
+              navigateToNotices('sw');
+            }}>
+            소중단 공지
+          </DropdownContent>
         </DropdownContents>
       </DropdownButton>
       <DropdownButton
@@ -114,9 +135,9 @@ function Dropdown({
         게시판
         <DropdownUnderline isFocused={isBoardDropdownVisible} />
         <DropdownContents isOpen={isBoardDropdownVisible}>
-          <DropdownContent onClick={navigateToNotificationBoard}>공지</DropdownContent>
           <DropdownContent>가입 인사</DropdownContent>
           <DropdownContent>자유 게시판</DropdownContent>
+          <DropdownContent>세미나</DropdownContent>
           <DropdownContent>자료실</DropdownContent>
           <DropdownContent>갤러리</DropdownContent>
         </DropdownContents>
