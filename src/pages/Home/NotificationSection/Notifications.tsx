@@ -16,13 +16,11 @@ function Notifications({ selectedOption }: { selectedOption: string }) {
     <Container>
       {notifications?.length ? (
         notifications.map((notification: PostType, index: number) => (
-          <Content key={notification.id}>
+          <Content key={notification.post_id}>
             <Idex>{index + 1}</Idex>
-            <Title href={notification.url} target="_blank">
-              {notification.title}
-            </Title>
-            <Writer>{notification.writer}</Writer>
-            <Date>{notification.createdAt.replace(/-/g, '.')}.</Date>
+            <Title target="_blank">{notification.title}</Title>
+            <Date>{notification.date.replace(/-/g, '.').split('T')[0]}.</Date>
+            <Hits>{notification.hits}</Hits>
           </Content>
         ))
       ) : (
@@ -70,16 +68,6 @@ const Title = styled.a`
   }
 `;
 
-const Writer = styled.div`
-  font-family: 'Pretendard', sans-serif;
-  font-size: 13px;
-  width: 100px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center;
-`;
-
 const Date = styled.div`
   font-family: 'Pretendard', sans-serif;
   font-size: 13px;
@@ -90,10 +78,18 @@ const Date = styled.div`
 const NoneNotification = styled.div`
   font-family: 'Pretendard', sans-serif;
   font-size: 24px;
-  width: 710px;
+  width: 690px;
   height: 550px;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
+
+const Hits = styled.div`
+  font-family: 'Pretendard', sans-serif;
+  font-size: 13px;
+  width: 68px;
+  text-align: center;
+`;
+
 export default Notifications;

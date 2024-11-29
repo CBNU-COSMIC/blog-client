@@ -66,20 +66,18 @@ function Notices() {
         <ContentsIntro>
           <IndexTitle>번호</IndexTitle>
           <TitleTitle>제목</TitleTitle>
-          <Writer>작성자</Writer>
+          <Writer>{boardId === 'cosmic' && '작성자'}</Writer>
           <Date>작성일</Date>
           <Hits>조회수</Hits>
         </ContentsIntro>
         <Contents>
           {notifications?.length ? (
             notifications.map((notification: PostType, index: number) => (
-              <Content key={notification.id}>
+              <Content key={notification.post_id}>
                 <Idex>{index + 1}</Idex>
-                <Title href={notification.url} target="_blank">
-                  {notification.title}
-                </Title>
-                <Writer>{notification.writer}</Writer>
-                <Date>{notification.createdAt.replace(/-/g, '.')}.</Date>
+                <Title target="_blank">{notification.title}</Title>
+                <Writer>{notification.author}</Writer>
+                <Date>{notification.date.replace(/-/g, '.').split('T')[0]}.</Date>
                 <Hits>{notification.hits}</Hits>
               </Content>
             ))

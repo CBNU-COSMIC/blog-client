@@ -10,7 +10,7 @@ function NotificationSection() {
   const [selectedOption, setSelectedOption] = useState('cse');
 
   const navigateToNotificationBoard = () => {
-    navigate('/notices');
+    navigate('/notices/cosmic');
   };
 
   return (
