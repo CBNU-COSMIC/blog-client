@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 
-import getSchedules from '../../apis/schedule/getSchedules.ts';
+import getDetailSchedule from '../../apis/schedule/getDetailSchedule.ts';
 
 function ScheduleDetailModal({
   scheduleId,
@@ -10,7 +10,10 @@ function ScheduleDetailModal({
   scheduleId: number;
   setIsModalOpen: (isOpen: boolean) => void;
 }) {
-  const { data: schedules } = useQuery({ queryKey: ['schedules'], queryFn: getSchedules });
+  const { data: schedule } = useQuery({
+    queryKey: ['schedule', scheduleId],
+    queryFn: () => getDetailSchedule(scheduleId),
+  });
 
   const closeModal = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
@@ -26,19 +29,19 @@ function ScheduleDetailModal({
     <ModalBackground onClick={closeModal}>
       <ModalContainer>
         <ModalHeader>
-          <Title>{schedules[scheduleId - 1].title}</Title>
+          <Title>{schedule?.title}</Title>
         </ModalHeader>
         <DateContainer>
           <DateTitle>시작</DateTitle>
-          <Date>{schedules[scheduleId - 1].started_at.split('T')[0]}</Date>
-          <Time>{schedules[scheduleId - 1].started_at.split('T')[1]}</Time>
+          <Date>{schedule?.started_at.split('T')[0]}</Date>
+          <Time>{schedule?.started_at.split('T')[1]}</Time>
         </DateContainer>
         <DateContainer>
           <DateTitle>종료</DateTitle>
-          <Date>{schedules[scheduleId - 1].ended_at.split('T')[0]}</Date>
-          <Time>{schedules[scheduleId - 1].ended_at.split('T')[1]}</Time>
+          <Date>{schedule?.ended_at.split('T')[0]}</Date>
+          <Time>{schedule?.ended_at.split('T')[1]}</Time>
         </DateContainer>
-        <ContentInputContainer>{schedules[scheduleId].content}</ContentInputContainer>
+        <ContentInputContainer>{schedule?.content}</ContentInputContainer>
         <Button onClick={deleteSchedule}>일정 삭제</Button>
       </ModalContainer>
     </ModalBackground>
