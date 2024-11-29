@@ -1,10 +1,14 @@
 import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
 import ScheduleResisterModal from './ScheduleResisterModal.tsx';
 import ScheduleDetailModal from './ScheduleDetailModal.tsx';
+import getSchedules from '../../apis/schedule/getSchedules.ts';
+import ScheduleType from '../../types/ScheduleType.ts';
+import getUser from '../../apis/\bauth/getUser.ts';
 
 function Schedule() {
   const [selectedDate, setSelectedDate] = useState('');
@@ -12,30 +16,8 @@ function Schedule() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [selectedScheduleId, setSelectedScheduleId] = useState(1);
-
-  const schedules = [
-    {
-      id: 1,
-      startDate: '2024-11-23T10:00',
-      endDate: '2024-11-23T12:00',
-      title: '스터디',
-      color: '#FFBED4',
-    },
-    {
-      id: 2,
-      startDate: '2024-11-24T14:00',
-      endDate: '2024-11-24T16:00',
-      title: '세미나',
-      color: '#D2C1FB',
-    },
-    {
-      id: 3,
-      startDate: '2024-11-23T18:00',
-      endDate: '2024-11-25T20:00',
-      title: '엠티',
-      color: '#D8EC9B',
-    },
-  ];
+  const { data: user } = useQuery({ queryKey: ['user'], queryFn: getUser, staleTime: Infinity, gcTime: Infinity });
+  const { data: schedules } = useQuery({ queryKey: ['schedules'], queryFn: getSchedules });
 
   const openSchedule = (scheduleId: number) => {
     setSelectedScheduleId(scheduleId);
@@ -46,20 +28,20 @@ function Schedule() {
     const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1)
       .toString()
       .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-    const daySchedules = schedules.filter(
-      (schedule) =>
-        formattedDate >= schedule.startDate.split('T')[0] && formattedDate <= schedule.endDate.split('T')[0],
+    const daySchedules = schedules?.filter(
+      (schedule: ScheduleType) =>
+        formattedDate >= schedule.started_at.split('T')[0] && formattedDate <= schedule.ended_at.split('T')[0],
     );
 
-    if (daySchedules.length > 0) {
+    if (daySchedules?.length > 0) {
       return (
         <ScheduleList onMouseEnter={() => setIsChildHovered(true)} onMouseLeave={() => setIsChildHovered(false)}>
-          {daySchedules.map((schedule, index) => (
+          {daySchedules.map((schedule: ScheduleType, index: number) => (
             <ScheduleItem
               key={index}
               color={schedule.color}
               onClick={() => {
-                openSchedule(schedule.id);
+                openSchedule(schedule.scheduleId);
               }}>
               {schedule.title}
             </ScheduleItem>
@@ -71,7 +53,7 @@ function Schedule() {
   };
 
   const handleTileClick = (date: Date, event: React.MouseEvent<HTMLButtonElement>) => {
-    if (event.target === event.currentTarget) {
+    if (event.target === event.currentTarget && user) {
       const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1)
         .toString()
         .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;

@@ -1,4 +1,9 @@
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
+
+import getUser from '../../apis/\bauth/getUser.ts';
+import getDetailSchedule from '../../apis/schedule/getDetailSchedule.ts';
+import deleteSchedule from '../../apis/schedule/deleteSchedule.ts';
 
 function ScheduleDetailModal({
   scheduleId,
@@ -7,32 +12,14 @@ function ScheduleDetailModal({
   scheduleId: number;
   setIsModalOpen: (isOpen: boolean) => void;
 }) {
-  const schedules = [
-    {
-      id: 1,
-      startDate: '2024-11-23T10:00',
-      endDate: '2024-11-23T12:00',
-      title: '스터디',
-      color: '#FFBED4',
-      content: '스터디 모임',
-    },
-    {
-      id: 2,
-      startDate: '2024-11-24T14:00',
-      endDate: '2024-11-24T16:00',
-      title: '세미나',
-      color: '#D2C1FB',
-      content: '11월 세미나',
-    },
-    {
-      id: 3,
-      startDate: '2024-11-23T18:00',
-      endDate: '2024-11-25T20:00',
-      title: '엠티',
-      color: '#D8EC9B',
-      content: '애버랜드',
-    },
-  ];
+  const queryClient = useQueryClient();
+  const { data: user } = useQuery({ queryKey: ['user'], queryFn: getUser, staleTime: Infinity, gcTime: Infinity });
+  const { data: schedule } = useQuery({
+    queryKey: ['schedule', scheduleId],
+    queryFn: () => getDetailSchedule(scheduleId),
+  });
+
+  console.log(user, schedule);
 
   const closeModal = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
@@ -40,28 +27,45 @@ function ScheduleDetailModal({
     }
   };
 
-  const deleteSchedule = () => {
-    // TODO: 스케줄 삭제 API 호출
-  };
+  const { mutate: handleDeleteSchedule } = useMutation({
+    mutationFn: () => deleteSchedule(scheduleId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['schedules'] });
+      setIsModalOpen(false);
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
 
   return (
     <ModalBackground onClick={closeModal}>
       <ModalContainer>
         <ModalHeader>
-          <Title>{schedules[scheduleId - 1].title}</Title>
+          <Title>{schedule?.title}</Title>
         </ModalHeader>
         <DateContainer>
           <DateTitle>시작</DateTitle>
-          <Date>{schedules[scheduleId - 1].startDate.split('T')[0]}</Date>
-          <Time>{schedules[scheduleId - 1].startDate.split('T')[1]}</Time>
+          <Date>{schedule?.started_at.split('T')[0]}</Date>
+          <Time>{schedule?.started_at.split('T')[1]}</Time>
         </DateContainer>
         <DateContainer>
           <DateTitle>종료</DateTitle>
-          <Date>{schedules[scheduleId - 1].endDate.split('T')[0]}</Date>
-          <Time>{schedules[scheduleId - 1].endDate.split('T')[1]}</Time>
+          <Date>{schedule?.ended_at.split('T')[0]}</Date>
+          <Time>{schedule?.ended_at.split('T')[1]}</Time>
         </DateContainer>
-        <ContentInputContainer>{schedules[scheduleId - 1].content}</ContentInputContainer>
-        <Button onClick={deleteSchedule}>일정 삭제</Button>
+        <ContentInputContainer>{schedule?.content}</ContentInputContainer>
+        {user?.username === schedule?.author && (
+          <Button
+            onClick={() => {
+              const isConfirmed = window.confirm('일정을 삭제하시겠습니까?');
+              if (isConfirmed) {
+                handleDeleteSchedule();
+              }
+            }}>
+            일정 삭제
+          </Button>
+        )}
       </ModalContainer>
     </ModalBackground>
   );

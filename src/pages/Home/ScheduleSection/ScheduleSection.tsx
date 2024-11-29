@@ -1,54 +1,34 @@
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
 import AnimatedSection from '../AnimationSection.tsx';
+import getSchedules from '../../../apis/schedule/getSchedules.ts';
+import ScheduleType from '../../../types/ScheduleType.ts';
 
 function ScheduleSection() {
   const navigate = useNavigate();
+  const { data: schedules } = useQuery({ queryKey: ['schedules'], queryFn: getSchedules });
 
   const navigateToSchedule = () => {
     navigate('/schedule');
   };
 
-  const schedules = [
-    {
-      id: 1,
-      startDate: '2024-11-23T10:00',
-      endDate: '2024-11-23T12:00',
-      title: '스터디',
-      color: '#FFBED4',
-    },
-    {
-      id: 2,
-      startDate: '2024-11-24T14:00',
-      endDate: '2024-11-24T16:00',
-      title: '세미나',
-      color: '#D2C1FB',
-    },
-    {
-      id: 3,
-      startDate: '2024-11-23T18:00',
-      endDate: '2024-11-25T20:00',
-      title: '엠티',
-      color: '#D8EC9B',
-    },
-  ];
-
   const renderSchedule = (date: Date) => {
     const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1)
       .toString()
       .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-    const daySchedules = schedules.filter(
-      (schedule) =>
-        formattedDate >= schedule.startDate.split('T')[0] && formattedDate <= schedule.endDate.split('T')[0],
+    const daySchedules = schedules?.filter(
+      (schedule: ScheduleType) =>
+        formattedDate >= schedule.started_at.split('T')[0] && formattedDate <= schedule.ended_at.split('T')[0],
     );
 
-    if (daySchedules.length > 0) {
+    if (daySchedules?.length > 0) {
       return (
         <ScheduleList>
-          {daySchedules.map((schedule, index) => (
+          {daySchedules?.map((schedule: ScheduleType, index: number) => (
             <ScheduleItem color={schedule.color} key={index}>
               {schedule.title}
             </ScheduleItem>
