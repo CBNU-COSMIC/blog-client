@@ -27,6 +27,10 @@ function Notices() {
     navigate(`/notices/${boardId}`);
   };
 
+  const navigateToWrite = () => {
+    navigate(`/notices/${boardId}/write`);
+  };
+
   return (
     <Container>
       <Navigation>
@@ -62,7 +66,7 @@ function Notices() {
       </Navigation>
       <ContentContainer>
         <PageTitle>{noticeTitle[boardId as keyof typeof noticeTitle]}</PageTitle>
-        <PageIntro>게시판 &gt; 공지 &gt; {noticeTitle[boardId as keyof typeof noticeTitle]}</PageIntro>
+        <PageIntro>공지 &gt; {noticeTitle[boardId as keyof typeof noticeTitle]}</PageIntro>
         <ContentsIntro>
           <IndexTitle>번호</IndexTitle>
           <TitleTitle>제목</TitleTitle>
@@ -85,6 +89,7 @@ function Notices() {
             <NoneNotification>등록된 공지가 없습니다.</NoneNotification>
           )}
         </Contents>
+        {boardId === 'cosmic' && <WriteButton onClick={navigateToWrite}>글 쓰기</WriteButton>}
         <PageList>
           <PageNumber isSelected={true}>1</PageNumber>
           <PageNumber isSelected={false}>2</PageNumber>
@@ -99,6 +104,7 @@ function Notices() {
 const Container = styled.div`
   display: flex;
   width: 1440px;
+  min-height: 700px;
   margin: 0 auto 80px;
   padding: 0 80px;
   box-sizing: border-box;
@@ -184,8 +190,6 @@ const TitleTitle = styled.div`
 
 const Contents = styled.div`
   display: flex;
-  width: 798px;
-  height: 560px;
   flex-direction: column;
   gap: 20px;
 `;
@@ -273,10 +277,22 @@ const NoneNotification = styled.div`
   font-family: 'Pretendard', sans-serif;
   font-size: 24px;
   width: 798px;
-  height: 560px;
+  height: 215px;
   display: flex;
+  border-bottom: 1px solid #d3d3d3;
   justify-content: center;
   align-items: center;
+`;
+
+const WriteButton = styled.button`
+  font-family: 'Pretendard', sans-serif;
+  font-size: 13px;
+  width: 74px;
+  height: 36px;
+  border: 1px solid #d3d3d3;
+  background-color: white;
+  margin: 10px 0 0 720px;
+  cursor: pointer;
 `;
 
 export default Notices;
