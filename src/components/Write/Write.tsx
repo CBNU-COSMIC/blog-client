@@ -83,8 +83,8 @@ const Button = styled.button`
   padding: 10px 20px;
   border: none;
   border-radius: 10px;
-  background-color: var(--tertiary-color);
-  color: var(--secondary-color);
+  background-color: var(--primary-color);
+  color: white;
   cursor: pointer;
 `;
 

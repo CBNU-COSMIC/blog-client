@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import LoginButton from './LoginButton.tsx';
 import Dropdown from './Dropdown.tsx';
-import getUser from '../../../apis/\bauth/getUser.ts';
+import getUser from '../../../apis/auth/getUser.ts';
 import Profile from './Profile.tsx';
 
 function Header() {

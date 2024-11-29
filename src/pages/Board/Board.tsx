@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import getPost from '../../apis/post/getPost.ts';
 import PostType from '../../types/PostType.ts';
-import getUser from '../../apis/\bauth/getUser.ts';
+import getUser from '../../apis/auth/getUser.ts';
 import Navigation from './Navigation.tsx';
 
 function Board() {
@@ -50,7 +50,7 @@ function Board() {
                 <Idex>{index + 1}</Idex>
                 <Title
                   onClick={() => {
-                    navigate(`/notices/${boardId}/detail/${notification.post_id}`);
+                    navigate(`/board/${boardId}/detail/${notification.post_id}`);
                   }}>
                   {notification.title}
                 </Title>

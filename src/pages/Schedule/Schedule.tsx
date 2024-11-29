@@ -8,7 +8,7 @@ import ScheduleResisterModal from './ScheduleResisterModal.tsx';
 import ScheduleDetailModal from './ScheduleDetailModal.tsx';
 import getSchedules from '../../apis/schedule/getSchedules.ts';
 import ScheduleType from '../../types/ScheduleType.ts';
-import getUser from '../../apis/\bauth/getUser.ts';
+import getUser from '../../apis/auth/getUser.ts';
 
 function Schedule() {
   const [selectedDate, setSelectedDate] = useState('');
