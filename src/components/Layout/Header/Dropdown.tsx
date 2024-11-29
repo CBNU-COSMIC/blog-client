@@ -42,7 +42,7 @@ function Dropdown({
   };
 
   const navigateToNotificationBoard = () => {
-    navigate('/notification');
+    navigate('/notices/cse');
   };
 
   return (

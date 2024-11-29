@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import PersonIcon from '../../icons/PersonIcon.tsx';
 import CalendarIcon from '../../icons/CalendarIcon.tsx';
 import PhoneIcon from '../../icons/PhoneIcon.tsx';
-import NicknameIcon from '../../icons/nicknameIcon.tsx';
+import NicknameIcon from '../../icons/NicknameIcon.tsx';
 
 function ProfileModal({
   name,

@@ -4,16 +4,18 @@ import styled from 'styled-components';
 import PostType from '../../../types/PostType.ts';
 import getPost from '../../../apis/post/getPost.ts';
 
-function Notifications({ selectedOption }: { selectedOption: number }) {
-  const { data: notifications } = useQuery({ queryKey: ['notifications'], queryFn: getPost });
-
-  console.log(notifications);
+function Notifications({ selectedOption }: { selectedOption: string }) {
+  const { data: notifications } = useQuery({
+    queryKey: ['notifications', selectedOption],
+    queryFn: () => {
+      return getPost(selectedOption, 1);
+    },
+  });
 
   return (
     <Container>
-      {notifications
-        ?.slice((selectedOption - 1) * 10, selectedOption * 10)
-        .map((notification: PostType, index: number) => (
+      {notifications.length ? (
+        notifications.map((notification: PostType, index: number) => (
           <Content key={notification.id}>
             <Idex>{index + 1}</Idex>
             <Title href={notification.url} target="_blank">
@@ -22,13 +24,18 @@ function Notifications({ selectedOption }: { selectedOption: number }) {
             <Writer>{notification.writer}</Writer>
             <Date>{notification.createdAt.replace(/-/g, '.')}.</Date>
           </Content>
-        ))}
+        ))
+      ) : (
+        <NoneNotification>등록된 공지가 없습니다.</NoneNotification>
+      )}
     </Container>
   );
 }
 
 const Container = styled.div`
   display: flex;
+  width: 710px;
+  height: 550px;
   flex-direction: column;
   gap: 20px;
 `;
@@ -78,5 +85,15 @@ const Date = styled.div`
   font-size: 13px;
   width: 80px;
   text-align: center;
+`;
+
+const NoneNotification = styled.div`
+  font-family: 'Pretendard', sans-serif;
+  font-size: 24px;
+  width: 710px;
+  height: 550px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 export default Notifications;

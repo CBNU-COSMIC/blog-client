@@ -1,3 +1,4 @@
+import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 
@@ -5,8 +6,14 @@ import getPost from '../../apis/post/getPost.ts';
 import PostType from '../../types/PostType.ts';
 import RightArrowIcon from '../../icons/RightArrowIcon.tsx';
 
-function NotificationBoard() {
-  const { data: notifications } = useQuery({ queryKey: ['notifications'], queryFn: getPost });
+function Notices() {
+  const { boardId } = useParams();
+  const { data: notifications } = useQuery({
+    queryKey: ['notifications', boardId],
+    queryFn: () => {
+      return getPost(boardId as string, 1);
+    },
+  });
 
   return (
     <Container>
@@ -36,17 +43,21 @@ function NotificationBoard() {
           <Hits>조회수</Hits>
         </ContentsIntro>
         <Contents>
-          {notifications?.slice(0, 10).map((notification: PostType, index: number) => (
-            <Content key={notification.id}>
-              <Idex>{index + 1}</Idex>
-              <Title href={notification.url} target="_blank">
-                {notification.title}
-              </Title>
-              <Writer>{notification.writer}</Writer>
-              <Date>{notification.createdAt.replace(/-/g, '.')}.</Date>
-              <Hits>{notification.hits}</Hits>
-            </Content>
-          ))}
+          {notifications.length ? (
+            notifications.map((notification: PostType, index: number) => (
+              <Content key={notification.id}>
+                <Idex>{index + 1}</Idex>
+                <Title href={notification.url} target="_blank">
+                  {notification.title}
+                </Title>
+                <Writer>{notification.writer}</Writer>
+                <Date>{notification.createdAt.replace(/-/g, '.')}.</Date>
+                <Hits>{notification.hits}</Hits>
+              </Content>
+            ))
+          ) : (
+            <NoneNotification>등록된 공지가 없습니다.</NoneNotification>
+          )}
         </Contents>
         <PageList>
           <PageNumber isSelected={true}>1</PageNumber>
@@ -147,6 +158,8 @@ const TitleTitle = styled.div`
 
 const Contents = styled.div`
   display: flex;
+  width: 798px;
+  height: 560px;
   flex-direction: column;
   gap: 20px;
 `;
@@ -230,4 +243,14 @@ const PageNumber = styled.button<{ isSelected: boolean }>`
   cursor: pointer;
 `;
 
-export default NotificationBoard;
+const NoneNotification = styled.div`
+  font-family: 'Pretendard', sans-serif;
+  font-size: 24px;
+  width: 798px;
+  height: 560px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export default Notices;

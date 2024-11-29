@@ -11,8 +11,8 @@ import Home from './pages/Home/Home';
 import SignIn from './pages/SignIn/SignIn.tsx';
 import SignUp from './pages/SignUp/SignUp.tsx';
 import Introduction from './pages/Introduction/Introduction.tsx';
-import NotificationBoard from './pages/NotificationBoard/NotificationBoard.tsx';
 import Schedule from './pages/Schedule/Schedule.tsx';
+import Notices from './pages/Notices/Notices.tsx';
 
 const router = createBrowserRouter([
   {
@@ -36,10 +36,10 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: '/notification',
+    path: '/notices/:boardId',
     element: (
       <Layout>
-        <NotificationBoard />
+        <Notices />
       </Layout>
     ),
   },

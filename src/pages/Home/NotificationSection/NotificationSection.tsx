@@ -7,23 +7,23 @@ import Notifications from './Notifications.tsx';
 
 function NotificationSection() {
   const navigate = useNavigate();
-  const [selectedOption, setSelectedOption] = useState(1);
+  const [selectedOption, setSelectedOption] = useState('cse');
 
   const navigateToNotificationBoard = () => {
-    navigate('/notification');
+    navigate('/notices');
   };
 
   return (
     <AnimatedSection>
       <Container>
         <Options>
-          <Option onClick={() => setSelectedOption(1)} selected={selectedOption === 1 ? true : false}>
+          <Option onClick={() => setSelectedOption('cse')} selected={selectedOption === 'cse' ? true : false}>
             학과 공지
           </Option>
-          <Option onClick={() => setSelectedOption(2)} selected={selectedOption === 2 ? true : false}>
+          <Option onClick={() => setSelectedOption('cbnu')} selected={selectedOption === 'cbnu' ? true : false}>
             학교 공지
           </Option>
-          <Option onClick={() => setSelectedOption(3)} selected={selectedOption === 3 ? true : false}>
+          <Option onClick={() => setSelectedOption('sw')} selected={selectedOption === 'sw' ? true : false}>
             소중단 공지
           </Option>
           <MoreButton onClick={navigateToNotificationBoard}>공지 더 보기</MoreButton>
