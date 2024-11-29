@@ -32,7 +32,7 @@ function IntroduceSection({ sectionRef }: { sectionRef: React.RefObject<HTMLDivE
           <Activity
             title="스터디"
             intro={`북스터디, 알고리즘 스터디, \n CS 스터디 등의 다양한 \n 스터디를 진행합니다.`}
-            image="/images/contest.png"
+            image="/images/study.png"
           />
           <Activity
             title="대회 참여"

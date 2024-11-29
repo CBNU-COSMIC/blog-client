@@ -25,7 +25,7 @@ function Wirte() {
   return (
     <Container>
       <Header>
-        <Text>공지 글쓰기</Text>
+        <Text>{location.pathname.split('/')[1] === 'board' ? '게시판 글쓰기' : '공지 글쓰기'}</Text>
         <Button
           onClick={() => {
             if (!title.trim() || !content.trim()) {
