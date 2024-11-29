@@ -5,10 +5,12 @@ import styled from 'styled-components';
 import getPost from '../../apis/post/getPost.ts';
 import PostType from '../../types/PostType.ts';
 import RightArrowIcon from '../../icons/RightArrowIcon.tsx';
+import getUser from '../../apis/\bauth/getUser.ts';
 
 function Notices() {
   const navigate = useNavigate();
   const { boardId } = useParams();
+  const { data: user } = useQuery({ queryKey: ['user'], queryFn: getUser, staleTime: Infinity, gcTime: Infinity });
   const { data: notifications } = useQuery({
     queryKey: ['notifications', boardId],
     queryFn: () => {
@@ -89,7 +91,7 @@ function Notices() {
             <NoneNotification>등록된 공지가 없습니다.</NoneNotification>
           )}
         </Contents>
-        {boardId === 'cosmic' && <WriteButton onClick={navigateToWrite}>글 쓰기</WriteButton>}
+        {boardId === 'cosmic' && user && <WriteButton onClick={navigateToWrite}>글 쓰기</WriteButton>}
         <PageList>
           <PageNumber isSelected={true}>1</PageNumber>
           <PageNumber isSelected={false}>2</PageNumber>
@@ -217,8 +219,8 @@ const Title = styled.a`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
   text-decoration: none;
+  cursor: pointer;
 
   &:visited {
     color: inherit;
