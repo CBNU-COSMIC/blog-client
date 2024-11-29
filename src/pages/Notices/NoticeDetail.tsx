@@ -1,12 +1,14 @@
-import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
 
 import Navigation from './Navigation';
 import getDetailPost from '../../apis/post/getDetailPost';
 import getUser from '../../apis/\bauth/getUser';
+import deletePost from '../../apis/post/deletePost';
 
 function NoticeDetail() {
+  const navigate = useNavigate();
   const { boardId, postId } = useParams();
   const { data: user } = useQuery({ queryKey: ['user'], queryFn: getUser, staleTime: Infinity, gcTime: Infinity });
   const { data: notification } = useQuery({
@@ -23,6 +25,23 @@ function NoticeDetail() {
     cbnu: '학교 공지',
   };
 
+  const { mutate: handleDelete } = useMutation({
+    mutationFn: () => deletePost(postId as string),
+    onSuccess: () => {
+      navigate(`/notices/${boardId}`);
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
+  const handleDeleteButton = () => {
+    const isConfirmed = window.confirm('글을 삭제하시겠습니까?');
+    if (isConfirmed) {
+      handleDelete();
+    }
+  };
+
   return (
     <Container>
       <Navigation />
@@ -35,7 +54,7 @@ function NoticeDetail() {
             {user?.username === notification?.author && (
               <ButtonContainer>
                 <Button>수정</Button>
-                <Button>삭제</Button>
+                <Button onClick={handleDeleteButton}>삭제</Button>
               </ButtonContainer>
             )}
           </Header>
