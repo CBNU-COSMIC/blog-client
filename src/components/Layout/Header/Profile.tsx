@@ -1,21 +1,41 @@
 import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
 
 import DropdownIcon2 from '../../../icons/DropdownIcon2';
+import signOut from '../../../apis/\bauth/signOut';
 
 function Profile({ name }: { name: string }) {
+  const queryClient = useQueryClient();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  const { mutate: handleSignOut } = useMutation({
+    mutationFn: () => signOut(),
+    onSuccess: () => {
+      queryClient.setQueryData(['user'], null);
+      queryClient.removeQueries({ queryKey: ['user'] });
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
   return (
-    <Container>
+    <Container onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
       {isDropdownOpen && (
         <Dropdown>
           <DropdownItem color="black">마이페이지</DropdownItem>
-          <DropdownItem color="red">로그아웃</DropdownItem>
+          <DropdownItem
+            color="red"
+            onClick={() => {
+              handleSignOut();
+            }}>
+            로그아웃
+          </DropdownItem>
         </Dropdown>
       )}
       <Name>{name}</Name>
-      <DropdownButton onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+      <DropdownButton>
         <DropdownIcon2 />
       </DropdownButton>
     </Container>
@@ -27,6 +47,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   background-color: white;
+  cursor: pointer;
 `;
 
 const Name = styled.div`
