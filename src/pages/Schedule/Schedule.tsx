@@ -8,6 +8,7 @@ import ScheduleResisterModal from './ScheduleResisterModal.tsx';
 import ScheduleDetailModal from './ScheduleDetailModal.tsx';
 import getSchedules from '../../apis/schedule/getSchedules.ts';
 import ScheduleType from '../../types/ScheduleType.ts';
+import getUser from '../../apis/\bauth/getUser.ts';
 
 function Schedule() {
   const [selectedDate, setSelectedDate] = useState('');
@@ -15,6 +16,7 @@ function Schedule() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [selectedScheduleId, setSelectedScheduleId] = useState(1);
+  const { data: user } = useQuery({ queryKey: ['user'], queryFn: getUser, staleTime: Infinity, gcTime: Infinity });
   const { data: schedules } = useQuery({ queryKey: ['schedules'], queryFn: getSchedules });
 
   const openSchedule = (scheduleId: number) => {
@@ -51,7 +53,7 @@ function Schedule() {
   };
 
   const handleTileClick = (date: Date, event: React.MouseEvent<HTMLButtonElement>) => {
-    if (event.target === event.currentTarget) {
+    if (event.target === event.currentTarget && user) {
       const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1)
         .toString()
         .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;

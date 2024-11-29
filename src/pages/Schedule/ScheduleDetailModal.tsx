@@ -1,7 +1,9 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
 
+import getUser from '../../apis/\bauth/getUser.ts';
 import getDetailSchedule from '../../apis/schedule/getDetailSchedule.ts';
+import deleteSchedule from '../../apis/schedule/deleteSchedule.ts';
 
 function ScheduleDetailModal({
   scheduleId,
@@ -10,10 +12,14 @@ function ScheduleDetailModal({
   scheduleId: number;
   setIsModalOpen: (isOpen: boolean) => void;
 }) {
+  const queryClient = useQueryClient();
+  const { data: user } = useQuery({ queryKey: ['user'], queryFn: getUser, staleTime: Infinity, gcTime: Infinity });
   const { data: schedule } = useQuery({
     queryKey: ['schedule', scheduleId],
     queryFn: () => getDetailSchedule(scheduleId),
   });
+
+  console.log(user, schedule);
 
   const closeModal = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
@@ -21,9 +27,16 @@ function ScheduleDetailModal({
     }
   };
 
-  const deleteSchedule = () => {
-    // TODO: 스케줄 삭제 API 호출
-  };
+  const { mutate: handleDeleteSchedule } = useMutation({
+    mutationFn: () => deleteSchedule(scheduleId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['schedules'] });
+      setIsModalOpen(false);
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
 
   return (
     <ModalBackground onClick={closeModal}>
@@ -42,7 +55,17 @@ function ScheduleDetailModal({
           <Time>{schedule?.ended_at.split('T')[1]}</Time>
         </DateContainer>
         <ContentInputContainer>{schedule?.content}</ContentInputContainer>
-        <Button onClick={deleteSchedule}>일정 삭제</Button>
+        {user?.username === schedule?.author && (
+          <Button
+            onClick={() => {
+              const isConfirmed = window.confirm('일정을 삭제하시겠습니까?');
+              if (isConfirmed) {
+                handleDeleteSchedule();
+              }
+            }}>
+            일정 삭제
+          </Button>
+        )}
       </ModalContainer>
     </ModalBackground>
   );
