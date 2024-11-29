@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 
@@ -7,6 +7,7 @@ import PostType from '../../types/PostType.ts';
 import RightArrowIcon from '../../icons/RightArrowIcon.tsx';
 
 function Notices() {
+  const navigate = useNavigate();
   const { boardId } = useParams();
   const { data: notifications } = useQuery({
     queryKey: ['notifications', boardId],
@@ -15,26 +16,53 @@ function Notices() {
     },
   });
 
+  const noticeTitle = {
+    cosmic: 'COSMIC 공지',
+    cse: '학과 공지',
+    sw: '소중단 공지',
+    cbnu: '학교 공지',
+  };
+
+  const navigateToNotices = (boardId: string) => {
+    navigate(`/notices/${boardId}`);
+  };
+
   return (
     <Container>
       <Navigation>
         <NavigationTitle>공지</NavigationTitle>
-        <NavigationItem isSelected={false}>
-          COSMIC 공지 <RightArrowIcon color={'black'} />
+        <NavigationItem
+          isSelected={boardId === 'cosmic' ? true : false}
+          onClick={() => {
+            navigateToNotices('cosmic');
+          }}>
+          COSMIC 공지 <RightArrowIcon color={boardId === 'cosmic' ? 'white' : 'black'} />
         </NavigationItem>
-        <NavigationItem isSelected={true}>
-          학교 공지 <RightArrowIcon color={'white'} />
+        <NavigationItem
+          isSelected={boardId === 'cbnu' ? true : false}
+          onClick={() => {
+            navigateToNotices('cbnu');
+          }}>
+          학교 공지 <RightArrowIcon color={boardId === 'cbnu' ? 'white' : 'black'} />
         </NavigationItem>
-        <NavigationItem isSelected={false}>
-          학과 공지 <RightArrowIcon color={'black'} />
+        <NavigationItem
+          isSelected={boardId === 'cse' ? true : false}
+          onClick={() => {
+            navigateToNotices('cse');
+          }}>
+          학과 공지 <RightArrowIcon color={boardId === 'cse' ? 'white' : 'black'} />
         </NavigationItem>
-        <NavigationItem isSelected={false}>
-          소중단 공지 <RightArrowIcon color={'black'} />
+        <NavigationItem
+          isSelected={boardId === 'sw' ? true : false}
+          onClick={() => {
+            navigateToNotices('sw');
+          }}>
+          소중단 공지 <RightArrowIcon color={boardId === 'sw' ? 'white' : 'black'} />
         </NavigationItem>
       </Navigation>
       <ContentContainer>
-        <PageTitle>학교 공지</PageTitle>
-        <PageIntro>게시판 &gt; 공지 &gt; 학교 공지</PageIntro>
+        <PageTitle>{noticeTitle[boardId as keyof typeof noticeTitle]}</PageTitle>
+        <PageIntro>게시판 &gt; 공지 &gt; {noticeTitle[boardId as keyof typeof noticeTitle]}</PageIntro>
         <ContentsIntro>
           <IndexTitle>번호</IndexTitle>
           <TitleTitle>제목</TitleTitle>
