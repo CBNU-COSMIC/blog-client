@@ -43,7 +43,7 @@ function Notices() {
           <Hits>조회수</Hits>
         </ContentsIntro>
         <Contents>
-          {notifications.length ? (
+          {notifications?.length ? (
             notifications.map((notification: PostType, index: number) => (
               <Content key={notification.id}>
                 <Idex>{index + 1}</Idex>
