@@ -4,8 +4,8 @@ import styled from 'styled-components';
 
 import getPost from '../../apis/post/getPost.ts';
 import PostType from '../../types/PostType.ts';
-import RightArrowIcon from '../../icons/RightArrowIcon.tsx';
 import getUser from '../../apis/\bauth/getUser.ts';
+import Navigation from './Navigation.tsx';
 
 function Notices() {
   const navigate = useNavigate();
@@ -25,47 +25,13 @@ function Notices() {
     cbnu: '학교 공지',
   };
 
-  const navigateToNotices = (boardId: string) => {
-    navigate(`/notices/${boardId}`);
-  };
-
   const navigateToWrite = () => {
     navigate(`/notices/${boardId}/write`);
   };
 
   return (
     <Container>
-      <Navigation>
-        <NavigationTitle>공지</NavigationTitle>
-        <NavigationItem
-          isSelected={boardId === 'cosmic' ? true : false}
-          onClick={() => {
-            navigateToNotices('cosmic');
-          }}>
-          COSMIC 공지 <RightArrowIcon color={boardId === 'cosmic' ? 'white' : 'black'} />
-        </NavigationItem>
-        <NavigationItem
-          isSelected={boardId === 'cbnu' ? true : false}
-          onClick={() => {
-            navigateToNotices('cbnu');
-          }}>
-          학교 공지 <RightArrowIcon color={boardId === 'cbnu' ? 'white' : 'black'} />
-        </NavigationItem>
-        <NavigationItem
-          isSelected={boardId === 'cse' ? true : false}
-          onClick={() => {
-            navigateToNotices('cse');
-          }}>
-          학과 공지 <RightArrowIcon color={boardId === 'cse' ? 'white' : 'black'} />
-        </NavigationItem>
-        <NavigationItem
-          isSelected={boardId === 'sw' ? true : false}
-          onClick={() => {
-            navigateToNotices('sw');
-          }}>
-          소중단 공지 <RightArrowIcon color={boardId === 'sw' ? 'white' : 'black'} />
-        </NavigationItem>
-      </Navigation>
+      <Navigation />
       <ContentContainer>
         <PageTitle>{noticeTitle[boardId as keyof typeof noticeTitle]}</PageTitle>
         <PageIntro>공지 &gt; {noticeTitle[boardId as keyof typeof noticeTitle]}</PageIntro>
@@ -81,7 +47,12 @@ function Notices() {
             notifications.map((notification: PostType, index: number) => (
               <Content key={notification.post_id}>
                 <Idex>{index + 1}</Idex>
-                <Title target="_blank">{notification.title}</Title>
+                <Title
+                  onClick={() => {
+                    navigate(`/notices/${boardId}/detail/${notification.post_id}`);
+                  }}>
+                  {notification.title}
+                </Title>
                 <Writer>{notification.author}</Writer>
                 <Date>{notification.date.replace(/-/g, '.').split('T')[0]}.</Date>
                 <Hits>{notification.hits}</Hits>
@@ -111,39 +82,6 @@ const Container = styled.div`
   padding: 0 80px;
   box-sizing: border-box;
   gap: 80px;
-`;
-
-const Navigation = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-`;
-
-const NavigationTitle = styled.div`
-  font-family: 'Pretendard', sans-serif;
-  font-size: 24px;
-  font-weight: 500;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
-  color: white;
-  background-color: var(--tertiary-color);
-`;
-
-const NavigationItem = styled.button<{ isSelected: boolean }>`
-  font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  text-align: left;
-  background-color: ${({ isSelected }) => (isSelected ? 'var(--tertiary-color)' : 'white')};
-  color: ${({ isSelected }) => (isSelected ? 'white' : 'black')};
-  padding: 20px;
-  border: none;
-  cursor: pointer;
 `;
 
 const ContentContainer = styled.div`
@@ -211,7 +149,7 @@ const Idex = styled.div`
   text-align: center;
 `;
 
-const Title = styled.a`
+const Title = styled.div`
   font-family: 'Pretendard', sans-serif;
   font-size: 13px;
   color: black;
