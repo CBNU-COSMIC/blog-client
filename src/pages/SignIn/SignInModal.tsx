@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import PasswordShowIcon from '../../icons/PasswordShowIcon.tsx';
 import PasswordHideIcon from '../../icons/PasswordHideIcon.tsx';
-import signIn from '../../apis/\bauth/signIn.ts';
+import signIn from '../../apis/auth/signIn.ts';
 
 function SignInModal() {
   const navigate = useNavigate();

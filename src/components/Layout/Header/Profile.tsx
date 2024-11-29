@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
 
 import DropdownIcon2 from '../../../icons/DropdownIcon2';
-import signOut from '../../../apis/\bauth/signOut';
+import signOut from '../../../apis/auth/signOut';
 
 function Profile({ name }: { name: string }) {
   const queryClient = useQueryClient();

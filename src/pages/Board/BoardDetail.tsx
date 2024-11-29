@@ -7,28 +7,29 @@ import getDetailPost from '../../apis/post/getDetailPost';
 import getUser from '../../apis/auth/getUser';
 import deletePost from '../../apis/post/deletePost';
 
-function NoticeDetail() {
+function BoardDetail() {
   const navigate = useNavigate();
   const { boardId, postId } = useParams();
   const { data: user } = useQuery({ queryKey: ['user'], queryFn: getUser, staleTime: Infinity, gcTime: Infinity });
-  const { data: notification } = useQuery({
-    queryKey: ['notification', postId],
+  const { data: post } = useQuery({
+    queryKey: ['post', postId],
     queryFn: () => {
       return getDetailPost(postId as string);
     },
   });
 
-  const noticeTitle = {
-    cosmic: 'COSMIC 공지',
-    cse: '학과 공지',
-    sw: '소중단 공지',
-    cbnu: '학교 공지',
+  const boardTitle = {
+    'introduction-board': '가입 인사',
+    'free-board': '자유 게시판',
+    seminar: '세미나',
+    archive: '자료실',
+    gallery: '갤러리',
   };
 
   const { mutate: handleDelete } = useMutation({
     mutationFn: () => deletePost(postId as string),
     onSuccess: () => {
-      navigate(`/notices/${boardId}`);
+      navigate(`/board/${boardId}`);
     },
     onError: (error) => {
       console.error(error);
@@ -47,11 +48,11 @@ function NoticeDetail() {
       <Navigation />
       {user ? (
         <ContentContainer>
-          <PageTitle>{noticeTitle[boardId as keyof typeof noticeTitle]}</PageTitle>
-          <PageIntro>공지 &gt; {noticeTitle[boardId as keyof typeof noticeTitle]}</PageIntro>
+          <PageTitle>{boardTitle[boardId as keyof typeof boardTitle]}</PageTitle>
+          <PageIntro>게시판 &gt; {boardTitle[boardId as keyof typeof boardTitle]}</PageIntro>
           <Header>
-            <Title>{notification?.title}</Title>
-            {user?.username === notification?.author && (
+            <Title>{post?.title}</Title>
+            {user?.username === post?.author && (
               <ButtonContainer>
                 <Button>수정</Button>
                 <Button onClick={handleDeleteButton}>삭제</Button>
@@ -59,13 +60,13 @@ function NoticeDetail() {
             )}
           </Header>
           <InfoContainer>
-            <Author>{notification?.author}</Author>
+            <Author>{post?.author}</Author>
             <Date>
-              {notification?.date.replace(/-/g, '.').split('T')[0]}. {notification?.date.split('T')[1].split(':')[0]}:
-              {notification?.date.split('T')[1].split(':')[1]}
+              {post?.date.replace(/-/g, '.').split('T')[0]}. {post?.date.split('T')[1].split(':')[0]}:
+              {post?.date.split('T')[1].split(':')[1]}
             </Date>
           </InfoContainer>
-          <Content>{notification?.content}</Content>
+          <Content>{post?.content}</Content>
         </ContentContainer>
       ) : (
         <CommentContainer>로그인이 필요합니다.</CommentContainer>
@@ -170,4 +171,4 @@ const CommentContainer = styled.div`
   font-weight: 700;
 `;
 
-export default NoticeDetail;
+export default BoardDetail;

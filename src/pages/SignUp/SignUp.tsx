@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import AccountModal from './AccountModal.tsx';
 import ProfileModal from './ProfileModal.tsx';
-import signUp from '../../apis/\bauth/signUp.ts';
+import signUp from '../../apis/auth/signUp.ts';
 
 function SignUp() {
   const navigate = useNavigate();

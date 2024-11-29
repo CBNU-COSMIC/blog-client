@@ -12,26 +12,26 @@ function Dropdown({
   const navigate = useNavigate();
   const [isFocusedIntroduction, setIsFocusedIntroduction] = useState(false);
   const [isFocusedSchedule, setIsFocusedSchedule] = useState(false);
-  const [isFocusedSeminar, setIsFocusedSeminar] = useState(false);
+  const [isFocusedNotice, setIsFocusedNotice] = useState(false);
   const [isFocusedBoard, setIsFocusedBoard] = useState(false);
-  const [isSeminarDropdownVisible, setIsSeminarDropdownVisible] = useState(false);
+  const [isNoticeDropdownVisible, setIsNoticeDropdownVisible] = useState(false);
   const [isBoardDropdownVisible, setIsBoardDropdownVisible] = useState(false);
 
   useEffect(() => {
     if (isDropdownVisible) {
       if (isFocusedBoard) {
         setIsBoardDropdownVisible(true);
-        setIsSeminarDropdownVisible(false);
+        setIsNoticeDropdownVisible(false);
       }
-      if (isFocusedSeminar) {
-        setIsSeminarDropdownVisible(true);
+      if (isFocusedNotice) {
+        setIsNoticeDropdownVisible(true);
         setIsBoardDropdownVisible(false);
       }
     } else {
-      setIsSeminarDropdownVisible(false);
+      setIsNoticeDropdownVisible(false);
       setIsBoardDropdownVisible(false);
     }
-  }, [isFocusedBoard, isFocusedSeminar, isDropdownVisible]);
+  }, [isFocusedBoard, isFocusedNotice, isDropdownVisible]);
 
   const navigateToIntroductionPage = () => {
     navigate('/introduction');
@@ -42,7 +42,14 @@ function Dropdown({
   };
 
   const navigateToNotices = (boardId: string) => {
+    setIsDropdownVisible(false);
     navigate(`/notices/${boardId}`);
+  };
+
+  const navigateToBoard = (boardId: string) => {
+    setIsDropdownVisible(false);
+    setIsBoardDropdownVisible(false);
+    navigate(`/board/${boardId}`);
   };
 
   return (
@@ -81,19 +88,19 @@ function Dropdown({
       </DropdownButton>
       <DropdownButton
         onMouseOver={() => {
-          setIsFocusedSeminar(true);
+          setIsFocusedNotice(true);
           setIsDropdownVisible(true);
         }}
         onFocus={() => {
-          setIsFocusedSeminar(true);
+          setIsFocusedNotice(true);
           setIsDropdownVisible(true);
         }}
         onMouseLeave={() => {
-          setIsFocusedSeminar(false);
+          setIsFocusedNotice(false);
         }}>
         공지
-        <DropdownUnderline isFocused={isSeminarDropdownVisible} />
-        <DropdownContents isOpen={isSeminarDropdownVisible}>
+        <DropdownUnderline isFocused={isNoticeDropdownVisible} />
+        <DropdownContents isOpen={isNoticeDropdownVisible}>
           <DropdownContent
             onClick={() => {
               navigateToNotices('cosmic');
@@ -135,11 +142,36 @@ function Dropdown({
         게시판
         <DropdownUnderline isFocused={isBoardDropdownVisible} />
         <DropdownContents isOpen={isBoardDropdownVisible}>
-          <DropdownContent>가입 인사</DropdownContent>
-          <DropdownContent>자유 게시판</DropdownContent>
-          <DropdownContent>세미나</DropdownContent>
-          <DropdownContent>자료실</DropdownContent>
-          <DropdownContent>갤러리</DropdownContent>
+          <DropdownContent
+            onClick={() => {
+              navigateToBoard('introduction-board');
+            }}>
+            가입 인사
+          </DropdownContent>
+          <DropdownContent
+            onClick={() => {
+              navigateToBoard('free-board');
+            }}>
+            자유 게시판
+          </DropdownContent>
+          <DropdownContent
+            onClick={() => {
+              navigateToBoard('semianr');
+            }}>
+            세미나
+          </DropdownContent>
+          <DropdownContent
+            onClick={() => {
+              navigateToBoard('archive');
+            }}>
+            자료실
+          </DropdownContent>
+          <DropdownContent
+            onClick={() => {
+              navigateToBoard('gallery');
+            }}>
+            갤러리
+          </DropdownContent>
         </DropdownContents>
       </DropdownButton>
     </Container>

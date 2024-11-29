@@ -7,49 +7,50 @@ import PostType from '../../types/PostType.ts';
 import getUser from '../../apis/auth/getUser.ts';
 import Navigation from './Navigation.tsx';
 
-function Notices() {
+function Board() {
   const navigate = useNavigate();
   const { boardId } = useParams();
   const { data: user } = useQuery({ queryKey: ['user'], queryFn: getUser, staleTime: Infinity, gcTime: Infinity });
-  const { data: notifications } = useQuery({
-    queryKey: ['notifications', boardId],
+  const { data: posts } = useQuery({
+    queryKey: ['posts', boardId],
     queryFn: () => {
       return getPost(boardId as string, 1);
     },
   });
 
-  const noticeTitle = {
-    cosmic: 'COSMIC 공지',
-    cse: '학과 공지',
-    sw: '소중단 공지',
-    cbnu: '학교 공지',
+  const boardTitle = {
+    'introduction-board': '가입 인사',
+    'free-board': '자유 게시판',
+    seminar: '세미나',
+    archive: '자료실',
+    gallery: '갤러리',
   };
 
   const navigateToWrite = () => {
-    navigate(`/notices/${boardId}/write`);
+    navigate(`/board/${boardId}/write`);
   };
 
   return (
     <Container>
       <Navigation />
       <ContentContainer>
-        <PageTitle>{noticeTitle[boardId as keyof typeof noticeTitle]}</PageTitle>
-        <PageIntro>공지 &gt; {noticeTitle[boardId as keyof typeof noticeTitle]}</PageIntro>
+        <PageTitle>{boardTitle[boardId as keyof typeof boardTitle]}</PageTitle>
+        <PageIntro>게시판 &gt; {boardTitle[boardId as keyof typeof boardTitle]}</PageIntro>
         <ContentsIntro>
           <IndexTitle>번호</IndexTitle>
           <TitleTitle>제목</TitleTitle>
-          <Writer>{boardId === 'cosmic' && '작성자'}</Writer>
+          <Writer>작성자</Writer>
           <Date>작성일</Date>
           <Hits>조회수</Hits>
         </ContentsIntro>
         <Contents>
-          {notifications?.length ? (
-            notifications.map((notification: PostType, index: number) => (
+          {posts?.length ? (
+            posts.map((notification: PostType, index: number) => (
               <Content key={notification.post_id}>
                 <Idex>{index + 1}</Idex>
                 <Title
                   onClick={() => {
-                    navigate(`/notices/${boardId}/detail/${notification.post_id}`);
+                    navigate(`/board/${boardId}/detail/${notification.post_id}`);
                   }}>
                   {notification.title}
                 </Title>
@@ -59,10 +60,10 @@ function Notices() {
               </Content>
             ))
           ) : (
-            <NoneNotification>등록된 공지가 없습니다.</NoneNotification>
+            <NoneNotification>등록된 게시글이 없습니다.</NoneNotification>
           )}
         </Contents>
-        {boardId === 'cosmic' && user && <WriteButton onClick={navigateToWrite}>글 쓰기</WriteButton>}
+        {user && <WriteButton onClick={navigateToWrite}>글 쓰기</WriteButton>}
         <PageList>
           <PageNumber isSelected={true}>1</PageNumber>
           <PageNumber isSelected={false}>2</PageNumber>
@@ -235,4 +236,4 @@ const WriteButton = styled.button`
   cursor: pointer;
 `;
 
-export default Notices;
+export default Board;

@@ -15,6 +15,8 @@ import Schedule from './pages/Schedule/Schedule.tsx';
 import Notices from './pages/Notices/Notices.tsx';
 import Wirte from './components/Write/Write.tsx';
 import NoticeDetail from './pages/Notices/NoticeDetail.tsx';
+import Board from './pages/Board/Board.tsx';
+import BoardDetail from './pages/Board/BoardDetail.tsx';
 
 const router = createBrowserRouter([
   {
@@ -58,6 +60,30 @@ const router = createBrowserRouter([
     element: (
       <Layout>
         <NoticeDetail />
+      </Layout>
+    ),
+  },
+  {
+    path: '/board/:boardId',
+    element: (
+      <Layout>
+        <Board />
+      </Layout>
+    ),
+  },
+  {
+    path: '/board/:boardId/write',
+    element: (
+      <Layout>
+        <Wirte />
+      </Layout>
+    ),
+  },
+  {
+    path: '/board/:boardId/detail/:postId',
+    element: (
+      <Layout>
+        <BoardDetail />
       </Layout>
     ),
   },

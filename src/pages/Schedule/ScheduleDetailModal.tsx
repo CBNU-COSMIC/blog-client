@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
 
-import getUser from '../../apis/\bauth/getUser.ts';
+import getUser from '../../apis/auth/getUser.ts';
 import getDetailSchedule from '../../apis/schedule/getDetailSchedule.ts';
 import deleteSchedule from '../../apis/schedule/deleteSchedule.ts';
 
