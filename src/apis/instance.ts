@@ -8,6 +8,22 @@ async function getInstance(): Promise<AxiosInstance> {
     },
   });
 
+  instance.interceptors.request.use(
+    (config) => {
+      const excludeEndpoints = ['/api/auth/sign-up'];
+      const isExcluded = excludeEndpoints.some((endpoint) => config.url?.includes(endpoint));
+
+      if (!isExcluded) {
+        config.withCredentials = true;
+      }
+
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    },
+  );
+
   return instance;
 }
 

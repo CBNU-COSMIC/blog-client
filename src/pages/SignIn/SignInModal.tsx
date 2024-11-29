@@ -1,14 +1,36 @@
 import { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import styled from 'styled-components';
 
+import PasswordShowIcon from '../../icons/PasswordShowIcon.tsx';
+import PasswordHideIcon from '../../icons/PasswordHideIcon.tsx';
+import signIn from '../../apis/\bauth/signIn.ts';
+
 function SignInModal() {
+  const navigate = useNavigate();
   const idInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [isBlurError, setIsNoneError] = useState(false);
+  const [isPasswordShow, setIsPasswordShow] = useState(false);
 
-  const login = () => {
+  const { mutate: handleSignIn } = useMutation({
+    mutationFn: (body: { userId: string; password: string }) => signIn(body),
+    onSuccess: () => {
+      navigate('/');
+    },
+    onError: (error: AxiosError<{ detail: string }>) => {
+      if (error.response) {
+        alert(error.response.data.detail);
+      }
+      console.error(error);
+    },
+  });
+
+  const handleSignInButton = () => {
     if (!id.trim()) {
       idInputRef.current?.focus();
       setIsNoneError(true);
@@ -22,7 +44,7 @@ function SignInModal() {
     }
 
     setIsNoneError(false);
-    // TODO: login
+    handleSignIn({ userId: id, password });
   };
 
   return (
@@ -33,12 +55,19 @@ function SignInModal() {
           <InputLabel>아이디</InputLabel>
         </InputBox1>
         <InputBox2>
-          <Input ref={passwordInputRef} onChange={(event) => setPassword(event.target.value)} />
+          <Input
+            type={isPasswordShow ? 'text' : 'password'}
+            ref={passwordInputRef}
+            onChange={(event) => setPassword(event.target.value)}
+          />
           <InputLabel>비밀번호</InputLabel>
+          <PasswordShowAndHideButton onClick={() => setIsPasswordShow(!isPasswordShow)}>
+            {password ? isPasswordShow ? <PasswordShowIcon /> : <PasswordHideIcon /> : null}
+          </PasswordShowAndHideButton>
         </InputBox2>
       </InputForm>
       {isBlurError && <NoneError>아이디 또는 비밀번호를 입력해주세요.</NoneError>}
-      <Button onClick={login}>로그인</Button>
+      <Button onClick={handleSignInButton}>로그인</Button>
     </Container>
   );
 }
@@ -78,6 +107,7 @@ const InputBox1 = styled.div`
 
 const InputBox2 = styled.div`
   position: relative;
+  display: flex;
   height: 60px;
   padding: 27px 15px 8px;
   border: 1.5px solid #c5ccd2;
@@ -111,6 +141,18 @@ const NoneError = styled.div`
   font-family: Pretendard, sans-serif;
   font-size: 14px;
   color: var(--error-color);
+`;
+
+const PasswordShowAndHideButton = styled.button`
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border: none;
+  background-color: white;
 `;
 
 const Button = styled.button`

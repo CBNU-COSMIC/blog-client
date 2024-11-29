@@ -4,24 +4,33 @@ import styled from 'styled-components';
 import PersonIcon from '../../icons/PersonIcon.tsx';
 import CalendarIcon from '../../icons/CalendarIcon.tsx';
 import PhoneIcon from '../../icons/PhoneIcon.tsx';
+import NicknameIcon from '../../icons/nicknameIcon.tsx';
 
 function ProfileModal({
   name,
   setName,
+  nickname,
+  setNickname,
   birth,
   setBirth,
   phoneNumber,
   setPhoneNumber,
   nameNoneError,
   setNameNoneError,
+  nicknameNoneError,
+  setNicknameNoneError,
   birthNoneError,
   setBirthNoneError,
   phoneNumberNoneError,
   setPhoneNumberNoneError,
+  nicknameValidError,
+  setNicknameValidError,
   birthValidError,
   setBirthValidError,
   phoneNumberValidError,
   setPhoneNumberValidError,
+  nicknameError,
+  setNicknameError,
   birthError,
   setBirthError,
   phoneNumberError,
@@ -29,20 +38,28 @@ function ProfileModal({
 }: {
   name: string;
   setName: (name: string) => void;
+  nickname: string;
+  setNickname: (nickName: string) => void;
   birth: string;
   setBirth: (birth: string) => void;
   phoneNumber: string;
   setPhoneNumber: (phoneNumber: string) => void;
   nameNoneError: boolean;
   setNameNoneError: (isError: boolean) => void;
+  nicknameNoneError: boolean;
+  setNicknameNoneError: (isError: boolean) => void;
   birthNoneError: boolean;
   setBirthNoneError: (isError: boolean) => void;
   phoneNumberNoneError: boolean;
   setPhoneNumberNoneError: (isError: boolean) => void;
+  nicknameValidError: boolean;
+  setNicknameValidError: (isError: boolean) => void;
   birthValidError: boolean;
   setBirthValidError: (isError: boolean) => void;
   phoneNumberValidError: boolean;
   setPhoneNumberValidError: (isError: boolean) => void;
+  nicknameError: boolean;
+  setNicknameError: (isError: boolean) => void;
   birthError: boolean;
   setBirthError: (isError: boolean) => void;
   phoneNumberError: boolean;
@@ -53,6 +70,7 @@ function ProfileModal({
   const [isFirstInputFocus, setIsFirstInputFocus] = useState(false);
   const [isSecondInputFocus, setIsSecondInputFocus] = useState(false);
   const [isThirdInputFocus, setIsThirdInputFocus] = useState(false);
+  const [isFourthInputFocus, setIsFourthInputFocus] = useState(false);
 
   const handleNameBlur = () => {
     setIsFirstInputFocus(false);
@@ -63,10 +81,28 @@ function ProfileModal({
     }
   };
 
+  const nicknameRegex = /^[가-힣a-zA-Z0-9\s]+$/;
+  const handleNickNameBlur = () => {
+    setIsSecondInputFocus(false);
+    if (!nickname.trim()) {
+      setNicknameError(true);
+      setNicknameNoneError(true);
+      setNicknameValidError(false);
+    } else if (!nickname.match(nicknameRegex)) {
+      setNicknameError(true);
+      setNicknameNoneError(false);
+      setNicknameValidError(true);
+    } else {
+      setNicknameError(false);
+      setNicknameNoneError(false);
+      setNicknameValidError(false);
+    }
+  };
+
   const birthRegex1 = /^(19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$/;
   const birthRegex2 = /^(19|20)\d{2}\.(0[1-9]|1[0-2])\.(0[1-9]|[12][0-9]|3[01])$/;
   const handleBirthBlur = () => {
-    setIsSecondInputFocus(false);
+    setIsThirdInputFocus(false);
     if (!birth.trim()) {
       setBirthError(true);
       setBirthNoneError(true);
@@ -88,7 +124,7 @@ function ProfileModal({
   const phoneNumberRegex1 = /^(010)\d{8}$/;
   const phoneNumberRegex2 = /^(010)-\d{4}-\d{4}$/;
   const handlePhoneNumberBlur = () => {
-    setIsThirdInputFocus(false);
+    setIsFourthInputFocus(false);
     if (!phoneNumber.trim()) {
       setPhoneNumberError(true);
       setPhoneNumberNoneError(true);
@@ -119,34 +155,51 @@ function ProfileModal({
           error={nameNoneError}
         />
       </InputBox1>
-      <InputBox2
-        nameError={nameNoneError}
+      <InputBox4
+        nameNoneError={nameNoneError}
+        nicknameError={nicknameError}
         birthError={birthError}
-        phoneNumberError={phoneNumberError}
         isFirstInputFocus={isFirstInputFocus}
         isThirdInputFocus={isThirdInputFocus}>
+        <NicknameIcon />
+        <Input
+          placeholder="닉네임"
+          onChange={(event) => setNickname(event.target.value)}
+          onFocus={() => setIsSecondInputFocus(true)}
+          onBlur={handleNickNameBlur}
+          error={nicknameError}
+        />
+      </InputBox4>
+      <InputBox2
+        nicknameError={nicknameError}
+        birthError={birthError}
+        phoneNumberError={phoneNumberError}
+        isFirstInputFocus={isSecondInputFocus}
+        isThirdInputFocus={isFourthInputFocus}>
         <CalendarIcon />
         <Input
           ref={birthInputRef}
           placeholder="생년월일 8자리"
           onChange={(event) => setBirth(event.target.value)}
-          onFocus={() => setIsSecondInputFocus(true)}
+          onFocus={() => setIsThirdInputFocus(true)}
           onBlur={handleBirthBlur}
           error={birthError}
         />
       </InputBox2>
-      <InputBox3 phoneNumberError={phoneNumberError} birthError={birthError} isSecondInputFocus={isSecondInputFocus}>
+      <InputBox3 phoneNumberError={phoneNumberError} birthError={birthError} isThirdInputFocus={isThirdInputFocus}>
         <PhoneIcon />
         <Input
           ref={phoneNumberInputRef}
           placeholder="휴대전화번호"
           onChange={(event) => setPhoneNumber(event.target.value)}
-          onFocus={() => setIsThirdInputFocus(true)}
+          onFocus={() => setIsFourthInputFocus(true)}
           onBlur={handlePhoneNumberBlur}
           error={phoneNumberError}
         />
       </InputBox3>
       {nameNoneError && <NoneError>이름을 입력해주세요.</NoneError>}
+      {nicknameNoneError && <NoneError>닉네임을 입력해주세요.</NoneError>}
+      {nicknameValidError && <NoneError>닉네임은 한글, 영문, 숫자만 사용할 수 있습니다.</NoneError>}
       {birthNoneError && <NoneError>생년월일을 입력해주세요.</NoneError>}
       {birthValidError && <NoneError>올바른 생년월일를 입력해주세요. 8자리 숫자여야 합니다.</NoneError>}
       {phoneNumberNoneError && <NoneError>휴대전화번호를 입력해주세요.</NoneError>}
@@ -182,7 +235,7 @@ const InputBox1 = styled.div<{ nameError: boolean; birthError: boolean; isSecond
 `;
 
 const InputBox2 = styled.div<{
-  nameError: boolean;
+  nicknameError: boolean;
   birthError: boolean;
   phoneNumberError: boolean;
   isFirstInputFocus: boolean;
@@ -194,8 +247,8 @@ const InputBox2 = styled.div<{
   width: 500px;
   height: 50px;
   border: ${({ birthError }) => (birthError ? '2px solid var(--error-color)' : '1px solid #e1e3e5')};
-  ${({ nameError, birthError, isFirstInputFocus }) =>
-    !nameError && birthError && !isFirstInputFocus ? '' : 'border-top: none;'}
+  ${({ nicknameError, birthError, isFirstInputFocus }) =>
+    !nicknameError && birthError && !isFirstInputFocus ? '' : 'border-top: none;'}
   ${({ phoneNumberError, birthError, isThirdInputFocus }) =>
     !phoneNumberError && birthError && !isThirdInputFocus ? '' : 'border-bottom: none;'}
     padding: 0 8px;
@@ -208,7 +261,7 @@ const InputBox2 = styled.div<{
      };`}
 `;
 
-const InputBox3 = styled.div<{ phoneNumberError: boolean; birthError: boolean; isSecondInputFocus: boolean }>`
+const InputBox3 = styled.div<{ phoneNumberError: boolean; birthError: boolean; isThirdInputFocus: boolean }>`
   position: relative;
   display: flex;
   align-items: center;
@@ -219,12 +272,43 @@ const InputBox3 = styled.div<{ phoneNumberError: boolean; birthError: boolean; i
   padding: 0 8px;
   box-sizing: border-box;
   gap: 7px;
-  ${({ isSecondInputFocus, birthError }) => isSecondInputFocus && !birthError && 'border-top: none;'}
+  ${({ isThirdInputFocus, birthError }) => isThirdInputFocus && !birthError && 'border-top: none;'}
   ${({ phoneNumberError }) =>
     !phoneNumberError &&
     `&:focus-within {
         border: 2px solid var(--primary-color);
         border-radius: 0 0 8px 8px;
+     };`}
+`;
+
+const InputBox4 = styled.div<{
+  nameNoneError: boolean;
+  nicknameError: boolean;
+  birthError: boolean;
+  isFirstInputFocus: boolean;
+  isThirdInputFocus: boolean;
+}>`
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 500px;
+  height: 50px;
+  border: ${({ nicknameError }) => (nicknameError ? '2px solid var(--error-color)' : '1px solid #e1e3e5')};
+  ${({ nameNoneError, nicknameError, isFirstInputFocus }) =>
+    !nameNoneError && nicknameError && !isFirstInputFocus ? '' : 'border-top: none;'}
+  ${({ birthError, nicknameError, isThirdInputFocus }) =>
+    !birthError && nicknameError && !isThirdInputFocus
+      ? ''
+      : !birthError && nicknameError
+        ? 'border-bottom: none;'
+        : ''}
+    padding: 0 8px;
+  box-sizing: border-box;
+  gap: 7px;
+  ${({ nicknameError }) =>
+    !nicknameError &&
+    `&:focus-within {
+        border: 2px solid var(--primary-color);
      };`}
 `;
 
