@@ -27,7 +27,7 @@ function Board() {
   };
 
   const navigateToWrite = () => {
-    navigate(`/notices/${boardId}/write`);
+    navigate(`/board/${boardId}/write`);
   };
 
   return (

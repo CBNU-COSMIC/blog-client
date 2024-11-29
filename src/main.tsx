@@ -71,6 +71,14 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: '/board/:boardId/write',
+    element: (
+      <Layout>
+        <Wirte />
+      </Layout>
+    ),
+  },
+  {
     path: '/schedule',
     element: (
       <Layout>
