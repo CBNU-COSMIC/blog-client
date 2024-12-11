@@ -1,13 +1,26 @@
 import { useState, useRef } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
 
 import getUser from '../../apis/auth/getUser';
+import writeComment from '../../apis/comment/writeComment';
 
 function Comment() {
+  const { postId } = useParams();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [comment, setComment] = useState('');
   const { data: user } = useQuery({ queryKey: ['user'], queryFn: getUser, staleTime: Infinity, gcTime: Infinity });
+
+  const { mutate: handleWriteComment } = useMutation({
+    mutationFn: () => writeComment({ post_id: postId as string, content: comment }),
+    onSuccess: () => {
+      setComment('');
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
 
   const handleInput = () => {
     const textarea = textareaRef.current;
@@ -33,7 +46,15 @@ function Comment() {
           onInput={handleInput}
         />
         <ButtonContainer>
-          <Button active={comment ? true : false}>등록</Button>
+          <Button
+            active={comment ? true : false}
+            onClick={() => {
+              if (comment) {
+                handleWriteComment();
+              }
+            }}>
+            등록
+          </Button>
         </ButtonContainer>
       </InputForm>
     </Container>
@@ -92,7 +113,7 @@ const Button = styled.button<{ active: boolean }>`
   border: none;
   border-radius: 6px;
   ${({ active }) => (active ? 'color: white;' : 'color: #B7B7B7;')}
-  ${({ active }) => (active ? 'background-color: var(--primary-color);' : 'background-color: white;')}
+  ${({ active }) => (active ? 'background-color: var(--tertiary-color);' : 'background-color: white;')}
   ${({ active }) => active && 'cursor: pointer;'}
 `;
 
