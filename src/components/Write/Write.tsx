@@ -24,7 +24,7 @@ function Wirte() {
   const { mutate: write } = useMutation({
     mutationFn: () => writePost({ board_id: boardId as string, title, content }),
     onSuccess: () => {
-      navigate(`/${location.pathname.split('/')[1]}/${boardId}`, {
+      navigate(`/${location.pathname.split('/')[1]}/${boardId}/1`, {
         replace: true,
       });
     },

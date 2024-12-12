@@ -41,7 +41,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: '/notices/:boardId',
+    path: '/notices/:boardId/:page',
     element: (
       <Layout>
         <Notices />
