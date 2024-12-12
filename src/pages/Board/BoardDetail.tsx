@@ -19,6 +19,8 @@ function BoardDetail() {
     },
   });
 
+  console.log(post);
+
   const boardTitle = {
     'introduction-board': '가입 인사',
     'free-board': '자유 게시판',
@@ -174,6 +176,7 @@ const Content = styled.div`
   font-size: 14px;
   line-height: 1.5;
   min-height: 300px;
+  white-space: pre-wrap;
 `;
 
 const CommentContainer = styled.div`

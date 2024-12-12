@@ -23,8 +23,6 @@ function Comment() {
   const { data: user } = useQuery({ queryKey: ['user'], queryFn: getUser, staleTime: Infinity, gcTime: Infinity });
   const { data: comments } = useQuery({ queryKey: ['comments', postId], queryFn: () => getComment(postId as string) });
 
-  console.log(comments);
-
   const { mutate: handleWriteComment } = useMutation({
     mutationFn: () => writeComment({ post_id: postId as string, content: commentContent }),
     onSuccess: () => {
@@ -262,6 +260,7 @@ const CommentContent = styled.div`
   padding-bottom: 7px;
   width: 798px;
   max-width: 798px;
+  white-space: pre-wrap;
 `;
 
 const InputForm = styled.div`
