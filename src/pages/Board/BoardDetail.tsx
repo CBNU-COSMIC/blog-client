@@ -6,6 +6,7 @@ import Navigation from './Navigation';
 import getDetailPost from '../../apis/post/getDetailPost';
 import getUser from '../../apis/auth/getUser';
 import deletePost from '../../apis/post/deletePost';
+import Comment from './Comment';
 
 function BoardDetail() {
   const navigate = useNavigate();
@@ -17,6 +18,8 @@ function BoardDetail() {
       return getDetailPost(postId as string);
     },
   });
+
+  console.log(post);
 
   const boardTitle = {
     'introduction-board': '가입 인사',
@@ -47,29 +50,34 @@ function BoardDetail() {
     <Container>
       <Navigation />
       {user ? (
-        <ContentContainer>
-          <PageTitle>{boardTitle[boardId as keyof typeof boardTitle]}</PageTitle>
-          <PageIntro>게시판 &gt; {boardTitle[boardId as keyof typeof boardTitle]}</PageIntro>
-          <Header>
-            <Title>{post?.title}</Title>
-            {user?.username === post?.author && (
-              <ButtonContainer>
-                <Button>수정</Button>
-                <Button onClick={handleDeleteButton}>삭제</Button>
-              </ButtonContainer>
-            )}
-          </Header>
-          <InfoContainer>
-            <Author>{post?.author}</Author>
-            <Date>
-              {post?.date.replace(/-/g, '.').split('T')[0]}. {post?.date.split('T')[1].split(':')[0]}:
-              {post?.date.split('T')[1].split(':')[1]}
-            </Date>
-          </InfoContainer>
-          <Content>{post?.content}</Content>
-        </ContentContainer>
+        <PostContainer>
+          <ContentContainer>
+            <PageTitle>{boardTitle[boardId as keyof typeof boardTitle]}</PageTitle>
+            <PageIntro>게시판 &gt; {boardTitle[boardId as keyof typeof boardTitle]}</PageIntro>
+            <Header>
+              <Title>{post?.title}</Title>
+              {user?.username === post?.author && (
+                <ButtonContainer>
+                  <Button>수정</Button>
+                  <Button onClick={handleDeleteButton}>삭제</Button>
+                </ButtonContainer>
+              )}
+            </Header>
+            <InfoContainer>
+              <Author>{post?.author}</Author>
+              <Date>
+                {post?.date.replace(/-/g, '.').split('T')[0]}. {post?.date.split('T')[1].split(':')[0]}:
+                {post?.date.split('T')[1].split(':')[1]}
+              </Date>
+            </InfoContainer>
+            <Content>{post?.content}</Content>
+          </ContentContainer>
+          <CommentContainer>
+            <Comment />
+          </CommentContainer>
+        </PostContainer>
       ) : (
-        <CommentContainer>로그인이 필요합니다.</CommentContainer>
+        <Error>로그인이 필요합니다.</Error>
       )}
     </Container>
   );
@@ -85,11 +93,20 @@ const Container = styled.div`
   gap: 80px;
 `;
 
+const PostContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 80px;
+  padding: 29px;
+  border: 1px solid #d3d3d3;
+  border-radius: 6px;
+`;
+
 const ContentContainer = styled.div`
   display: flex;
   width: 798px;
   flex-direction: column;
-  margin-top: 80px;
 `;
 
 const PageTitle = styled.div`
@@ -158,9 +175,18 @@ const Content = styled.div`
   font-family: 'Pretendard', sans-serif;
   font-size: 14px;
   line-height: 1.5;
+  min-height: 300px;
+  white-space: pre-wrap;
 `;
 
 const CommentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+`;
+
+const Error = styled.div`
   display: flex;
   width: 798px;
   height: 500px;

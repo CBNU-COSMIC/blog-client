@@ -157,6 +157,7 @@ const Content = styled.div`
   font-family: 'Pretendard', sans-serif;
   font-size: 14px;
   line-height: 1.5;
+  white-space: pre-wrap;
 `;
 
 const CommentContainer = styled.div`
