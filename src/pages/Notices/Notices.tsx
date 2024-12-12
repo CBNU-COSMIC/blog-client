@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
@@ -6,17 +7,48 @@ import getPost from '../../apis/post/getPost.ts';
 import PostType from '../../types/PostType.ts';
 import getUser from '../../apis/auth/getUser.ts';
 import Navigation from './Navigation.tsx';
+import getPostCount from '../../apis/post/getPostCount.ts';
 
 function Notices() {
   const navigate = useNavigate();
-  const { boardId } = useParams();
+  const { boardId, page } = useParams();
+  const [pageGroup, setPageGroup] = useState(1);
+  const [startPage, setStartPage] = useState(1);
+  const [endPage, setEndPage] = useState(1);
   const { data: user } = useQuery({ queryKey: ['user'], queryFn: getUser, staleTime: Infinity, gcTime: Infinity });
   const { data: notifications } = useQuery({
-    queryKey: ['notifications', boardId],
+    queryKey: ['notifications', boardId, page],
     queryFn: () => {
-      return getPost(boardId as string, 1);
+      return getPost(boardId as string, page as string);
     },
   });
+  const { data: postCount } = useQuery({
+    queryKey: ['postCount', boardId],
+    queryFn: () => {
+      return getPostCount(boardId as string);
+    },
+  });
+
+  useEffect(() => {
+    setStartPage((pageGroup - 1) * 10 + 1);
+    setEndPage(Math.min(pageGroup * 10, Math.ceil(postCount?.count / 10)));
+  }, [postCount, pageGroup]);
+
+  const handlePageClick = (page: number) => {
+    navigate(`/notices/${boardId}/${page}`);
+  };
+
+  const handlePrevGroup = () => {
+    if (pageGroup > 1) {
+      setPageGroup((prev) => prev - 1);
+    }
+  };
+
+  const handleNextGroup = () => {
+    if (pageGroup * 10 < Math.ceil(postCount?.count / 10)) {
+      setPageGroup((prev) => prev + 1);
+    }
+  };
 
   const noticeTitle = {
     cosmic: 'COSMIC 공지',
@@ -46,7 +78,7 @@ function Notices() {
           {notifications?.length ? (
             notifications.map((notification: PostType, index: number) => (
               <Content key={notification.post_id}>
-                <Idex>{index + 1}</Idex>
+                <Idex>{(+(page as string) - 1) * 10 + index + 1}</Idex>
                 <Title
                   onClick={() => {
                     navigate(`/notices/${boardId}/detail/${notification.post_id}`);
@@ -64,10 +96,31 @@ function Notices() {
         </Contents>
         {boardId === 'cosmic' && user && <WriteButton onClick={navigateToWrite}>글 쓰기</WriteButton>}
         <PageList>
-          <PageNumber isSelected={true}>1</PageNumber>
-          <PageNumber isSelected={false}>2</PageNumber>
-          <PageNumber isSelected={false}>3</PageNumber>
-          <PageNumber isSelected={false}>4</PageNumber>
+          {pageGroup !== 1 ? (
+            <PageNumber isSelected={false} onClick={handlePrevGroup} disabled={pageGroup === 1}>
+              &lt;
+            </PageNumber>
+          ) : (
+            <HiddenButton />
+          )}
+          {Array.from({ length: endPage - startPage + 1 }, (_, idx) => {
+            const pageNumber = startPage + idx;
+            return (
+              <PageNumber
+                key={pageNumber}
+                isSelected={pageNumber === +(page as string)}
+                onClick={() => handlePageClick(pageNumber)}>
+                {pageNumber}
+              </PageNumber>
+            );
+          })}
+          {endPage !== Math.ceil(postCount?.count / 10) ? (
+            <PageNumber isSelected={false} onClick={handleNextGroup} disabled={endPage === 130}>
+              &gt;
+            </PageNumber>
+          ) : (
+            <HiddenButton />
+          )}
         </PageList>
       </ContentContainer>
     </Container>
@@ -211,6 +264,13 @@ const PageNumber = styled.button<{ isSelected: boolean }>`
   color: ${({ isSelected }) => (isSelected ? 'var(--primary-color)' : 'black')};
   ${({ isSelected }) => (isSelected ? 'border: 1px solid #d3d3d3' : 'border: none')};
   cursor: pointer;
+`;
+
+const HiddenButton = styled.button`
+  width: 24px;
+  height: 24px;
+  background-color: #f8f8f8;
+  border: none;
 `;
 
 const NoneNotification = styled.div`

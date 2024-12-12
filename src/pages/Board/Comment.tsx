@@ -258,7 +258,7 @@ const CommentContent = styled.div`
   font-size: 15px;
   min-height: 15px;
   padding-bottom: 7px;
-  width: 798px;
+  width: 780px;
   max-width: 798px;
   white-space: pre-wrap;
 `;
@@ -283,7 +283,7 @@ const Textarea = styled.textarea`
   font-size: 13px;
   font-weight: 400;
   height: 15px;
-  width: 770px;
+  width: 752px;
   max-width: 798px;
   padding: 0;
   border: none;

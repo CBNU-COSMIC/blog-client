@@ -41,7 +41,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: '/notices/:boardId',
+    path: '/notices/:boardId/:page',
     element: (
       <Layout>
         <Notices />
@@ -73,7 +73,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: '/board/:boardId',
+    path: '/board/:boardId/:page',
     element: (
       <Layout>
         <Board />

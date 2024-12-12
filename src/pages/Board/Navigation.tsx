@@ -8,7 +8,7 @@ function Navigation() {
   const { boardId } = useParams();
 
   const navigateToNotices = (boardId: string) => {
-    navigate(`/board/${boardId}`);
+    navigate(`/board/${boardId}/1`);
   };
 
   return (
