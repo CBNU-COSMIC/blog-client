@@ -38,7 +38,7 @@ function Edit() {
   const { mutate: edit } = useMutation({
     mutationFn: () => editPost(postId as string, title, content),
     onSuccess: () => {
-      navigate(`/${location.pathname.split('/')[1]}/${boardId}`, {
+      navigate(`/${location.pathname.split('/')[1]}/${boardId}/detail/${postId}`, {
         replace: true,
       });
     },

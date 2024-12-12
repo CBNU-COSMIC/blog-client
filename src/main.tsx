@@ -65,6 +65,14 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: '/notices/:boardId/edit/:postId',
+    element: (
+      <Layout>
+        <Edit />
+      </Layout>
+    ),
+  },
+  {
     path: '/board/:boardId',
     element: (
       <Layout>
