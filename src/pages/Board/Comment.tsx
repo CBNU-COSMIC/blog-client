@@ -8,6 +8,7 @@ import getComment from '../../apis/comment/getComment';
 import writeComment from '../../apis/comment/writeComment';
 import CommentType from '../../types/CommentType';
 import CommentIcon from '../../icons/CommentIcon';
+import editComment from '../../apis/comment/editComment';
 
 function Comment() {
   const { postId } = useParams();
@@ -27,6 +28,18 @@ function Comment() {
     mutationFn: () => writeComment({ post_id: postId as string, content: commentContent }),
     onSuccess: () => {
       setCommentContent('');
+      queryClient.invalidateQueries({ queryKey: ['comments', postId] });
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
+  const { mutate: handleEditComment } = useMutation({
+    mutationFn: () => editComment(editCommentId, editCommentContent),
+    onSuccess: () => {
+      setIsEdit(false);
+      setEditCommentContent('');
       queryClient.invalidateQueries({ queryKey: ['comments', postId] });
     },
     onError: (error) => {
@@ -102,7 +115,15 @@ function Comment() {
                       }}>
                       취소
                     </Button>
-                    <Button active={editCommentContent ? true : false}>수정</Button>
+                    <Button
+                      active={editCommentContent ? true : false}
+                      onClick={() => {
+                        if (editCommentContent) {
+                          handleEditComment();
+                        }
+                      }}>
+                      수정
+                    </Button>
                   </ButtonContainer>
                 </InputForm>
               </CommentContainer>

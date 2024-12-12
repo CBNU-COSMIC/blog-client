@@ -12,6 +12,15 @@ function Wirte() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
+  const boardTitle = {
+    'introduction-board': '가입 인사',
+    'free-board': '자유 게시판',
+    seminar: '세미나',
+    archive: '자료실',
+    gallery: '갤러리',
+    cosmic: 'COSMIC 공지',
+  };
+
   const { mutate: write } = useMutation({
     mutationFn: () => writePost({ board_id: boardId as string, title, content }),
     onSuccess: () => {
@@ -27,7 +36,7 @@ function Wirte() {
   return (
     <Container>
       <Header>
-        <Text>{location.pathname.split('/')[1] === 'board' ? '게시판 글쓰기' : '공지 글쓰기'}</Text>
+        <Text>{boardTitle[boardId as keyof typeof boardTitle]}</Text>
         <Button
           onClick={() => {
             if (!title.trim() || !content.trim()) {
