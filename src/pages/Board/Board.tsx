@@ -77,18 +77,19 @@ function Board() {
         </ContentsIntro>
         <Contents>
           {posts?.length ? (
-            posts.map((notification: PostType, index: number) => (
-              <Content key={notification.post_id}>
+            posts.map((post: PostType, index: number) => (
+              <Content key={post.post_id}>
                 <Idex>{(+(page as string) - 1) * 10 + index + 1}</Idex>
                 <Title
                   onClick={() => {
-                    navigate(`/board/${boardId}/detail/${notification.post_id}`);
+                    navigate(`/board/${boardId}/detail/${post.post_id}`);
                   }}>
-                  {notification.title}
+                  {post.title}
+                  {post.comment_count !== 0 && <CommentCount>[{post.comment_count}]</CommentCount>}
                 </Title>
-                <Writer>{notification.author}</Writer>
-                <Date>{notification.date.replace(/-/g, '.').split('T')[0]}.</Date>
-                <Hits>{notification.hits}</Hits>
+                <Writer>{post.author}</Writer>
+                <Date>{post.date.replace(/-/g, '.').split('T')[0]}.</Date>
+                <Hits>{post.hits}</Hits>
               </Content>
             ))
           ) : (
@@ -204,6 +205,9 @@ const Idex = styled.div`
 `;
 
 const Title = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 3px;
   font-family: 'Pretendard', sans-serif;
   font-size: 13px;
   color: black;
@@ -217,6 +221,13 @@ const Title = styled.div`
   &:visited {
     color: inherit;
   }
+`;
+
+const CommentCount = styled.div`
+  font-family: 'Pretendard', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ff2f3b;
 `;
 
 const Writer = styled.div`

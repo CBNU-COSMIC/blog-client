@@ -6,6 +6,7 @@ interface PostType {
   hits: number;
   content: string;
   type: string;
+  comment_count: number;
 }
 
 export default PostType;
