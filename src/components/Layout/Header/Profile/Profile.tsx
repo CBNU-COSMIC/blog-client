@@ -6,6 +6,7 @@ import DropdownIcon2 from '../../../../icons/DropdownIcon2';
 import signOut from '../../../../apis/auth/signOut';
 import ProfileDetailModal from './ProfileDetailModal';
 import PasswordModal from './PasswordModal';
+import ProfileEditModal from './ProfileEditModal';
 
 function Profile({ name }: { name: string }) {
   const queryClient = useQueryClient();
@@ -13,6 +14,7 @@ function Profile({ name }: { name: string }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const { mutate: handleSignOut } = useMutation({
     mutationFn: () => signOut(),
@@ -68,7 +70,10 @@ function Profile({ name }: { name: string }) {
       {isDetailModalOpen && (
         <ProfileDetailModal setIsModalOpen={setIsDetailModalOpen} setIsPasswordModalOpen={setIsPasswordModalOpen} />
       )}
-      {isPasswordModalOpen && <PasswordModal setIsModalOpen={setIsPasswordModalOpen} />}
+      {isPasswordModalOpen && (
+        <PasswordModal setIsModalOpen={setIsPasswordModalOpen} setIsEditModalOpen={setIsEditModalOpen} />
+      )}
+      {isEditModalOpen && <ProfileEditModal setIsModalOpen={setIsEditModalOpen} />}
     </div>
   );
 }

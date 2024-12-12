@@ -7,7 +7,13 @@ import checkPassword from '../../../../apis/auth/checkPassword';
 import PasswordShowIcon from '../../../../icons/PasswordShowIcon';
 import PasswordHideIcon from '../../../../icons/PasswordHideIcon';
 
-function PasswordModal({ setIsModalOpen }: { setIsModalOpen: (isOpen: boolean) => void }) {
+function PasswordModal({
+  setIsModalOpen,
+  setIsEditModalOpen,
+}: {
+  setIsModalOpen: (isOpen: boolean) => void;
+  setIsEditModalOpen: (isOpen: boolean) => void;
+}) {
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const [password, setPassword] = useState('');
   const [isPasswordShow, setIsPasswordShow] = useState(false);
@@ -16,6 +22,7 @@ function PasswordModal({ setIsModalOpen }: { setIsModalOpen: (isOpen: boolean) =
     mutationFn: () => checkPassword(password),
     onSuccess: () => {
       setIsModalOpen(false);
+      setIsEditModalOpen(true);
     },
     onError: (error: AxiosError<{ detail: string }>) => {
       if (error.response) {
