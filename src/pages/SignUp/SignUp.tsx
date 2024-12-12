@@ -180,7 +180,7 @@ function SignUp() {
         email,
         username: name,
         nickname,
-        birth: birth.replace(/\./g, '-'),
+        birth: `${birth.slice(0, 4)}-${birth.slice(4, 6)}-${birth.slice(6, 8)}`,
         phone: phoneNumber,
       };
       handleSignUp(body);

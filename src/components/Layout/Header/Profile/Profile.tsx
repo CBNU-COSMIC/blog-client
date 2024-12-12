@@ -16,6 +16,8 @@ function Profile({ name }: { name: string }) {
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
+  console.log(new Date('2000-02-09'));
+
   const { mutate: handleSignOut } = useMutation({
     mutationFn: () => signOut(),
     onSuccess: () => {

@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import styled from 'styled-components';
 
 import getMyInfo from '../../../../apis/user/getMyInfo';
+import editMyInfo from '../../../../apis/user/editMyInfo';
 
 function ProfileEditModal({ setIsModalOpen }: { setIsModalOpen: (isOpen: boolean) => void }) {
   const { data: myInfo } = useQuery({ queryKey: ['myInfo'], queryFn: getMyInfo });
@@ -26,6 +28,26 @@ function ProfileEditModal({ setIsModalOpen }: { setIsModalOpen: (isOpen: boolean
   const [birthError, setBirthError] = useState(false);
   const [birthNoneError, setBirthNoneError] = useState(false);
   const [birthValidError, setBirthValidError] = useState(false);
+
+  const { mutate: handleEditMyInfo } = useMutation({
+    mutationFn: () =>
+      editMyInfo({
+        username: name,
+        nickname,
+        email,
+        phone,
+        birth: `${birth.slice(0, 4)}-${birth.slice(4, 6)}-${birth.slice(6, 8)}`,
+      }),
+    onSuccess: () => {
+      setIsModalOpen(false);
+    },
+    onError: (error: AxiosError<{ detail: string }>) => {
+      if (error.response) {
+        alert(error.response.data.detail);
+      }
+      console.error(error);
+    },
+  });
 
   useEffect(() => {
     if (myInfo) {
@@ -188,7 +210,14 @@ function ProfileEditModal({ setIsModalOpen }: { setIsModalOpen: (isOpen: boolean
         </InputBox>
         {birthNoneError && <Error>생년월일을 입력해주세요.</Error>}
         {birthValidError && <Error>올바른 생년월일를 입력해주세요. 8자리 숫자여야 합니다.</Error>}
-        <Button>정보 수정 하기</Button>
+        <Button
+          onClick={() => {
+            if (!nameNoneError && !nicknameError && !emailError && !phoneError && !birthError) {
+              handleEditMyInfo();
+            }
+          }}>
+          정보 수정 하기
+        </Button>
       </ModalContainer>
     </ModalBackground>
   );
