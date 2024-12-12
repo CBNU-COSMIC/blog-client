@@ -8,7 +8,7 @@ function Notifications({ selectedOption }: { selectedOption: string }) {
   const { data: notifications } = useQuery({
     queryKey: ['notifications', selectedOption],
     queryFn: () => {
-      return getPost(selectedOption, 1);
+      return getPost(selectedOption, '1');
     },
   });
 

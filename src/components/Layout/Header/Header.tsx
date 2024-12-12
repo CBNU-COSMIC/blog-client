@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import LoginButton from './LoginButton.tsx';
 import Dropdown from './Dropdown.tsx';
 import getUser from '../../../apis/auth/getUser.ts';
-import Profile from './Profile.tsx';
+import Profile from './Profile/Profile.tsx';
 
 function Header() {
   const navigate = useNavigate();

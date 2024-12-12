@@ -19,8 +19,6 @@ function ScheduleDetailModal({
     queryFn: () => getDetailSchedule(scheduleId),
   });
 
-  console.log(user, schedule);
-
   const closeModal = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       setIsModalOpen(false);
