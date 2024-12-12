@@ -46,6 +46,10 @@ function BoardDetail() {
     }
   };
 
+  const handleEditButton = () => {
+    navigate(`/board/${boardId}/edit/${postId}`);
+  };
+
   return (
     <Container>
       <Navigation />
@@ -58,7 +62,7 @@ function BoardDetail() {
               <Title>{post?.title}</Title>
               {user?.username === post?.author && (
                 <ButtonContainer>
-                  <Button>수정</Button>
+                  <Button onClick={handleEditButton}>수정</Button>
                   <Button onClick={handleDeleteButton}>삭제</Button>
                 </ButtonContainer>
               )}
