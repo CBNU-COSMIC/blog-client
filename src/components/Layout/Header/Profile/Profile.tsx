@@ -2,13 +2,21 @@ import { useState, useEffect, useRef } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
 
-import DropdownIcon2 from '../../../icons/DropdownIcon2';
-import signOut from '../../../apis/auth/signOut';
+import DropdownIcon2 from '../../../../icons/DropdownIcon2';
+import signOut from '../../../../apis/auth/signOut';
+import ProfileDetailModal from './ProfileDetailModal';
+import PasswordModal from './PasswordModal';
+import ProfileEditModal from './ProfileEditModal';
 
 function Profile({ name }: { name: string }) {
   const queryClient = useQueryClient();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  console.log(new Date('2000-02-09'));
 
   const { mutate: handleSignOut } = useMutation({
     mutationFn: () => signOut(),
@@ -35,25 +43,40 @@ function Profile({ name }: { name: string }) {
     };
   }, [isDropdownOpen]);
 
+  const handleOpenDetailModal = () => {
+    setIsDetailModalOpen(true);
+  };
+
   return (
-    <Container ref={dropdownRef} onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-      {isDropdownOpen && (
-        <Dropdown>
-          <DropdownItem color="black">마이페이지</DropdownItem>
-          <DropdownItem
-            color="red"
-            onClick={() => {
-              handleSignOut();
-            }}>
-            로그아웃
-          </DropdownItem>
-        </Dropdown>
+    <div>
+      <Container ref={dropdownRef} onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+        {isDropdownOpen && (
+          <Dropdown>
+            <DropdownItem color="black" onClick={handleOpenDetailModal}>
+              내 정보
+            </DropdownItem>
+            <DropdownItem
+              color="red"
+              onClick={() => {
+                handleSignOut();
+              }}>
+              로그아웃
+            </DropdownItem>
+          </Dropdown>
+        )}
+        <Name>{name}</Name>
+        <DropdownButton>
+          <DropdownIcon2 />
+        </DropdownButton>
+      </Container>
+      {isDetailModalOpen && (
+        <ProfileDetailModal setIsModalOpen={setIsDetailModalOpen} setIsPasswordModalOpen={setIsPasswordModalOpen} />
       )}
-      <Name>{name}</Name>
-      <DropdownButton>
-        <DropdownIcon2 />
-      </DropdownButton>
-    </Container>
+      {isPasswordModalOpen && (
+        <PasswordModal setIsModalOpen={setIsPasswordModalOpen} setIsEditModalOpen={setIsEditModalOpen} />
+      )}
+      {isEditModalOpen && <ProfileEditModal setIsModalOpen={setIsEditModalOpen} />}
+    </div>
   );
 }
 
