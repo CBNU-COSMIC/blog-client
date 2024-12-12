@@ -94,7 +94,9 @@ function Notices() {
             <NoneNotification>등록된 공지가 없습니다.</NoneNotification>
           )}
         </Contents>
-        {boardId === 'cosmic' && user && <WriteButton onClick={navigateToWrite}>글 쓰기</WriteButton>}
+        {boardId === 'cosmic' && user && (user.role === 'president' || user.role === 'executive') && (
+          <WriteButton onClick={navigateToWrite}>글 쓰기</WriteButton>
+        )}
         <PageList>
           {pageGroup !== 1 ? (
             <PageNumber isSelected={false} onClick={handlePrevGroup} disabled={pageGroup === 1}>

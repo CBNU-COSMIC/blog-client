@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import styled from 'styled-components';
 
@@ -7,6 +7,7 @@ import getMyInfo from '../../../../apis/user/getMyInfo';
 import editMyInfo from '../../../../apis/user/editMyInfo';
 
 function ProfileEditModal({ setIsModalOpen }: { setIsModalOpen: (isOpen: boolean) => void }) {
+  const queryClient = useQueryClient();
   const { data: myInfo } = useQuery({ queryKey: ['myInfo'], queryFn: getMyInfo });
   const nameInputRef = useRef<HTMLInputElement>(null);
   const [name, setName] = useState('');
@@ -39,6 +40,7 @@ function ProfileEditModal({ setIsModalOpen }: { setIsModalOpen: (isOpen: boolean
         birth: `${birth.slice(0, 4)}-${birth.slice(4, 6)}-${birth.slice(6, 8)}`,
       }),
     onSuccess: () => {
+      queryClient.setQueryData(['user'], { username: nickname, role: myInfo.role });
       setIsModalOpen(false);
     },
     onError: (error: AxiosError<{ detail: string }>) => {

@@ -96,7 +96,9 @@ function Board() {
             <NoneNotification>등록된 게시글이 없습니다.</NoneNotification>
           )}
         </Contents>
-        {user && <WriteButton onClick={navigateToWrite}>글 쓰기</WriteButton>}
+        {user && (user.role !== 'guest' || boardId === 'introduction-board') && (
+          <WriteButton onClick={navigateToWrite}>글 쓰기</WriteButton>
+        )}
         <PageList>
           {pageGroup !== 1 ? (
             <PageNumber isSelected={false} onClick={handlePrevGroup} disabled={pageGroup === 1}>

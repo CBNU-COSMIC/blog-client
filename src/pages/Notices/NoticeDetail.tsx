@@ -28,7 +28,7 @@ function NoticeDetail() {
   const { mutate: handleDelete } = useMutation({
     mutationFn: () => deletePost(postId as string),
     onSuccess: () => {
-      navigate(`/notices/${boardId}`);
+      navigate(`/notices/${boardId}/1`);
     },
     onError: (error) => {
       console.error(error);
@@ -50,27 +50,31 @@ function NoticeDetail() {
     <Container>
       <Navigation />
       {user ? (
-        <ContentContainer>
-          <PageTitle>{noticeTitle[boardId as keyof typeof noticeTitle]}</PageTitle>
-          <PageIntro>공지 &gt; {noticeTitle[boardId as keyof typeof noticeTitle]}</PageIntro>
-          <Header>
-            <Title>{notification?.title}</Title>
-            {user?.username === notification?.author && (
-              <ButtonContainer>
-                <Button onClick={handleEditButton}>수정</Button>
-                <Button onClick={handleDeleteButton}>삭제</Button>
-              </ButtonContainer>
-            )}
-          </Header>
-          <InfoContainer>
-            <Author>{notification?.author}</Author>
-            <Date>
-              {notification?.date.replace(/-/g, '.').split('T')[0]}. {notification?.date.split('T')[1].split(':')[0]}:
-              {notification?.date.split('T')[1].split(':')[1]}
-            </Date>
-          </InfoContainer>
-          <Content>{notification?.content}</Content>
-        </ContentContainer>
+        user.role !== 'guest' ? (
+          <ContentContainer>
+            <PageTitle>{noticeTitle[boardId as keyof typeof noticeTitle]}</PageTitle>
+            <PageIntro>공지 &gt; {noticeTitle[boardId as keyof typeof noticeTitle]}</PageIntro>
+            <Header>
+              <Title>{notification?.title}</Title>
+              {(user.role === 'president' || user.role === 'executive') && (
+                <ButtonContainer>
+                  <Button onClick={handleEditButton}>수정</Button>
+                  <Button onClick={handleDeleteButton}>삭제</Button>
+                </ButtonContainer>
+              )}
+            </Header>
+            <InfoContainer>
+              <Author>{notification?.author}</Author>
+              <Date>
+                {notification?.date.replace(/-/g, '.').split('T')[0]}. {notification?.date.split('T')[1].split(':')[0]}:
+                {notification?.date.split('T')[1].split(':')[1]}
+              </Date>
+            </InfoContainer>
+            <Content>{notification?.content}</Content>
+          </ContentContainer>
+        ) : (
+          <CommentContainer>손님 이상 등급만 공지를 볼 수 있습니다.</CommentContainer>
+        )
       ) : (
         <CommentContainer>로그인이 필요합니다.</CommentContainer>
       )}

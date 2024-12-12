@@ -32,7 +32,7 @@ function BoardDetail() {
   const { mutate: handleDelete } = useMutation({
     mutationFn: () => deletePost(postId as string),
     onSuccess: () => {
-      navigate(`/board/${boardId}`);
+      navigate(`/board/${boardId}/1`);
     },
     onError: (error) => {
       console.error(error);
@@ -54,32 +54,36 @@ function BoardDetail() {
     <Container>
       <Navigation />
       {user ? (
-        <PostContainer>
-          <ContentContainer>
-            <PageTitle>{boardTitle[boardId as keyof typeof boardTitle]}</PageTitle>
-            <PageIntro>게시판 &gt; {boardTitle[boardId as keyof typeof boardTitle]}</PageIntro>
-            <Header>
-              <Title>{post?.title}</Title>
-              {user?.username === post?.author && (
+        user.role !== 'guest' || boardId === 'introduction-board' ? (
+          <PostContainer>
+            <ContentContainer>
+              <PageTitle>{boardTitle[boardId as keyof typeof boardTitle]}</PageTitle>
+              <PageIntro>게시판 &gt; {boardTitle[boardId as keyof typeof boardTitle]}</PageIntro>
+              <Header>
+                <Title>{post?.title}</Title>
                 <ButtonContainer>
-                  <Button onClick={handleEditButton}>수정</Button>
-                  <Button onClick={handleDeleteButton}>삭제</Button>
+                  {user.username === post?.author && <Button onClick={handleEditButton}>수정</Button>}
+                  {(user.username === post?.author || user.role === 'president' || user.role === 'executive') && (
+                    <Button onClick={handleDeleteButton}>삭제</Button>
+                  )}
                 </ButtonContainer>
-              )}
-            </Header>
-            <InfoContainer>
-              <Author>{post?.author}</Author>
-              <Date>
-                {post?.date.replace(/-/g, '.').split('T')[0]}. {post?.date.split('T')[1].split(':')[0]}:
-                {post?.date.split('T')[1].split(':')[1]}
-              </Date>
-            </InfoContainer>
-            <Content>{post?.content}</Content>
-          </ContentContainer>
-          <CommentContainer>
-            <Comment />
-          </CommentContainer>
-        </PostContainer>
+              </Header>
+              <InfoContainer>
+                <Author>{post?.author}</Author>
+                <Date>
+                  {post?.date.replace(/-/g, '.').split('T')[0]}. {post?.date.split('T')[1].split(':')[0]}:
+                  {post?.date.split('T')[1].split(':')[1]}
+                </Date>
+              </InfoContainer>
+              <Content>{post?.content}</Content>
+            </ContentContainer>
+            <CommentContainer>
+              <Comment />
+            </CommentContainer>
+          </PostContainer>
+        ) : (
+          <Error>손님 이상 등급만 글을 볼 수 있습니다.</Error>
+        )
       ) : (
         <Error>로그인이 필요합니다.</Error>
       )}

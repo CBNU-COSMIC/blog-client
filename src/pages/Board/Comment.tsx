@@ -140,11 +140,16 @@ function Comment() {
               <CommentContainer>
                 <CommentNickname>
                   {comment.author}
-                  {user?.username === comment.author && (
-                    <EditDeleteButtonContainer>
+
+                  <EditDeleteButtonContainer>
+                    {user?.username === comment.author && (
                       <EditDeleteButton onClick={() => handleEditCommentButton(comment.comment_id, comment.content)}>
                         수정
                       </EditDeleteButton>
+                    )}
+                    {(user?.username === comment.author ||
+                      user?.role === 'president' ||
+                      user?.role === 'executive') && (
                       <EditDeleteButton
                         onClick={() => {
                           const isConfirmed = window.confirm('댓글을 삭제하시겠습니까?');
@@ -154,8 +159,8 @@ function Comment() {
                         }}>
                         삭제
                       </EditDeleteButton>
-                    </EditDeleteButtonContainer>
-                  )}
+                    )}
+                  </EditDeleteButtonContainer>
                 </CommentNickname>
                 <CommentContent>{comment.content}</CommentContent>
                 <CommentDate>

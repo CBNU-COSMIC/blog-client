@@ -13,7 +13,7 @@ function ProfileDetailModal({
   const { data: myInfo } = useQuery({ queryKey: ['myInfo'], queryFn: getMyInfo });
 
   const roleMapping = {
-    president: '관리자',
+    president: '회장',
     executive: '임원',
     member: '부원',
     guest: '손님',
