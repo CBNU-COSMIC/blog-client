@@ -49,7 +49,7 @@ function Dropdown({
   const navigateToBoard = (boardId: string) => {
     setIsDropdownVisible(false);
     setIsBoardDropdownVisible(false);
-    navigate(`/board/${boardId}`);
+    navigate(`/board/${boardId}/1`);
   };
 
   return (

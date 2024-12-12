@@ -14,9 +14,11 @@ function Notices() {
   const { data: notifications } = useQuery({
     queryKey: ['notifications', boardId],
     queryFn: () => {
-      return getPost(boardId as string, 1);
+      return getPost(boardId as string, '1');
     },
   });
+
+  console.log(notifications);
 
   const noticeTitle = {
     cosmic: 'COSMIC 공지',
