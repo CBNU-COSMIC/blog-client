@@ -9,6 +9,7 @@ import writeComment from '../../apis/comment/writeComment';
 import CommentType from '../../types/CommentType';
 import CommentIcon from '../../icons/CommentIcon';
 import editComment from '../../apis/comment/editComment';
+import deleteComment from '../../apis/comment/deleteComment';
 
 function Comment() {
   const { postId } = useParams();
@@ -40,6 +41,16 @@ function Comment() {
     onSuccess: () => {
       setIsEdit(false);
       setEditCommentContent('');
+      queryClient.invalidateQueries({ queryKey: ['comments', postId] });
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
+  const { mutate: handleDeleteComment } = useMutation({
+    mutationFn: (id: string) => deleteComment(id),
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', postId] });
     },
     onError: (error) => {
@@ -136,7 +147,15 @@ function Comment() {
                       <EditDeleteButton onClick={() => handleEditCommentButton(comment.comment_id, comment.content)}>
                         수정
                       </EditDeleteButton>
-                      <EditDeleteButton>삭제</EditDeleteButton>
+                      <EditDeleteButton
+                        onClick={() => {
+                          const isConfirmed = window.confirm('댓글을 삭제하시겠습니까?');
+                          if (isConfirmed) {
+                            handleDeleteComment(comment.comment_id);
+                          }
+                        }}>
+                        삭제
+                      </EditDeleteButton>
                     </EditDeleteButtonContainer>
                   )}
                 </CommentNickname>
