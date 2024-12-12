@@ -48,7 +48,11 @@ function SignInModal() {
   };
 
   return (
-    <Container>
+    <Container
+      onSubmit={(event) => {
+        event.preventDefault();
+        handleSignInButton();
+      }}>
       <InputForm>
         <InputBox1>
           <Input ref={idInputRef} onChange={(event) => setId(event.target.value)} />
@@ -61,18 +65,18 @@ function SignInModal() {
             onChange={(event) => setPassword(event.target.value)}
           />
           <InputLabel>비밀번호</InputLabel>
-          <PasswordShowAndHideButton onClick={() => setIsPasswordShow(!isPasswordShow)}>
+          <PasswordShowAndHideButton type="button" onClick={() => setIsPasswordShow(!isPasswordShow)}>
             {password ? isPasswordShow ? <PasswordShowIcon /> : <PasswordHideIcon /> : null}
           </PasswordShowAndHideButton>
         </InputBox2>
       </InputForm>
       {isBlurError && <NoneError>아이디 또는 비밀번호를 입력해주세요.</NoneError>}
-      <Button onClick={handleSignInButton}>로그인</Button>
+      <Button type="submit">로그인</Button>
     </Container>
   );
 }
 
-const Container = styled.div`
+const Container = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
