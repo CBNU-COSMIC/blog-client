@@ -42,6 +42,10 @@ function NoticeDetail() {
     }
   };
 
+  const handleEditButton = () => {
+    navigate(`/notices/${boardId}/edit/${postId}`);
+  };
+
   return (
     <Container>
       <Navigation />
@@ -53,7 +57,7 @@ function NoticeDetail() {
             <Title>{notification?.title}</Title>
             {user?.username === notification?.author && (
               <ButtonContainer>
-                <Button>수정</Button>
+                <Button onClick={handleEditButton}>수정</Button>
                 <Button onClick={handleDeleteButton}>삭제</Button>
               </ButtonContainer>
             )}

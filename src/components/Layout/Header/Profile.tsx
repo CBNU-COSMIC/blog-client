@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
 
@@ -7,6 +7,7 @@ import signOut from '../../../apis/auth/signOut';
 
 function Profile({ name }: { name: string }) {
   const queryClient = useQueryClient();
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const { mutate: handleSignOut } = useMutation({
@@ -20,8 +21,22 @@ function Profile({ name }: { name: string }) {
     },
   });
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (isDropdownOpen && dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(!isDropdownOpen);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [isDropdownOpen]);
+
   return (
-    <Container onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+    <Container ref={dropdownRef} onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
       {isDropdownOpen && (
         <Dropdown>
           <DropdownItem color="black">마이페이지</DropdownItem>
