@@ -3,7 +3,13 @@ import styled from 'styled-components';
 
 import getMyInfo from '../../../../apis/user/getMyInfo';
 
-function ProfileDetailModal({ setIsModalOpen }: { setIsModalOpen: (isOpen: boolean) => void }) {
+function ProfileDetailModal({
+  setIsModalOpen,
+  setIsPasswordModalOpen,
+}: {
+  setIsModalOpen: (isOpen: boolean) => void;
+  setIsPasswordModalOpen: (isOpen: boolean) => void;
+}) {
   const { data: myInfo } = useQuery({ queryKey: ['myInfo'], queryFn: getMyInfo });
 
   const roleMapping = {
@@ -19,6 +25,11 @@ function ProfileDetailModal({ setIsModalOpen }: { setIsModalOpen: (isOpen: boole
     }
   };
 
+  const editProfile = () => {
+    setIsModalOpen(false);
+    setIsPasswordModalOpen(true);
+  };
+
   return (
     <ModalBackground onClick={closeModal}>
       <ModalContainer>
@@ -29,7 +40,7 @@ function ProfileDetailModal({ setIsModalOpen }: { setIsModalOpen: (isOpen: boole
         <Content>전화번호: {myInfo?.phone_number}</Content>
         <Content>생년월일: {myInfo?.birth.split('T')[0].replace(/-/g, '.')}.</Content>
         <Content>등급: {roleMapping[myInfo?.role as keyof typeof roleMapping]}</Content>
-        <Button>정보 수정 하기</Button>
+        <Button onClick={editProfile}>정보 수정 하기</Button>
       </ModalContainer>
     </ModalBackground>
   );
@@ -50,6 +61,7 @@ const ModalBackground = styled.div`
 
 const ModalContainer = styled.div`
   width: 400px;
+  height: 480px;
   background-color: white;
   border-radius: 10px;
   overflow: hidden;
