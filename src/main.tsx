@@ -18,6 +18,7 @@ import NoticeDetail from './pages/Notices/NoticeDetail.tsx';
 import Board from './pages/Board/Board.tsx';
 import BoardDetail from './pages/Board/BoardDetail.tsx';
 import Edit from './components/Edit/Edit.tsx';
+import Admin from './pages/Admin/Admin.tsx';
 
 const router = createBrowserRouter([
   {
@@ -109,6 +110,14 @@ const router = createBrowserRouter([
     element: (
       <Layout>
         <Schedule />
+      </Layout>
+    ),
+  },
+  {
+    path: '/admin',
+    element: (
+      <Layout>
+        <Admin />
       </Layout>
     ),
   },

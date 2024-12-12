@@ -1,20 +1,24 @@
 import { useState, useEffect, useRef } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import DropdownIcon2 from '../../../../icons/DropdownIcon2';
 import signOut from '../../../../apis/auth/signOut';
 import ProfileDetailModal from './ProfileDetailModal';
+import getUser from '../../../../apis/auth/getUser';
 import PasswordModal from './PasswordModal';
 import ProfileEditModal from './ProfileEditModal';
+import DropdownIcon2 from '../../../../icons/DropdownIcon2';
 
 function Profile({ name }: { name: string }) {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const { data: user } = useQuery({ queryKey: ['user'], queryFn: getUser, staleTime: Infinity, gcTime: Infinity });
 
   const { mutate: handleSignOut } = useMutation({
     mutationFn: () => signOut(),
@@ -53,6 +57,11 @@ function Profile({ name }: { name: string }) {
             <DropdownItem color="black" onClick={handleOpenDetailModal}>
               내 정보
             </DropdownItem>
+            {user?.role === 'president' && (
+              <DropdownItem color="black" onClick={() => navigate('/admin')}>
+                관리자 페이지
+              </DropdownItem>
+            )}
             <DropdownItem
               color="red"
               onClick={() => {
