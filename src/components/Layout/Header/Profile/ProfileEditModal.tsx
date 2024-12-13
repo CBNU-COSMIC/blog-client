@@ -218,7 +218,7 @@ function ProfileEditModal({ setIsModalOpen }: { setIsModalOpen: (isOpen: boolean
               handleEditMyInfo();
             }
           }}>
-          정보 수정 하기
+          정보 수정하기
         </Button>
       </ModalContainer>
     </ModalBackground>
