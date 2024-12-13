@@ -1,12 +1,16 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import getUser from '../../apis/auth/getUser';
 import getUserList from '../../apis/user/getUserList';
+import UserDetailModal from './UserDetailModal';
 
 function Admin() {
   const navigate = useNavigate();
+  const [selectedUser, setSelectedUser] = useState('');
+  const [isUserDetailModalOpen, setIsUserDetailModalOpen] = useState(false);
   const { data: user } = useQuery({ queryKey: ['user'], queryFn: getUser, staleTime: Infinity, gcTime: Infinity });
   const { data: userList } = useQuery({
     queryKey: ['userList'],
@@ -24,12 +28,20 @@ function Admin() {
         <UserManagementTitle>사용자 관리</UserManagementTitle>
         <UserList>
           {userList?.map((user: { name: string; nickname: string }, index: number) => (
-            <User key={user.nickname}>
+            <User
+              key={user.nickname}
+              onClick={() => {
+                setSelectedUser(user.nickname);
+                setIsUserDetailModalOpen(true);
+              }}>
               {index + 1}. 이름: {user.name}, 닉네임: {user.nickname}
             </User>
           ))}
         </UserList>
       </UserManagement>
+      {isUserDetailModalOpen && (
+        <UserDetailModal userNickname={selectedUser} setIsModalOpen={setIsUserDetailModalOpen} />
+      )}
     </Container>
   );
 }
