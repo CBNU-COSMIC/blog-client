@@ -73,7 +73,7 @@ function NoticeDetail() {
             <Content>{notification?.content}</Content>
           </ContentContainer>
         ) : (
-          <CommentContainer>손님 이상 등급만 공지를 볼 수 있습니다.</CommentContainer>
+          <CommentContainer>부원 이상 등급만 공지를 볼 수 있습니다.</CommentContainer>
         )
       ) : (
         <CommentContainer>로그인이 필요합니다.</CommentContainer>

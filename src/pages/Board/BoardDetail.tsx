@@ -82,7 +82,7 @@ function BoardDetail() {
             </CommentContainer>
           </PostContainer>
         ) : (
-          <Error>손님 이상 등급만 글을 볼 수 있습니다.</Error>
+          <Error>부원 이상 등급만 글을 볼 수 있습니다.</Error>
         )
       ) : (
         <Error>로그인이 필요합니다.</Error>

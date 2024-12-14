@@ -17,8 +17,6 @@ function Header() {
     navigate('/');
   };
 
-  console.log(user);
-
   return (
     <Container>
       <Contents>
