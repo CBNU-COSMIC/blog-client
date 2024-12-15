@@ -18,7 +18,9 @@ function Notifications({ selectedOption }: { selectedOption: string }) {
         notifications.map((notification: PostType, index: number) => (
           <Content key={notification.post_id}>
             <Idex>{index + 1}</Idex>
-            <Title target="_blank">{notification.title}</Title>
+            <Title href="" target="_blank">
+              {notification.title}
+            </Title>
             <Date>{notification.date.replace(/-/g, '.').split('T')[0]}.</Date>
             <Hits>{notification.hits}</Hits>
           </Content>
@@ -60,7 +62,6 @@ const Title = styled.a`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
   text-decoration: none;
 
   &:visited {

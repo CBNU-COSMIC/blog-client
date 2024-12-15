@@ -5,7 +5,7 @@ interface PostType {
   date: string;
   hits: number;
   content: string;
-  type: string;
+  link: string;
   comment_count: number;
 }
 

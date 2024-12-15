@@ -79,12 +79,18 @@ function Notices() {
             notifications.map((notification: PostType, index: number) => (
               <Content key={notification.post_id}>
                 <Idex>{(+(page as string) - 1) * 10 + index + 1}</Idex>
-                <Title
-                  onClick={() => {
-                    navigate(`/notices/${boardId}/detail/${notification.post_id}`);
-                  }}>
-                  {notification.title}
-                </Title>
+                {notification.link === '' ? (
+                  <Title
+                    onClick={() => {
+                      navigate(`/notices/${boardId}/detail/${notification.post_id}`);
+                    }}>
+                    {notification.title}
+                  </Title>
+                ) : (
+                  <TitleLink href={notification.link} target="_blank">
+                    {notification.title}
+                  </TitleLink>
+                )}
                 <Writer>{notification.author}</Writer>
                 <Date>{notification.date.replace(/-/g, '.').split('T')[0]}.</Date>
                 <Hits>{notification.hits}</Hits>
@@ -205,6 +211,22 @@ const Idex = styled.div`
 `;
 
 const Title = styled.div`
+  font-family: 'Pretendard', sans-serif;
+  font-size: 13px;
+  color: black;
+  width: 420px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:visited {
+    color: inherit;
+  }
+`;
+
+const TitleLink = styled.a`
   font-family: 'Pretendard', sans-serif;
   font-size: 13px;
   color: black;
