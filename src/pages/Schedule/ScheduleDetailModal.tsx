@@ -53,7 +53,7 @@ function ScheduleDetailModal({
           <Time>{schedule?.ended_at.split('T')[1]}</Time>
         </DateContainer>
         <ContentInputContainer>{schedule?.content}</ContentInputContainer>
-        {user?.username === schedule?.author && (
+        {(user?.username === schedule?.author || user?.role === 'president' || user?.role === 'executive') && (
           <Button
             onClick={() => {
               const isConfirmed = window.confirm('일정을 삭제하시겠습니까?');

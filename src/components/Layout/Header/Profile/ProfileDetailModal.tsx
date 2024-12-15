@@ -13,7 +13,7 @@ function ProfileDetailModal({
   const { data: myInfo } = useQuery({ queryKey: ['myInfo'], queryFn: getMyInfo });
 
   const roleMapping = {
-    president: '관리자',
+    president: '회장',
     executive: '임원',
     member: '부원',
     guest: '손님',
@@ -40,7 +40,7 @@ function ProfileDetailModal({
         <Content>전화번호: {myInfo?.phone_number}</Content>
         <Content>생년월일: {myInfo?.birth.split('T')[0].replace(/-/g, '.')}.</Content>
         <Content>등급: {roleMapping[myInfo?.role as keyof typeof roleMapping]}</Content>
-        <Button onClick={editProfile}>정보 수정 하기</Button>
+        <Button onClick={editProfile}>정보 수정하기</Button>
       </ModalContainer>
     </ModalBackground>
   );
