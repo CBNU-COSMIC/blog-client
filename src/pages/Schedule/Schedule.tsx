@@ -20,6 +20,8 @@ function Schedule() {
   const { data: schedules } = useQuery({ queryKey: ['schedules'], queryFn: getSchedules });
 
   const openSchedule = (scheduleId: number) => {
+    if (user && user.role === 'guest') return;
+
     setSelectedScheduleId(scheduleId);
     setIsDetailOpen(true);
   };
@@ -53,7 +55,7 @@ function Schedule() {
   };
 
   const handleTileClick = (date: Date, event: React.MouseEvent<HTMLButtonElement>) => {
-    if (event.target === event.currentTarget && user) {
+    if (event.target === event.currentTarget && user && user.role !== 'guest') {
       const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1)
         .toString()
         .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;

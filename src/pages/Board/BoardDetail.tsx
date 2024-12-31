@@ -17,9 +17,8 @@ function BoardDetail() {
     queryFn: () => {
       return getDetailPost(postId as string);
     },
+    enabled: user?.role !== 'guest' && user?.role !== undefined,
   });
-
-  console.log(post);
 
   const boardTitle = {
     'introduction-board': '가입 인사',
