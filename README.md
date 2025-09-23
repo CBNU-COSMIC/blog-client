@@ -14,7 +14,7 @@
 ### 🛠️ 어떤 기능이 있나요?
 
 #### 메인 홈
-> pull page scroll을 이용해 메인 홈에서 전체적인 홈페이지의 기능들을 확인할 수 있습니다.
+> full page scroll을 이용해 메인 홈에서 전체적인 홈페이지의 기능들을 확인할 수 있습니다.
 
 <img src="https://github.com/user-attachments/assets/f5f25469-8a8e-4707-9b34-f5b1d3f4d0ab" />
 
